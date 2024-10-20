@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', // Tambahkan role ke fillable
     ];
 
     /**
@@ -42,4 +43,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Relasi dengan model Pelanggan.
+     * Setiap teknisi (User dengan role 'teknisi') dapat memiliki banyak pelanggan.
+     */
+    public function pelanggan()
+    {
+        return $this->hasMany(Pelanggan::class, 'id_teknisi');
+    }
 }
