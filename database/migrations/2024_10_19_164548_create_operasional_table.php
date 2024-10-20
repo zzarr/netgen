@@ -16,7 +16,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('keterangan');
             $table->string('kategori');
-            $table->integer('jumlah');
+            $table->decimal('jumlah', 10,2);
             $table->timestamps();
         });
     }
