@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AntenaController;
+use App\Http\Controllers\PelangganController;
+
 use App\Http\Controllers\ManajemenAdminController;
 use App\Http\Controllers\ManajementeknisiController;
 /*
@@ -29,6 +31,10 @@ Route::get('/admin/template', function () {
 });
 
 Route::get('/admin/antena', [AntenaController::class, 'index'])->name('antena_admin');
+
+
+
+Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('pelanggan');
 //MASL
 Route::get('/admin/manajemenadmin', [ManajemenAdminController::class, 'index'])->name('manajemen_admin');
 Route::get('/admin/manajementeknisi', [ManajementeknisiController::class, 'index'])->name('manajemen_teknisi');
