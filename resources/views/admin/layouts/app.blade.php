@@ -11,17 +11,12 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
     <link href="{{ asset('demo1/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('demo1/assets/css/plugins.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('demo1/assets/css/elements/breadcrumb.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('demo1/assets/css/elements/miscellaneous.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('demo1/assets/css/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('demo1/assets/css/plugins.css') }}" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
     
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 
     <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
-@include('admin.style.breadcrumb')
-
+    
 </head>
 <body class="alt-menu sidebar-noneoverflow">
     
@@ -44,9 +39,22 @@
         <!--  BEGIN CONTENT AREA  -->
         <div id="content" class="main-content">
             <div class="layout-px-spacing">
+
+                <div class="page-header">
+                    <div class="page-title">
+                        <h3>Blank Page</h3>
+                    </div>
+                </div>
+
+
                 <!-- CONTENT AREA -->
-                 @yield('content')
+                
+
+
+
+
                 <!-- CONTENT AREA -->
+
             </div>
         </div>
         <!--  END CONTENT AREA  -->
