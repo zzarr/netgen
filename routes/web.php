@@ -28,3 +28,6 @@ Route::get('/admin/antena', [AntenaController::class, 'index'])->name('antena_ad
 //MASL
 Route::get('/admin/manajemenadmin', [ManajemenAdminController::class, 'index'])->name('manajemen_admin');
 Route::get('/admin/manajementeknisi', [ManajementeknisiController::class, 'index'])->name('manajemen_teknisi');
+
+//andin
+Route::get('/admin/manajemenhubhtb', [ManajemenHubHtbController::class, 'index'])->name('manajemen_hubhtb');
