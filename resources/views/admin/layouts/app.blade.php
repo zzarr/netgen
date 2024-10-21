@@ -18,6 +18,7 @@
     <!-- END GLOBAL MANDATORY STYLES -->
     
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+    @stack('css')
 
     <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 @include('admin.style.breadcrumb')
@@ -60,6 +61,7 @@
     <script src="{{ asset('demo1/plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('demo1/assets/js/app.js') }}"></script>
     
+
     <script>
         $(document).ready(function() {
             App.init();
@@ -69,6 +71,7 @@
     <!-- END GLOBAL MANDATORY SCRIPTS -->
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
+    @stack('js')
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
 </body>
