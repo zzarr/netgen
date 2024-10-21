@@ -21,7 +21,7 @@
                 <div class="widget widget-card-four" style="cursor: pointer;">
                     <div class="widget-content d-flex justify-content-between align-items-center">
                         <div class="w-content">
-                            <h6 class="value">Rp 12,000,000</h6>
+                            <h6 class="value">$ 12,000</h6>
                             <p class="">Jumlah Saldo</p>
                         </div>
                         <div class="w-icon">
@@ -36,7 +36,7 @@
                 <div class="widget widget-card-four" style="cursor: pointer;">
                     <div class="widget-content d-flex justify-content-between align-items-center">
                         <div class="w-content">
-                            <h6 class="value">Rp 8,500,000</h6>
+                            <h6 class="value">$ 8,500</h6>
                             <p class="">Total Tagihan</p>
                         </div>
                         <div class="w-icon">
@@ -51,7 +51,7 @@
                 <div class="widget widget-card-four" style="cursor: pointer;">
                     <div class="widget-content d-flex justify-content-between align-items-center">
                         <div class="w-content">
-                            <h6 class="value">Rp 3,500,000</h6>
+                            <h6 class="value">$ 3,500</h6>
                             <p class="">Operasional</p>
                         </div>
                         <div class="w-icon">
@@ -66,7 +66,7 @@
                 <div class="widget widget-card-four" style="cursor: pointer;">
                     <div class="widget-content d-flex justify-content-between align-items-center">
                         <div class="w-content">
-                            <h6 class="value">Rp 2,200,000</h6>
+                            <h6 class="value">$ 2,200</h6>
                             <p class="">Antena</p>
                         </div>
                         <div class="w-icon">
@@ -81,7 +81,7 @@
                 <div class="widget widget-card-four" style="cursor: pointer;">
                     <div class="widget-content d-flex justify-content-between align-items-center">
                         <div class="w-content">
-                            <h6 class="value">Rp 3,000,000</h6>
+                            <h6 class="value">$ 3,000</h6>
                             <p class="">Hub & HTB</p>
                         </div>
                         <div class="w-icon">
@@ -93,110 +93,93 @@
         </div> <!-- end of row -->
     </div> <!-- end of layout-px-spacing -->
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="table-responsive">
-                <!-- Tabel Pelanggan Baru -->
-                <h4>Pelanggan Baru</h4>
-                <table class="table table-bordered table-hover table-striped mb-4">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Tanggal</th>
-                            <th>Nama Pelanggan</th>
-                            <th>Paket</th>
-                            <th>Alamat</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>10/08/2023</td>
-                            <td>Azhar</td>
-                            <td>Paket A</td>
-                            <td>Jl. Kebon Jeruk No. 12</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>11/08/2023</td>
-                            <td>Legi</td>
-                            <td>Paket B</td>
-                            <td>Jl. Merdeka No. 34</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>12/08/2023</td>
-                            <td>Lucky</td>
-                            <td>Paket C</td>
-                            <td>Jl. Pahlawan No. 56</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>13/08/2023</td>
-                            <td>Andini</td>
-                            <td>Paket D</td>
-                            <td>Jl. Sukarno No. 78</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>14/08/2023</td>
-                            <td>Fadhil</td>
-                            <td>Paket E</td>
-                            <td>Jl. Jendral Sudirman No. 90</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
 
-        <div class="col-md-6">
-            <div class="table-responsive">
-                <!-- Tabel Tagihan Terbaru -->
-                <h4>Tagihan Terbaru</h4>
-                <table class="table table-bordered table-hover table-striped mb-4">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Tanggal</th>
-                            <th>Nama Pelanggan</th>
-                            <th>Bayar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>15/08/2023</td>
-                            <td>Azhar</td>
-                            <td>Rp 1,000,000</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>16/08/2023</td>
-                            <td>Legi</td>
-                            <td>Rp 1,500,000</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>17/08/2023</td>
-                            <td>Lucky</td>
-                            <td>Rp 2,000,000</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>18/08/2023</td>
-                            <td>Andini</td>
-                            <td>Rp 2,500,000</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>19/08/2023</td>
-                            <td>Fadhil</td>
-                            <td>Rp 3,000,000</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="table-responsive">
+        <!-- Tabel Pelanggan Baru -->
+        <h4>Pelanggan Baru</h4>
+        <table class="table table-bordered table-hover table-striped mb-4">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Tanggal</th>
+                    <th>Nama Pelanggan</th>
+                    <th>Paket</th>
+                    <th>Alamat</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>10/08/2023</td>
+                    <td>John Doe</td>
+                    <td>Paket A</td>
+                    <td>Jl. Kebon Jeruk No. 12</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>11/08/2023</td>
+                    <td>Jane Smith</td>
+                    <td>Paket B</td>
+                    <td>Jl. Merdeka No. 34</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>12/08/2023</td>
+                    <td>Michael Johnson</td>
+                    <td>Paket C</td>
+                    <td>Jl. Pahlawan No. 56</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>13/08/2023</td>
+                    <td>Emily Davis</td>
+                    <td>Paket D</td>
+                    <td>Jl. Sukarno No. 78</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+    
+    <div class="table-responsive">
+        <!-- Tabel Tagihan Terbaru -->
+        <h4>Tagihan Terbaru</h4>
+        <table class="table table-bordered table-hover table-striped mb-4">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Tanggal</th>
+                    <th>Nama Pelanggan</th>
+                    <th>Bayar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>15/08/2023</td>
+                    <td>John Doe</td>
+                    <td>$100</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>16/08/2023</td>
+                    <td>Jane Smith</td>
+                    <td>$150</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>17/08/2023</td>
+                    <td>Michael Johnson</td>
+                    <td>$200</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>18/08/2023</td>
+                    <td>Emily Davis</td>
+                    <td>$250</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
 </div> <!-- end of main-content -->
 @endsection
