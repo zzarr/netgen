@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('bulan');
             $table->string('paket');
             $table->decimal('kurang', 10, 2)->default(0);
-            $table->enum('status', ['lunas', 'belum_lunas']);
+            $table->boolvalue('is_lunas')->default(false);
             $table->timestamps();
         });
     }

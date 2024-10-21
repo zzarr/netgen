@@ -31,8 +31,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('demo1/plugins/table/datatable/datatables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('demo1/plugins/table/datatable/dt-global_style.css') }}">
     <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
-@include('admin.style.breadcrumb')
-
+    
 </head>
 <body class="alt-menu sidebar-noneoverflow">
 <div id="load_screen"> <div class="loader"> <div class="loader-content">
@@ -57,9 +56,22 @@
         <!--  BEGIN CONTENT AREA  -->
         <div id="content" class="main-content">
             <div class="layout-px-spacing">
+
+                <div class="page-header">
+                    <div class="page-title">
+                        <h3>Blank Page</h3>
+                    </div>
+                </div>
+
+
                 <!-- CONTENT AREA -->
-                 @yield('content')
+                
+
+
+
+
                 <!-- CONTENT AREA -->
+
             </div>
         </div>
         <!--  END CONTENT AREA  -->
