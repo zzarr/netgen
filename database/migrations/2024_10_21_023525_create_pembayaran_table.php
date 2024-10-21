@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('laporan_tagihan', function (Blueprint $table) {
+        Schema::create('pembayaran', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_pelanggan')->constrained('pelanggan')->onDelete('cascade');
-            $table->string('bulan');
-            $table->string('paket');
-            $table->decimal('kurang', 10, 2)->default(0);
-            $table->enum('status', ['lunas', 'belum_lunas']);
+            $table->foreignId('id_tagihan')->constrained('laporan_tagihan')->onDelete('cascade');
+            $table->decimal('jumlah_pembayaran', 10, 2);
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('laporan_tagihan');
+        Schema::dropIfExists('pembayaran');
     }
 };

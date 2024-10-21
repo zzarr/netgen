@@ -2,10 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class LaporanTagihan extends Model
 {
-    use HasFactory;
+    protected $table = 'laporan_tagihan';
+    protected $fillable = ['id_pelanggan', 'bulan', 'paket', 'kurang', 'status'];
+
+    public function pelanggan()
+    {
+        return $this->belongsTo(Pelanggan::class, 'id_pelanggan');
+    }
 }
