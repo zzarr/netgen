@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AntenaController;
-
+use App\Http\Controllers\ManajemenAdminController;
+use App\Http\Controllers\ManajementeknisiController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,3 +29,6 @@ Route::get('/admin/dashboard', function () {
 });
 
 Route::get('/admin/antena', [AntenaController::class, 'index'])->name('antena_admin');
+//MASL
+Route::get('/admin/manajemenadmin', [ManajemenAdminController::class, 'index'])->name('manajemen_admin');
+Route::get('/admin/manajementeknisi', [ManajementeknisiController::class, 'index'])->name('manajemen_teknisi');
