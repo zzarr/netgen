@@ -10,4 +10,8 @@ class ManajemenAdminController extends Controller
     {
         return view('admin.manajemenadmin');
     }
+    public function create()
+    {
+        return view('admin.addadmin');
+    }
 }
