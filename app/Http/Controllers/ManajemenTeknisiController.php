@@ -10,4 +10,8 @@ class ManajemenTeknisiController extends Controller
     {
         return view('admin.manajementeknisi');
     }
+    public function create()
+    {
+        return view('admin.addteknisi');
+    }
 }
