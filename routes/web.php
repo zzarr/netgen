@@ -36,14 +36,14 @@ Route::get('/admin/antena', [AntenaController::class, 'index'])->name('antena_ad
 
 Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('pelanggan');
 //MASL
-Route::get('/admin/manajemenadmin', [ManajemenAdminController::class, 'index'])->name('manajemen_admin');
-<<<<<<< HEAD
-Route::get('/admin/manajementeknisi', [ManajementeknisiController::class, 'index'])->name('manajemen_teknisi');
+
 
 //andin
 Route::get('/admin/manajemenhubhtb', [ManajemenHubHtbController::class, 'index'])->name('manajemen_hubhtb');
-=======
+
+
+Route::get('/admin/manajemenadmin', [ManajemenAdminController::class, 'index'])->name('manajemen_admin');
 Route::get('/admin/manajementeknisi', [ManajemenTeknisiController::class, 'index'])->name('manajemen_teknisi');
 Route::get('/admin/addteknisi', [ManajemenTeknisiController::class, 'create'])->name('add_teknisi');
 Route::get('/admin/addadmin', [ManajemenAdminController::class, 'create'])->name('add_admin');
->>>>>>> 30a36afc98c4e2e41c62dc699b6d552afe0705dd
+
