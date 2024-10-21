@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AntenaController;
+use App\Http\Controllers\PelangganController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,7 @@ Route::get('/admin/dashboard', function () {
 });
 
 Route::get('/admin/antena', [AntenaController::class, 'index'])->name('antena_admin');
+
+
+
+Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('pelanggan');
