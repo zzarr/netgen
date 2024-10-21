@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AntenaController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,3 +22,5 @@ Route::get('/', function () {
 Route::get('/admin/dashboard', function () {
     return view('admin.layouts.app');
 });
+
+Route::get('/admin/antena', [AntenaController::class, 'index'])->name('antena_admin');
