@@ -6,7 +6,7 @@ use App\Http\Controllers\AntenaController;
 use App\Http\Controllers\PelangganController;
 
 use App\Http\Controllers\ManajemenAdminController;
-use App\Http\Controllers\ManajementeknisiController;
+use App\Http\Controllers\ManajemenTeknisiController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,4 +37,6 @@ Route::get('/admin/antena', [AntenaController::class, 'index'])->name('antena_ad
 Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('pelanggan');
 //MASL
 Route::get('/admin/manajemenadmin', [ManajemenAdminController::class, 'index'])->name('manajemen_admin');
-Route::get('/admin/manajementeknisi', [ManajementeknisiController::class, 'index'])->name('manajemen_teknisi');
+Route::get('/admin/manajementeknisi', [ManajemenTeknisiController::class, 'index'])->name('manajemen_teknisi');
+Route::get('/admin/addteknisi', [ManajemenTeknisiController::class, 'create'])->name('add_teknisi');
+Route::get('/admin/addadmin', [ManajemenAdminController::class, 'create'])->name('add_admin');
