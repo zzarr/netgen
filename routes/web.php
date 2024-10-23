@@ -35,6 +35,7 @@ Route::get('/admin/antena', [AntenaController::class, 'index'])->name('antena_ad
 
 
 Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('pelanggan');
+Route::get('/pelanggan/data', [PelangganController::class, 'getPelangganData'])->name('pelanggan.data');
 //MASL
 Route::get('/admin/manajemenadmin', [ManajemenAdminController::class, 'index'])->name('manajemen_admin');
 Route::get('/admin/manajementeknisi', [ManajemenTeknisiController::class, 'index'])->name('manajemen_teknisi');
