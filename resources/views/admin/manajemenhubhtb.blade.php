@@ -16,67 +16,14 @@
 
                 <div class="col-lg-12 col-md-12 mt-3 layout-spacing">
         <div class="d-flex justify-content-start mb-3">
-            {{-- <a href="{{route('add_admin')}}" class="btn btn-primary" ><svg xmlns="http://www.w3.org/2000/svg"
+            <a href="" class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg"
                     width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
                     <line x1="12" y1="5" x2="12" y2="19"></line>
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
                 Tambah Data
-            </a> --}}
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                Tambah Data
-              </button>
-              <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Data</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form id="tambahDataForm" action="submit_data.php" method="POST">
-                <div class="modal-body">
-                    <!-- Form Tambah Data -->
-                    <div class="form-group">
-                        <label for="nama">Nama Admin</label>
-                        <input type="text" class="form-control" id="nama" name="nama" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="nomorhp">No.HP</label>
-                        <input type="text" class="form-control" id="nomorhp" name="nomor hp" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">@</div>
-
-                        <input type="text" class="form-control" id="email" name="email" required>
-                    </div></div>
-                    <div class="form-group">
-                        <label for="pass">Password</label>
-                        <input type="password" class="form-control" id="pass" name="pass" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Confirm Password:</label>
-                        <div class="input-group">
-                            <input type="password" name="cpass" id="cpass" class="form-control" required>
-                            <span class="input-group-addon"><i class="icon-user"></i></span>
-                        </div>
-                    </div>
-
-                    <!-- Tambahkan input lain sesuai kebutuhan -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+            </a>
         </div>
 
         @if (session('success'))
@@ -106,33 +53,11 @@
                         <tr>
                             <th>No</th>
                             <th class="no-content">Action</th>
-                            <th>Nama Admin</th>
-                            <th>No.HP</th>
-                            <th>Email</th>
-
+                            <th>Nama Alat</th>
+                            <th>Alamat</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td> 1 </td>
-                            <td>
-                                    <a href="javascript:void(0);" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 p-1 br-6 mb-1"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
-                                    <a href="javascript:void(0);" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash p-1 br-6 mb-1"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
-                            </td>
-                            <td>Legi</td>
-                            <td>000-000-000</td>
-                            <td>legi@gmail.com</td>
-                        </tr>
-                        <tr>
-                            <td> 1 </td>
-                            <td>
-                                    <a href="javascript:void(0);" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 p-1 br-6 mb-1"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
-                                    <a href="javascript:void(0);" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash p-1 br-6 mb-1"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
-                            </td>
-                            <td>Afatah</td>
-                            <td>001-001-001</td>
-                            <td>Afatah@gmail.com</td>
-                        </tr>
                         <!-- Data akan dimasukkan melalui Yajra DataTables -->
                     </tbody>
                     <tfoot>
