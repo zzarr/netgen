@@ -7,6 +7,7 @@ use App\Http\Controllers\PelangganController;
 
 use App\Http\Controllers\ManajemenAdminController;
 use App\Http\Controllers\ManajemenTeknisiController;
+use App\Http\Controllers\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,9 +23,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-});
+// Route::get('/admin/dashboard', function () {
+//     return view('admin.dashboard');
+// });
+
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/admin/template', function () {
     return view('admin.layouts.app');
