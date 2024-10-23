@@ -17,11 +17,11 @@ return new class extends Migration
             $table->string('bulan');
             $table->string('paket');
             $table->decimal('kurang', 10, 2)->default(0);
-            $table->boolvalue('is_lunas')->default(false);
+            $table->boolean('is_lunas')->default(false); // Ganti dengan 'boolean'
             $table->timestamps();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */
