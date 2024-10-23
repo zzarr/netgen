@@ -15,7 +15,7 @@
                             <polyline points="9 22 9 12 15 12 15 22"></polyline>
                         </svg></a></li>
                 <!-- <li class="breadcrumb-item"><a href="javascript:void(0);">Starter Kits</a></li> -->
-                <li class="breadcrumb-item active" aria-current="page"><span>Manajemen Antena</span></li>
+                <li class="breadcrumb-item active" aria-current="page"><span>Manajemen Pelanggan</span></li>
             </ol>
         </nav>
     </div>
@@ -24,7 +24,7 @@
         <div class="col-12 layout-spacing">
             <div class="widget-content widget-content-area br-6">
                 <button type="button" class="btn btn-primary mb-2 mr-2" data-toggle="modal" data-target="#exampleModal">
-                    Launch modal
+                    Tambah Pelanggan
                 </button>
 
                 <!-- Modal -->
