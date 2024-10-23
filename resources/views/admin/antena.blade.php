@@ -14,16 +14,63 @@
                     </nav>
                 </div>
 
-                <div class="col-lg-12 col-md-12 mt-3 layout-spacing">
-        <div class="d-flex justify-content-start mb-3">
-            <a href="" class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg"
-                    width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-                Tambah Data
-            </a>
+        <div class="col-lg-12 col-md-12 mt-3 layout-spacing">
+         <div class="d-flex justify-content-start mb-3">
+<!-- Tombol untuk membuka modal -->
+<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+    </svg>
+    Tambah Data
+</a>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Tambah Data Antena</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group mb-4">
+                        <label for="namaAntena">Nama Antena</label>
+                        <input type="text" class="form-control" id="namaAntena" placeholder="Masukkan Nama Antena" required>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="ip">IP</label>
+                        <input type="text" class="form-control" id="ip" placeholder="Masukkan IP" required>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="alamat">Alamat</label>
+                        <input type="text" class="form-control" id="alamat" placeholder="Masukkan Alamat" required>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" placeholder="Masukkan Username" required>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="password">Password</label>
+                        <input type="text" class="form-control" id="password" placeholder="Masukkan Password" required>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
         </div>
 
         @if (session('success'))
