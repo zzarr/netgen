@@ -8,6 +8,8 @@ use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\ManajemenAdminController;
 use App\Http\Controllers\ManajemenTeknisiController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ManajemenHubHtbController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,7 +45,7 @@ Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('pel
 
 //andin
 Route::get('/admin/manajemenhubhtb', [ManajemenHubHtbController::class, 'index'])->name('manajemen_hubhtb');
-Route::get('/admin/addhubhtb', [ManajemenHubHtbController::class, 'create'])->name('add_hubhtb');
+//Route::get('/admin/addhubhtb', [ManajemenHubHtbController::class, 'create'])->name('add_hubhtb');
 
 
 Route::get('/admin/manajemenadmin', [ManajemenAdminController::class, 'index'])->name('manajemen_admin');
