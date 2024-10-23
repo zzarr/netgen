@@ -37,43 +37,37 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="tambahDataForm" action="submit_data.php" method="POST">
+            <form id="adminForm" action="{{ route('admin.store') }}" method="POST">
+                @csrf
                 <div class="modal-body">
-                    <!-- Form Tambah Data -->
+                    <!-- Form input untuk Admin -->
                     <div class="form-group">
                         <label for="nama">Nama Admin</label>
                         <input type="text" class="form-control" id="nama" name="nama" required>
                     </div>
                     <div class="form-group">
-                        <label for="nomorhp">No.HP</label>
-                        <input type="text" class="form-control" id="nomorhp" name="nomor hp" required>
+                        <label for="no_hp">No. HP</label>
+                        <input type="number" class="form-control" id="no_hp" name="no_hp" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">@</div>
-                        
-                        <input type="text" class="form-control" id="email" name="email" required>
-                    </div></div>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
                     <div class="form-group">
                         <label for="pass">Password</label>
                         <input type="password" class="form-control" id="pass" name="pass" required>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Confirm Password:</label>
-                        <div class="input-group">
-                            <input type="password" name="cpass" id="cpass" class="form-control" required>
-                            <span class="input-group-addon"><i class="icon-user"></i></span> 
-                        </div>
+                        <label for="cpass">Confirm Password</label>
+                        <input type="password" class="form-control" id="cpass" name="pass_confirmation" required>
                     </div>
-
-                    <!-- Tambahkan input lain sesuai kebutuhan -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
+            
         </div>
     </div>
 </div>

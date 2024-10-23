@@ -37,7 +37,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="tambahDataForm" action="submit_data.php" method="POST">
+            {{-- <form id="tambahDataForm" action="submit_data.php" method="POST">
                 <div class="modal-body">
                     <!-- Form Tambah Data -->
                     <div class="form-group">
@@ -73,7 +73,39 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
+            </form> --}}
+
+            <form id="teknisiForm" action="{{ route('teknisi.store') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <!-- Form input untuk Teknisi -->
+                    <div class="form-group">
+                        <label for="nama">Nama Teknisi</label>
+                        <input type="text" class="form-control" id="nama" name="nama" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="no_hp">No. HP</label>
+                        <input type="text" class="form-control" id="no_hp" name="no_hp" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pass">Password</label>
+                        <input type="password" class="form-control" id="pass" name="pass" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cpass">Confirm Password</label>
+                        <input type="password" class="form-control" id="cpass" name="pass_confirmation" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
             </form>
+            
         </div>
     </div>
 </div>

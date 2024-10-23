@@ -40,3 +40,5 @@ Route::get('/admin/manajemenadmin', [ManajemenAdminController::class, 'index'])-
 Route::get('/admin/manajementeknisi', [ManajemenTeknisiController::class, 'index'])->name('manajemen_teknisi');
 Route::get('/admin/addteknisi', [ManajemenTeknisiController::class, 'create'])->name('add_teknisi');
 Route::get('/admin/addadmin', [ManajemenAdminController::class, 'create'])->name('add_admin');
+Route::post('/admin/store', [ManajemenAdminController::class, 'store'])->name('admin.store');
+Route::post('/teknisi/store', [ManajemenTeknisiController::class, 'store'])->name('teknisi.store');
