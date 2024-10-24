@@ -40,7 +40,7 @@ Route::get('/admin/antena', [AntenaController::class, 'index'])->name('antena_ad
 
 
 Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('pelanggan');
-//MASL
+
 
 
 //andin
@@ -54,4 +54,7 @@ Route::get('/admin/addteknisi', [ManajemenTeknisiController::class, 'create'])->
 Route::get('/admin/addadmin', [ManajemenAdminController::class, 'create'])->name('add_admin');
 Route::post('/admin/store', [ManajemenAdminController::class, 'store'])->name('admin.store');
 Route::post('/teknisi/store', [ManajemenTeknisiController::class, 'store'])->name('teknisi.store');
+
+Route::get('/admin/data', [ManajemenAdminController::class, 'getData'])->name('admin.data');
+Route::get('/teknisi/data', [ManajemenTeknisiController::class, 'getData'])->name('teknisi.data');
 
