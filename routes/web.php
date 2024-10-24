@@ -35,9 +35,16 @@ Route::get('/admin/template', function () {
     return view('admin.layouts.app');
 });
 
+//Lucky
+Route::get('admin/antena/datatables', [AntenaController::class, 'datatable'])->name('admin.antena.datatable');
 Route::get('/admin/antena', [AntenaController::class, 'index'])->name('antena_admin');
+Route::post('/admin/antena/store', [AntenaController::class, 'store'])->name('admin.antena.store');
+Route::get('/admin/antena/edit/{id}', [AntenaController::class, 'edit']);
+Route::put('/admin/antena/update/{id}', [AntenaController::class, 'update']);
+Route::delete('/admin/antena/delete/{id}', [AntenaController::class, 'destroy'])->name('admin.antena.delete');
 
 
+//
 
 Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('pelanggan');
 
