@@ -18,7 +18,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nama',
+        'no_hp',
         'email',
         'password',
         'role', // Tambahkan role ke fillable
@@ -52,4 +53,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Pelanggan::class, 'id_teknisi');
     }
+
+
 }
