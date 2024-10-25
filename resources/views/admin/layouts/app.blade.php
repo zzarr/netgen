@@ -18,6 +18,9 @@
     <link href="{{ asset('demo1/assets/css/plugins.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('demo1/assets/css/structure.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('demo1/assets/css/loader.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('demo1/assets/css/components/custom-modal.css') }}" rel="stylesheet" type="text/css" />
+
+    
     <!-- <link href="{{ asset('demo1/assets/css/elements/alert.css') }}" rel="stylesheet" type="text/css" /> -->
 
 
@@ -25,11 +28,9 @@
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
     @stack('css')
+    <!-- notiflix -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix/dist/notiflix-3.2.6.min.css" />
 
-    <!-- YAJRA STYLES -->
-    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css"> -->
     <link rel="stylesheet" type="text/css" href="{{ asset('demo1/plugins/table/datatable/datatables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('demo1/plugins/table/datatable/dt-global_style.css') }}">
     <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
@@ -97,6 +98,10 @@
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
     <script src="{{ asset('demo1/plugins/table/datatable/datatables.js') }}"></script>
+
+    <!-- notiflix -->
+    <script src="https://cdn.jsdelivr.net/npm/notiflix/dist/notiflix-3.2.6.min.js"></script>
+
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
     @stack('script')
 
