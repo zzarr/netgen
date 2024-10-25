@@ -23,7 +23,7 @@ class ManajemenAdminController extends Controller
         'nama' => 'required|string|max:255',
         'no_hp' => 'required|string|max:15',
         'email' => 'required|string|email|max:255|unique:users',
-        'pass' => 'required|string|min:8|confirmed',
+        'pass' => 'required|string|min:8',
     ]);
 
     // Simpan data sebagai admin
@@ -38,17 +38,42 @@ class ManajemenAdminController extends Controller
     return redirect()->back()->with('success', 'Admin berhasil disimpan');
 }
 
-public function getData()
-{
-    $data = User::select('id', 'nama', 'no_hp', 'email')
-    ->whereIn('role', ['admin']);
 
-    return DataTables::of($data)
-        ->addColumn('action', function($row){
-            return '<a href="javascript:void(0);" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="Edit">Edit</a> |
-                    <a href="javascript:void(0);" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="Delete">Delete</a>';
-        })
-        ->make(true);
+
+public function datatable(Request $request){
+    {
+        $data = User::query()->where('role', 'admin');
+        return DataTables::of($data)->make(true);
+    }
+}
+
+public function edit($id)
+{
+    $admin = User::find($id);
+
+    return response()->json($admin);
+}
+
+public function update(Request $request, $id)
+{
+    $validatedData = $request->validate([
+        'nama' => 'required|string|max:255',
+        'no_hp' => 'required|string|max:15',
+        'email' => 'required|string|email|max:255|unique:users',
+        'pass' => 'required|string|min:8',
+    ]);
+
+    $admin = User::find($id);
+    $admin->update($validatedData);
+
+    return response()->json(['success' => 'Data berhasil diupdate']);
+}
+
+public function destroy(string $id)
+{
+    $admin = User::find($id);
+    $admin->delete();
+    return response()->json(['success','Data admin berhasil dihapus!']);
 }
 
 }

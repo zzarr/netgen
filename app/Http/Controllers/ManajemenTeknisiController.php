@@ -39,17 +39,42 @@ class ManajemenTeknisiController extends Controller
     return redirect()->back()->with('success', 'Teknisi berhasil disimpan');
 }
 
-public function getData()
-{
-    $data = User::select('id', 'nama', 'no_hp', 'email')
-    ->whereIn('role', ['teknisi']);
 
-    return DataTables::of($data)
-        ->addColumn('action', function($row){
-            return '<a href="javascript:void(0);" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="Edit">Edit</a> |
-                    <a href="javascript:void(0);" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="Delete">Delete</a>';
-        })
-        ->make(true);
+
+public function datatable(Request $request){
+    {
+        $data = User::query()->where('role', 'teknisi');
+        return DataTables::of($data)->make(true);
+    }
+}
+
+public function edit($id)
+{
+    $admin = User::find($id);
+
+    return response()->json($admin);
+}
+
+public function update(Request $request, $id)
+{
+    $validatedData = $request->validate([
+        'nama' => 'required|string|max:255',
+        'no_hp' => 'required|string|max:15',
+        'email' => 'required|string|email|max:255|unique:users',
+        'pass' => 'required|string|min:8',
+    ]);
+
+    $admin = User::find($id);
+    $admin->update($validatedData);
+
+    return response()->json(['success' => 'Data berhasil diupdate']);
+}
+
+public function destroy(string $id)
+{
+    $antena = User::find($id);
+    $antena->delete();
+    return response()->json(['success','Data antena berhasil dihapus!']);
 }
 
 }
