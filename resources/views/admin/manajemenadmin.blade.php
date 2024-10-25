@@ -47,7 +47,7 @@
                     </div>
                     <div class="form-group">
                         <label for="no_hp">No. HP</label>
-                        <input type="number" class="form-control" id="no_hp" name="no_hp" required>
+                        <input type="text" class="form-control" id="no_hp" name="no_hp" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
@@ -55,11 +55,14 @@
                     </div>
                     <div class="form-group">
                         <label for="pass">Password</label>
-                        <input type="password" class="form-control" id="pass" name="pass" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="cpass">Confirm Password</label>
-                        <input type="password" class="form-control" id="cpass" name="pass_confirmation" required>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="pass" name="pass" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text" onclick="togglePassword()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -137,6 +140,23 @@
             ]
         });
     });
+</script>
+
+<script>
+    function togglePassword() {
+        var passInput = document.getElementById("pass");
+        var icon = document.getElementById("toggle-eye");
+        
+        if (passInput.type === "password") {
+            passInput.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            passInput.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
 </script>
 
 <script>         

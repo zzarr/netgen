@@ -37,43 +37,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            {{-- <form id="tambahDataForm" action="submit_data.php" method="POST">
-                <div class="modal-body">
-                    <!-- Form Tambah Data -->
-                    <div class="form-group">
-                        <label for="nama">Nama Teknisi</label>
-                        <input type="text" class="form-control" id="nama" name="nama" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="nomorhp">No.HP</label>
-                        <input type="text" class="form-control" id="nomorhp" name="nomor hp" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">@</div>
-                        
-                        <input type="text" class="form-control" id="email" name="email" required>
-                    </div></div>
-                    <div class="form-group">
-                        <label for="pass">Password</label>
-                        <input type="password" class="form-control" id="pass" name="pass" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Confirm Password:</label>
-                        <div class="input-group">
-                            <input type="password" name="cpass" id="cpass" class="form-control" required>
-                            <span class="input-group-addon"><i class="icon-user"></i></span> 
-                        </div>
-                    </div>
-
-                    <!-- Tambahkan input lain sesuai kebutuhan -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </form> --}}
+           
 
             <form id="teknisiForm" action="{{ route('teknisi.store') }}" method="POST">
                 @csrf
@@ -91,14 +55,20 @@
                         <label for="email">Email</label>
                         <input type="email" class="form-control" id="email" name="email" required>
                     </div>
+
                     <div class="form-group">
                         <label for="pass">Password</label>
-                        <input type="password" class="form-control" id="pass" name="pass" required>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="pass" name="pass" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text" onclick="togglePassword()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="cpass">Confirm Password</label>
-                        <input type="password" class="form-control" id="cpass" name="pass_confirmation" required>
-                    </div>
+
+                   
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -174,6 +144,23 @@
             ]
         });
     });
+</script>
+
+<script>
+    function togglePassword() {
+        var passInput = document.getElementById("pass");
+        var icon = document.getElementById("toggle-eye");
+        
+        if (passInput.type === "password") {
+            passInput.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            passInput.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
 </script>
 
 <script>        

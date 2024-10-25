@@ -41,7 +41,7 @@ class ManajemenAdminController extends Controller
 public function getData()
 {
     $data = User::select('id', 'nama', 'no_hp', 'email')
-    ->whereIn('role', ['admin', 'teknisi']);
+    ->whereIn('role', ['admin']);
 
     return DataTables::of($data)
         ->addColumn('action', function($row){

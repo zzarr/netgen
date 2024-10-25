@@ -24,7 +24,7 @@ class ManajemenTeknisiController extends Controller
         'nama' => 'required|string|max:255',
         'no_hp' => 'required|string|max:15',
         'email' => 'required|string|email|max:255|unique:users',
-        'pass' => 'required|string|min:8|confirmed',
+        'pass' => 'required|string|min:8',
     ]);
 
     // Simpan data sebagai teknisi
@@ -42,7 +42,7 @@ class ManajemenTeknisiController extends Controller
 public function getData()
 {
     $data = User::select('id', 'nama', 'no_hp', 'email')
-    ->whereIn('role', ['admin', 'teknisi']);
+    ->whereIn('role', ['teknisi']);
 
     return DataTables::of($data)
         ->addColumn('action', function($row){
