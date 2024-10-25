@@ -10,7 +10,7 @@ class Pelanggan extends Model
     use HasFactory;
     protected $fillable = ['nama_pelanggan', 'id_petugas', 'paket', 'alamat', 'no_hp'];
 
-    public function teknisi()
+    public function petugas()
     {
         return $this->belongsTo(User::class, 'id_petugas');
     }

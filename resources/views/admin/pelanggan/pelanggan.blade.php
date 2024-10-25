@@ -25,6 +25,7 @@
                     Tambah Pelanggan
                 </button>
 
+
                 <!-- Tabel Data Pelanggan -->
                 <div class="table-responsive mb-4 mt-4">
                     <table id="pelanggan-table" class="table table-hover" style="width:100%">
@@ -34,6 +35,7 @@
                                 <th>Nama Pelanggan</th>
                                 <th>Alamat</th>
                                 <th>Paket</th>
+                                <th>Tagihan</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -42,6 +44,7 @@
                                 <th>Nama Pelanggan</th>
                                 <th>Alamat</th>
                                 <th>Paket</th>
+                                <th>Tagihan</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -49,6 +52,13 @@
             </div>
         </div>
     </div>
+    <!-- Modal add -->
+    @include('admin.pelanggan.modal-add')
+
+    <!-- end modal -->
+    <!-- Modal tagihan -->
+    @include('admin.pelanggan.modal-tagihan')
+    <!-- end modal -->
 @endsection
 
 @push('css')
@@ -93,8 +103,18 @@
                 {
                     data: 'paket',
                     name: 'paket'
+                },
+                {
+                    data: 'tagihan',
+                    name: 'tagian',
+                    orderable: false,
+                    searchable: false
                 }
+
+
+
             ],
+
             "oLanguage": {
                 "oPaginate": {
                     "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
@@ -108,6 +128,50 @@
             "stripeClasses": [],
             "lengthMenu": [5, 10, 20, 50],
             "pageLength": 5
+        });
+
+        $(document).on('click', '.tagihan', function() {
+            var pelangganId = $(this).data('id'); // Ambil ID pelanggan dari atribut data-id
+
+            // Panggil AJAX untuk mengambil data tagihan berdasarkan ID pelanggan
+            $.ajax({
+                url: '/pelanggan/tagihan/' + pelangganId, // Sesuaikan URL dengan rute Anda
+                method: 'GET',
+                success: function(response) {
+                    // Bersihkan modal sebelum memuat data baru
+                    $('#tagihanModalBody').empty();
+
+                    // Buat tabel tagihan dari data yang diterima
+                    var table =
+                        '<table class="table table-striped"><thead><tr><th>Bulan</th><th>Nominal</th></tr></thead><tbody>';
+
+                    $.each(response, function(index, tagihan) {
+                        table += '<tr><td>' + tagihan.bulan + '</td>';
+
+                        if (tagihan.nominal !== null) {
+                            table += '<td>' + tagihan.nominal + '</td>';
+                        } else {
+                            table +=
+                                '<td><button class="btn btn-sm btn-primary bayar" data-bulan="' +
+                                tagihan.bulan + '" data-id="' + pelangganId +
+                                '">Bayar</button></td>';
+                        }
+
+                        table += '</tr>';
+                    });
+
+                    table += '</tbody></table>';
+
+                    // Tampilkan tabel di modal
+                    $('#tagihanModalBody').append(table);
+
+                    // Tampilkan modal
+                    $('#tagihanModal').modal('show');
+                },
+                error: function(xhr) {
+                    alert('Terjadi kesalahan dalam memuat data tagihan.');
+                }
+            });
         });
     </script>
 @endpush

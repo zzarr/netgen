@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AntenaController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\TagihanController;
 
 use App\Http\Controllers\ManajemenAdminController;
 use App\Http\Controllers\ManajemenTeknisiController;
@@ -35,7 +36,9 @@ Route::get('/admin/antena', [AntenaController::class, 'index'])->name('antena_ad
 
 
 Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('pelanggan');
+Route::post('/admin/pelanggan/store', [PelangganController::class, 'store'])->name('pelanggan.store');
 Route::get('/pelanggan/data', [PelangganController::class, 'getPelangganData'])->name('pelanggan.data');
+Route::get('/pelanggan/tagihan/{id}', [TagihanController::class, 'getTagihan'])->name('pelanggan.tagihan');
 //MASL
 Route::get('/admin/manajemenadmin', [ManajemenAdminController::class, 'index'])->name('manajemen_admin');
 Route::get('/admin/manajementeknisi', [ManajemenTeknisiController::class, 'index'])->name('manajemen_teknisi');
