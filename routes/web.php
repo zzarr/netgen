@@ -51,6 +51,7 @@ Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('pel
 Route::post('/admin/pelanggan/store', [PelangganController::class, 'store'])->name('pelanggan.store');
 Route::get('/pelanggan/data', [PelangganController::class, 'getPelangganData'])->name('pelanggan.data');
 Route::get('/pelanggan/tagihan/{id}', [TagihanController::class, 'getTagihan'])->name('pelanggan.tagihan');
+Route::get('/pelanggan/edit/{id}', [PelangganController::class, 'edit'])->name('pelanggan.edit');
 //MASL
 
 

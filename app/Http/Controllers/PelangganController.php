@@ -27,7 +27,7 @@ class PelangganController extends Controller
                         </svg>
                     </button>';
 
-                $btn .= '<button class="btn btn-outline-warning edit rounded-circle" data-id="'.$row->id.'">
+                $btn .= '<button class="btn btn-outline-warning edit rounded-circle" data-id="'.$row->id.'" data-toggle="modal" data-target="#editModal">
                             <svg xmlns="http://www.w3.org/2000/svg" width="1" height="1" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
                                 <path d="M12.146.854a.5.5 0 0 1 .708 0l2.292 2.292a.5.5 0 0 1 0 .708l-9.193 9.193a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l9.193-9.193zM11.207 3L13 4.793 14.793 3 13 1.207 11.207 3zM10.5 3.707L2 12.207V14h1.793l8.5-8.5-1.793-1.793z"/>
                             </svg>
@@ -75,6 +75,21 @@ class PelangganController extends Controller
         return redirect()->route('pelanggan');
 
     }
+
+    public function edit($id)
+    {
+        // Ambil data pelanggan berdasarkan ID
+        $pelanggan = Pelanggan::find($id);
+    
+        // Cek jika data pelanggan tidak ditemukan
+        if (!$pelanggan) {
+            return response()->json(['error' => 'Pelanggan tidak ditemukan'], 404);
+        }
+    
+        // Kembalikan data pelanggan sebagai JSON
+        return response()->json($pelanggan);
+    }
+    
     
     
     
