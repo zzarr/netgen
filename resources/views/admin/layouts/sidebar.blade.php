@@ -207,10 +207,10 @@
                 </a>
                 <ul class="collapse submenu list-unstyled" id="submenu" data-parent="#accordionExample">
                     <li>
-                        <a href="{{ route('manajemen_teknisi') }}"> Teknisi</a>
+                        <a href="{{ route('manajemen_admin') }}"> Admin </a>
                     </li>
                     <li>
-                        <a href="{{ route('manajemen_admin') }}"> Admin </a>
+                        <a href="{{ route('manajemen_teknisi') }}"> Teknisi</a>
                     </li>
                 </ul>
             </li>
