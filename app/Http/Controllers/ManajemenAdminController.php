@@ -60,7 +60,7 @@ public function update(Request $request, $id)
         'nama' => 'required|string|max:255',
         'no_hp' => 'required|string|max:15',
         'email' => 'required|string|email|max:255|unique:users',
-        'pass' => 'required|string|min:8',
+        'pass' => 'string|min:8',
     ]);
 
     $admin = User::find($id);
