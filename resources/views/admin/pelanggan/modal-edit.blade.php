@@ -1,9 +1,9 @@
-<div class="modal fade " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    style="display: none;" aria-hidden="true">
+<div class="modal fade " id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" style="display: none;"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Pelanggan</h5>
+                <h5 class="modal-title" id="editModalLabel">Edit Pelanggan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -13,41 +13,35 @@
                     </svg>
                 </button>
             </div>
-            <form action="{{ route('pelanggan.store') }}" method="post">
+            <form action="#" method="post">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group mb-4">
-                        <label for="exampleFormControlInput2">Nama</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="Nama"
-                            name="nama">
+                        <label for="editNama">Nama</label>
+                        <input type="text" class="form-control" id="editNama" name="nama" placeholder="Nama">
                     </div>
                     <div class="form-group mb-4">
-                        <label for="exampleFormControlInput2">No HP</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="No HP"
-                            name="no_hp">
+                        <label for="editNoHp">No HP</label>
+                        <input type="text" class="form-control" id="editNoHp" name="no_hp" placeholder="No HP">
                     </div>
                     <div class="form-group mb-4">
-                        <label for="exampleFormControlInput2">alamat</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="Alamat"
-                            name="alamat">
+                        <label for="editAlamat">Alamat</label>
+                        <input type="text" class="form-control" id="editAlamat" name="alamat" placeholder="Alamat">
                     </div>
                     <div class="form-group mb-4">
-                        <label for="exampleFormControlInput2">Paket</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="paket"
-                            name="paket">
+                        <label for="editPaket">Paket</label>
+                        <input type="text" class="form-control" id="editPaket" name="paket" placeholder="Paket">
                     </div>
                 </div>
 
+                <!-- Hidden input untuk id_petugas atau data lain yang dibutuhkan -->
                 <input type="hidden" name="id_petugas" value="{{ Auth::user() ? Auth::user()->id : '1' }}">
 
                 <div class="modal-footer">
-                    <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i>
-                        Discard</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
-
             </form>
-
         </div>
     </div>
 </div>

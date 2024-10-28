@@ -54,10 +54,19 @@
     </div>
     <!-- Modal add -->
     @include('admin.pelanggan.modal-add')
-
     <!-- end modal -->
+
+    <!-- Modal Edit -->
+    @include('admin.pelanggan.modal-edit')
+    <!-- end modal -->
+
+
     <!-- Modal tagihan -->
     @include('admin.pelanggan.modal-tagihan')
+    <!-- end modal -->
+
+    <!-- Modal bayar -->
+    @include('admin.pelanggan.bayar')
     <!-- end modal -->
 @endsection
 
@@ -152,9 +161,9 @@
                             table += '<td>' + tagihan.nominal + '</td>';
                         } else {
                             table +=
-                                '<td><button class="btn btn-sm btn-primary bayar" data-bulan="' +
+                                '<td><button type="button" class="btn btn-sm btn-primary bayar" data-bulan="' +
                                 tagihan.bulan + '" data-id="' + pelangganId +
-                                '">Bayar</button></td>';
+                                '" data-dismiss="modal" data-toggle="modal" data-target="#bayarModal">Bayar</button></td>';
                         }
 
                         table += '</tr>';
@@ -170,6 +179,42 @@
                 },
                 error: function(xhr) {
                     alert('Terjadi kesalahan dalam memuat data tagihan.');
+                }
+            });
+        });
+
+        // Tangkap event klik pada tombol Bayar
+        $(document).on('click', '.bayar', function() {
+            var bulan = $(this).data('bulan'); // Ambil data bulan dari tombol yang diklik
+            var pelangganId = $(this).data('id'); // Ambil ID pelanggan
+
+            // Isi input hidden untuk bulan dan ID pelanggan di modal bayar
+            $('#bayarModal input[name="bulan"]').val(bulan);
+            $('#bayarModal input[name="pelanggan_id"]').val(pelangganId);
+            // Update judul modal dengan nama bulan
+            $('#bayarModal .modal-title').text('Bayar Tagihan ' + bulan);
+
+            // Buka modal bayar
+            $('#bayarModal').modal('show');
+        });
+
+        $(document).on('click', '.edit', function() {
+            var pelangganId = $(this).data('id');
+            $.ajax({
+                url: '/pelanggan/edit/' + pelangganId,
+                method: 'GET',
+                success: function(response) {
+                    // Isi value pada input field form edit dengan data yang diterima
+                    $('#editModal input[name="nama"]').val(response.nama_pelanggan);
+                    $('#editModal input[name="no_hp"]').val(response.no_hp);
+                    $('#editModal input[name="alamat"]').val(response.alamat);
+                    $('#editModal input[name="paket"]').val(response.paket);
+
+                    // Tampilkan modal edit
+                    $('#editModal').modal('show');
+                },
+                error: function(xhr) {
+                    alert('Terjadi kesalahan saat mengambil data pelanggan.');
                 }
             });
         });
