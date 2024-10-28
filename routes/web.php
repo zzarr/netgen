@@ -63,11 +63,13 @@ Route::post('/admin/pelanggan/store', [PelangganController::class, 'store'])->na
 Route::get('/pelanggan/data', [PelangganController::class, 'getPelangganData'])->name('pelanggan.data');
 Route::get('/pelanggan/tagihan/{id}', [TagihanController::class, 'getTagihan'])->name('pelanggan.tagihan');
 Route::get('/pelanggan/edit/{id}', [PelangganController::class, 'edit'])->name('pelanggan.edit');
-//MASL
+
 
 //andin
 Route::get('/admin/manajemenhubhtb', [ManajemenHubHtbController::class, 'index'])->name('manajemen_hubhtb');
 //Route::get('/admin/addhubhtb', [ManajemenHubHtbController::class, 'create'])->name('add_hubhtb');
+
+//MasL
 Route::get('/teknisi/datatables', [ManajemenTeknisiController::class, 'datatable'])->name('teknisi.data');
 Route::get('/admin/datatables', [ManajemenAdminController::class, 'datatable'])->name('admin.data');
 Route::get('/admin/manajemenadmin', [ManajemenAdminController::class, 'index'])->name('manajemen_admin');
@@ -82,5 +84,7 @@ Route::get('/admin/edit/{id}', [ManajemenAdminController::class, 'edit']);
 Route::put('/admin/update/{id}', [ManajemenAdminController::class, 'update']);
 Route::get('/teknisi/edit/{id}', [ManajemenAdminController::class, 'edit']);
 Route::put('/teknisi/update/{id}', [ManajemenAdminController::class, 'update']);
+Route::put('/admin/update-password/{id}', [ManajemenAdminController::class, 'updatePassword']);
+
 
 
