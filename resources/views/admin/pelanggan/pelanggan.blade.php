@@ -68,6 +68,10 @@
     <!-- Modal bayar -->
     @include('admin.pelanggan.bayar')
     <!-- end modal -->
+
+    <!-- Modal detail -->
+    @include('admin.pelanggan.detail-pelanggan')
+    <!-- end modal -->
 @endsection
 
 @push('css')
@@ -91,7 +95,7 @@
 @push('js')
     <script src="{{ asset('demo1/plugins/table/datatable/datatables.js') }}"></script>
     <script>
-        $('#pelanggan-table').DataTable({
+        var table = $('#pelanggan-table').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ route('pelanggan.data') }}", // URL untuk mengambil data pelanggan
@@ -120,8 +124,6 @@
                     searchable: false
                 }
 
-
-
             ],
 
             "oLanguage": {
@@ -138,6 +140,36 @@
             "lengthMenu": [5, 10, 20, 50],
             "pageLength": 5
         });
+
+        $('#createForm').on('submit', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: "{{ route('pelanggan.store') }}", // Ganti dengan route yang sesuai
+                method: 'POST',
+                data: $(this).serialize(), // Mengirim data dari form
+                success: function(response) {
+                    $('#exampleModal').modal('hide');
+                    $('#createForm')[0].reset();
+                    table.ajax.reload();
+                    Notiflix.Notify.success('Data berhasil ditambahkan!');
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        var errors = xhr.responseJSON.errors;
+                        if (errors.password) {
+                            Notiflix.Notify.failure('Password harus memiliki minimal 8 karakter.');
+                        }
+
+                    } else {
+                        Notiflix.Notify.failure('Terjadi kesalahan saat menambah data.');
+                    }
+                }
+            });
+        });
+
+
+
 
         $(document).on('click', '.tagihan', function() {
             var pelangganId = $(this).data('id'); // Ambil ID pelanggan dari atribut data-id
@@ -209,6 +241,7 @@
                     $('#editModal input[name="no_hp"]').val(response.no_hp);
                     $('#editModal input[name="alamat"]').val(response.alamat);
                     $('#editModal input[name="paket"]').val(response.paket);
+                    $('#editModal input[name="id"]').val(response.id);
 
                     // Tampilkan modal edit
                     $('#editModal').modal('show');
@@ -217,6 +250,68 @@
                     alert('Terjadi kesalahan saat mengambil data pelanggan.');
                 }
             });
+        });
+
+        $('#editForm').on('submit', function(e) {
+            e.preventDefault();
+
+            var id = $('#id_pelanggan').val(); // Pastikan input ini memiliki ID yang benar
+
+            $.ajax({
+                url: "{{ route('pelanggan.update', ':id') }}".replace(':id',
+                    id), // Gunakan replace untuk mengisi :id dengan nilai variabel
+                method: 'POST', // Metode tetap POST karena ada _method PUT
+                data: $(this).serialize() + '&_method=PUT', // Menggunakan _method=PUT
+                success: function(response) {
+                    $('#editModal').modal('hide');
+                    $('#editForm')[0].reset();
+                    table.ajax.reload();
+                    Notiflix.Notify.success('Data berhasil diperbarui!');
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText); // Logging detail error untuk debugging
+                    if (xhr.status === 422) {
+                        var errors = xhr.responseJSON.errors;
+                        if (errors.password) {
+                            Notiflix.Notify.failure('Password harus memiliki minimal 8 karakter.');
+                        }
+                    } else {
+                        Notiflix.Notify.failure('Terjadi kesalahan saat memperbarui data.');
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '.delete', function() {
+            var id = $(this).data('id'); // Dapatkan id pelanggan dari button delete
+
+            Notiflix.Confirm.show(
+                'Konfirmasi Hapus',
+                'Apakah Anda yakin ingin menghapus data ini?',
+                'Ya, Hapus',
+                'Batal',
+                function() { // Jika pengguna mengonfirmasi penghapusan
+                    $.ajax({
+                        url: "{{ route('pelanggan.destroy', ':id') }}".replace(':id', id),
+                        type: 'DELETE',
+                        data: {
+                            _token: '{{ csrf_token() }}' // Mengirimkan CSRF token
+                        },
+                        success: function(response) {
+                            Notiflix.Notify.success(response.success || 'Data berhasil dihapus');
+                            table.ajax.reload(); // Reload DataTable setelah hapus data
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                            Notiflix.Notify.failure(xhr.responseJSON.error ||
+                                'Gagal menghapus data');
+                        }
+                    });
+                },
+                function() { // Fungsi ini untuk aksi batal
+                    Notiflix.Notify.info('Penghapusan dibatalkan');
+                }
+            );
         });
     </script>
 @endpush

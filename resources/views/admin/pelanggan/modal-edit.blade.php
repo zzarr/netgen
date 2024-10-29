@@ -1,4 +1,4 @@
-<div class="modal fade " id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" style="display: none;"
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" style="display: none;"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -13,7 +13,7 @@
                     </svg>
                 </button>
             </div>
-            <form action="#" method="post">
+            <form id="editForm" method="POST"> <!-- Sesuaikan id form -->
                 @csrf
                 <div class="modal-body">
                     <div class="form-group mb-4">
@@ -34,8 +34,9 @@
                     </div>
                 </div>
 
-                <!-- Hidden input untuk id_petugas atau data lain yang dibutuhkan -->
+                <!-- Hidden input untuk ID pelanggan dan id_petugas -->
                 <input type="hidden" name="id_petugas" value="{{ Auth::user() ? Auth::user()->id : '1' }}">
+                <input type="hidden" name="id" id="id_pelanggan"> <!-- ID Pelanggan -->
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

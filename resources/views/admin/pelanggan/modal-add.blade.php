@@ -13,7 +13,7 @@
                     </svg>
                 </button>
             </div>
-            <form action="{{ route('pelanggan.store') }}" method="post">
+            <form id="createForm" method="post">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group mb-4">
