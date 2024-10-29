@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\HubHtb;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class ManajemenHubHtbController extends Controller
 {
@@ -10,8 +11,11 @@ class ManajemenHubHtbController extends Controller
     {
         return view('admin.manajemenhubhtb');
     }
-    // public function create()
-    // {
-    //     return view('admin.addmanajemenhubhtb');
-    // }
+    public function datatable(Request $request){
+        {
+            $data = HubHtb::query();
+            return DataTables::of($data)->make(true);
+        }
+    }
 }
+

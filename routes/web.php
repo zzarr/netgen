@@ -5,12 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AntenaController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\TagihanController;
-
 use App\Http\Controllers\ManajemenAdminController;
 use App\Http\Controllers\ManajemenTeknisiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ManajemenHubHtbController;
-use App\Http\Controllers\ManajemenOperasionalController; 
+use App\Http\Controllers\ManajemenOperasionalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,9 +65,11 @@ Route::get('/pelanggan/edit/{id}', [PelangganController::class, 'edit'])->name('
 //MASL
 
 //andin
-Route::get('/admin/manajemenhubhtb', [ManajemenHubHtbController::class, 'index'])->name('manajemen_hubhtb');
+Route::get('admin/hubhtb/datatables', [ManajemenHubHtbController::class, 'datatable'])->name('hubhtb.data');
+Route::get('/admin/hubhtb', [ManajemenHubHtbController::class, 'index'])->name('manajemen_hubhtb');
+
+
 //Route::get('/admin/addhubhtb', [ManajemenHubHtbController::class, 'create'])->name('add_hubhtb');
-Route::get('/teknisi/datatables', [ManajemenTeknisiController::class, 'datatable'])->name('teknisi.data');
 Route::get('/admin/datatables', [ManajemenAdminController::class, 'datatable'])->name('admin.data');
 Route::get('/admin/manajemenadmin', [ManajemenAdminController::class, 'index'])->name('manajemen_admin');
 Route::get('/admin/manajementeknisi', [ManajemenTeknisiController::class, 'index'])->name('manajemen_teknisi');

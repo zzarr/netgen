@@ -61,7 +61,7 @@ class AntenaController extends Controller
     public function edit($id)
     {
         $antena = Antena::find($id);
-    
+
         return response()->json($antena);
     }
 
@@ -77,13 +77,13 @@ class AntenaController extends Controller
             'username' => 'required|string|max:255',
             'password' => 'required|string|min:6'
         ]);
-    
+
         $antena = Antena::find($id);
         $antena->update($validatedData);
-    
+
         return response()->json(['success' => 'Data berhasil diupdate']);
     }
-    
+
 
     /**
      * Remove the specified resource from storage.

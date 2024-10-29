@@ -228,7 +228,7 @@
     });
 });
 
-   
+
 </script>
 
 <script>
@@ -242,11 +242,11 @@
             },
             "stripeClasses": [],
             "lengthMenu": [7, 10, 20, 50],
-            "pageLength": 7 
+            "pageLength": 7
         });
 </script>
 
-<script>        
+<script>
     $(document).ready(function() {
         $.ajaxSetup({
             headers: {
@@ -257,16 +257,16 @@
         let table = $("#datatable").DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('admin.antena.datatable') }}", 
+            ajax: "{{ route('admin.antena.datatable') }}",
             columnDefs: [
                 {
-                    targets: 0, 
+                    targets: 0,
                     render: function(data, type, full, meta) {
-                        return meta.row + 1; 
+                        return meta.row + 1;
                     },
                 },
                 {
-                    targets: 1, 
+                    targets: 1,
                     render: function(data, type, full, meta) {
                         let btn = `
                         <div class="btn-list">
@@ -289,20 +289,20 @@
                         return btn;
                     },
                 },
-                
+
             ],
             columns: [{
-                 data: 'id' }, 
+                 data: 'id' },
                 { data: 'id' },
                 { data: 'nama' },
-                { data: 'IP' }, 
+                { data: 'IP' },
                 { data: 'alamat' },
                 { data: 'username' },
                 { data: 'password' },
             ],
             language: {
-                searchPlaceholder: 'Cari...', 
-                sSearch: '', 
+                searchPlaceholder: 'Cari...',
+                sSearch: '',
             }
         });
 
@@ -317,14 +317,14 @@
             'Tidak',
             function() {
                 $.ajax({
-                    url: '/admin/antena/delete/' + dataId, 
+                    url: '/admin/antena/delete/' + dataId,
                     type: 'DELETE',
                     data: {
-                        _token: '{{ csrf_token() }}' 
+                        _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
                         Notiflix.Notify.success('Data berhasil dihapus');
-                        table.ajax.reload(); 
+                        table.ajax.reload();
                     },
                     error: function(xhr) {
                         Notiflix.Notify.failure('Terjadi kesalahan');
