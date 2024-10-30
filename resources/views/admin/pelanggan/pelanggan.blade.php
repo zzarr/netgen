@@ -179,6 +179,7 @@
                 url: '/pelanggan/tagihan/' + pelangganId, // Sesuaikan URL dengan rute Anda
                 method: 'GET',
                 success: function(response) {
+                    console.log(response);
                     // Bersihkan modal sebelum memuat data baru
                     $('#tagihanModalBody').empty();
 
@@ -190,8 +191,10 @@
                         table += '<tr><td>' + tagihan.bulan + '</td>';
 
                         if (tagihan.nominal !== null) {
+                            // Tampilkan nominal jika sudah ada pembayaran
                             table += '<td>' + tagihan.nominal + '</td>';
                         } else {
+                            // Tampilkan tombol Bayar jika belum ada pembayaran
                             table +=
                                 '<td><button type="button" class="btn btn-sm btn-primary bayar" data-bulan="' +
                                 tagihan.bulan + '" data-id="' + pelangganId +
@@ -215,6 +218,7 @@
             });
         });
 
+
         // Tangkap event klik pada tombol Bayar
         $(document).on('click', '.bayar', function() {
             var bulan = $(this).data('bulan'); // Ambil data bulan dari tombol yang diklik
@@ -229,6 +233,38 @@
             // Buka modal bayar
             $('#bayarModal').modal('show');
         });
+
+
+        $('#formBayar').on('submit', function(e) {
+            e.preventDefault(); // Mencegah reload halaman
+
+            // Ambil data dari form
+            var formData = $(this).serialize();
+
+            // Kirim data melalui AJAX
+            $.ajax({
+                type: 'POST',
+                url: '/pelanggan/bayar', // Pastikan URL endpoint di server sudah benar
+                data: formData,
+                success: function(response) {
+                    // Notifikasi sukses menggunakan Notiflix
+                    Notiflix.Notify.success("Pembayaran berhasil!");
+                    $('#bayarModal').modal('hide'); // Tutup modal setelah submit
+                    $('#formBayar')[0].reset(); // Reset form setelah submit
+
+                    // Tambahkan kode untuk reload tabel atau update data jika perlu
+                    // Contoh: table.ajax.reload(); jika menggunakan DataTables
+                },
+                error: function(xhr, status, error) {
+                    // Notifikasi error menggunakan Notiflix
+                    Notiflix.Notify.failure("Terjadi kesalahan saat melakukan pembayaran");
+                    console.error(xhr.responseText); // Debugging error
+                }
+            });
+        });
+
+
+
 
         $(document).on('click', '.edit', function() {
             var pelangganId = $(this).data('id');

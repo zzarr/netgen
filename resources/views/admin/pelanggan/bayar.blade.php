@@ -13,17 +13,19 @@
                     </svg>
                 </button>
             </div>
-            <form action="#" method="POST">
+            <form method="post" id="formBayar">
                 @csrf
                 <div class="modal-body">
 
                     <div class="form-group mb-4">
                         <label for="nominal">Nominal</label>
-                        <input type="text" class="form-control" id="nominal" placeholder="" name="nominal">
+                        <input type="number" step="0.01" min="0" class="form-control" id="nominal"
+                            placeholder="" name="nominal">
                     </div>
                     <div class="form-group mb-4">
                         <label for="kurang">Kurang</label>
-                        <input type="text" class="form-control" id="kurang" placeholder="" name="kurang">
+                        <input type="number" step="0.01" min="0" class="form-control" id="kurang"
+                            placeholder="" name="kurang">
                     </div>
                     <!-- Input bulan dan pelanggan_id dibuat hidden -->
                     <input type="hidden" name="bulan">
@@ -35,7 +37,6 @@
                     <button type="submit" class="btn btn-primary">Bayar</button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
