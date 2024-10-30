@@ -51,8 +51,11 @@ class User extends Authenticatable
      */
     public function pelanggan()
     {
-        return $this->hasMany(Pelanggan::class, 'id_teknisi');
+        return $this->hasMany(Pelanggan::class, 'id_petugas');
     }
 
+    public function pembayaran(){
+        return $this->hasMany(Pembayaran::class, 'id_petugas');
+    }
 
 }
