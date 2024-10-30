@@ -42,10 +42,11 @@
             <h4 class="mb-1">Selamat Datang! 👋</h4>
             <p class="mb-6">Masuk ke akun anda untuk melanjutkan.</p>
 
-            <form id="formAuthentication" class="mb-4" action="index.html" method="GET">
+            <form id="formAuthentication" class="mb-4" class="mb-4" action="{{ route('login') }}" method="POST">
+              @csrf
               <div class="mb-6">
                 <label for="email" class="form-label">Email / Username</label>
-                <input type="text" class="form-control" id="email" name="email-username" placeholder="Masukkan email atau username" autofocus>
+                <input type="text" class="form-control" id="email" name="email" placeholder="Masukkan email atau username" autofocus required>
               </div>
               <div class="mb-6 form-password-toggle">
                 <label class="form-label" for="password">Password</label>
