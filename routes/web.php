@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AntenaController;
 use App\Http\Controllers\PelangganController;
 
@@ -43,7 +43,7 @@ Route::get('/admin/antena/edit/{id}', [AntenaController::class, 'edit']);
 Route::put('/admin/antena/update/{id}', [AntenaController::class, 'update']);
 Route::delete('/admin/antena/delete/{id}', [AntenaController::class, 'destroy'])->name('admin.antena.delete');
 
-
+Route::get('login', [AuthController::class, 'index'])->name('auth.login');
 //
 
 Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('pelanggan');

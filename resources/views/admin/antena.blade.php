@@ -83,6 +83,7 @@
             </div>
             <div class="modal-body">
                 <form id="editForm">
+                @csrf
                     <input type="hidden" id="antenaId" name="id">
                     <div class="form-group">
                         <label for="editNama">Nama Antena</label>
@@ -148,9 +149,9 @@
     e.preventDefault();
 
     $.ajax({
-        url: "{{ route('admin.antena.store') }}",  // Ganti dengan route yang sesuai
+        url: "{{ route('admin.antena.store') }}",  
         method: 'POST',
-        data: $(this).serialize(),  // Mengirim data dari form
+        data: $(this).serialize(), 
         success: function(response) {
             $('#exampleModal').modal('hide');
             $('#createForm')[0].reset();
