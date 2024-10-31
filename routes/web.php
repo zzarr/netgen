@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AntenaController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\TagihanController;
@@ -32,6 +32,8 @@ Route::get('/', function () {
 
 //fadhil
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/teknisi/dashboard', [DashboardController::class, 'index'])->name('teknisi-dashboard');
+
 
 Route::get('/admin/template', function () {
     return view('admin.layouts.app');
@@ -55,6 +57,19 @@ Route::get('/admin/antena/edit/{id}', [AntenaController::class, 'edit']);
 Route::put('/admin/antena/update/{id}', [AntenaController::class, 'update']);
 Route::delete('/admin/antena/delete/{id}', [AntenaController::class, 'destroy'])->name('admin.antena.delete');
 
+Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
+Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
+
+Route::middleware(['auth', 'role:teknisi'])->group(function () {
+    Route::get('/teknisi-dashboard', function () {
+        return view('teknisi.dashboard');
+    });
+});
 //
 
 Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('pelanggan');
@@ -94,6 +109,3 @@ Route::put('/admin/update/{id}', [ManajemenAdminController::class, 'update']);
 Route::get('/teknisi/edit/{id}', [ManajemenAdminController::class, 'edit']);
 Route::put('/teknisi/update/{id}', [ManajemenAdminController::class, 'update']);
 Route::put('/admin/update-password/{id}', [ManajemenAdminController::class, 'updatePassword']);
-
-
-
