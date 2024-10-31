@@ -81,7 +81,7 @@ class TagihanController extends Controller
             'id_pelanggan' => $request->pelanggan_id,
             'bulan' => $request->bulan,
             'paket' => $pelanggan->paket, // Menggunakan paket dari tabel pelanggan
-            'kurang' => max(0, $request->kurang - $request->nominal), // Atur sisa tagihan awal
+            'kurang' =>  $request->kurang , // Atur sisa tagihan awal
             'is_lunas' => ($request->kurang - $request->nominal) <= 0 // Tandai lunas jika sisa kurang 0
         ]);
 

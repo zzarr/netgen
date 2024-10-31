@@ -349,5 +349,48 @@
                 }
             );
         });
+
+        $(document).on('click', '.show', function() {
+            var pelangganId = $(this).data('id');
+
+            $.ajax({
+                url: '/pelanggan/' + pelangganId + '/detail',
+                method: 'GET',
+                success: function(response) {
+                    console.log(response);
+                    // Fill customer details in the modal
+                    $('#pelangganNama').text(response.pelanggan.nama_pelanggan);
+                    $('#pelangganPaket').text(response.pelanggan.paket);
+                    $('#pelangganAlamat').text(response.pelanggan.alamat);
+                    $('#pelangganNoHp').text(response.pelanggan.no_hp);
+
+                    // Populate billing details table without an index column
+                    var tagihanHtml = '';
+                    response.laporan_tagihan.forEach(function(tagihan) {
+                        var pembayaranUser = tagihan.pembayaran.length > 0 ? tagihan.pembayaran[
+                            0].petugas.nama : '-';
+                        var jumlahPembayaran = tagihan.pembayaran.length > 0 ? 'Rp.' + tagihan
+                            .pembayaran[0].jumlah_pembayaran : '-';
+                        tagihanHtml += `
+                    <tr>
+                        <td>${tagihan.bulan}</td>
+                        <td>${tagihan.created_at}</td>
+                        <td>${jumlahPembayaran}</td>
+                        <td>Rp.${tagihan.kurang}</td>
+                        <td>${pembayaranUser}</td>
+                        <td><button class="btn btn-primary">Edit</button></td>
+                    </tr>
+                `;
+                    });
+                    $('#tagihanTableBody').html(tagihanHtml);
+
+                    // Show modal
+                    $('#detailPelangganModal').modal('show');
+                },
+                error: function() {
+                    alert('Gagal mengambil detail pelanggan');
+                }
+            });
+        });
     </script>
 @endpush
