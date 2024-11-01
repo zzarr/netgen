@@ -17,7 +17,6 @@
                 <table class="table mt-4">
                     <thead>
                         <tr>
-
                             <th>Bulan</th>
                             <th>Tgl Pembayaran</th>
                             <th>Jumlah (Rp)</th>

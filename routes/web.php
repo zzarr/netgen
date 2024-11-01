@@ -78,6 +78,8 @@ Route::get('/pelanggan/data', [PelangganController::class, 'getPelangganData'])-
 Route::get('/pelanggan/edit/{id}', [PelangganController::class, 'edit'])->name('pelanggan.edit');
 Route::put('/pelanggan/update/{id}', [PelangganController::class, 'update'])->name('pelanggan.update');
 Route::delete('/pelanggan/delete/{id}', [PelangganController::class, 'destroy'])->name('pelanggan.destroy');
+Route::get('/pelanggan/{id}/detail', [PelangganController::class, 'showDetail']);
+
 
 Route::get('/pelanggan/tagihan/{id}', [TagihanController::class, 'getTagihan'])->name('pelanggan.tagihan');
 Route::post('/pelanggan/bayar', [TagihanController::class, 'bayar'])->name('bayar');
