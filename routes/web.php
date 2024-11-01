@@ -87,9 +87,12 @@ Route::post('/pelanggan/bayar', [TagihanController::class, 'bayar'])->name('baya
 //andin
 Route::get('admin/hubhtb/datatables', [ManajemenHubHtbController::class, 'datatable'])->name('hubhtb.data');
 Route::get('/admin/hubhtb', [ManajemenHubHtbController::class, 'index'])->name('manajemen_hubhtb');
+Route::get('/admin/addhubhtb', [ManajemenHubHtbController::class, 'create'])->name('add_hubhtb');
+Route::post('/admin/hubhtb', [ManajemenHubHtbController::class, 'store'])->name('manajemen_hubhtb.store');
+Route::get('/admin/hubhtb/{id}', [ManajemenHubHtbController::class, 'show'])->name('manajemen_hubhtb.show');
+Route::put('/admin/hubhtb/{id}', [ManajemenHubHtbController::class, 'update'])->name('manajemen_hubhtb.update');
+Route::delete('/admin/hubhtb/{id}', [ManajemenHubHtbController::class, 'destroy'])->name('manajemen_hubhtb.destroy');
 
-
-//Route::get('/admin/addhubhtb', [ManajemenHubHtbController::class, 'create'])->name('add_hubhtb');
 
 //MasL
 Route::get('/teknisi/datatables', [ManajemenTeknisiController::class, 'datatable'])->name('teknisi.data');
