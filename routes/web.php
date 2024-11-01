@@ -38,13 +38,14 @@ Route::get('/admin/template', function () {
     return view('admin.layouts.app');
 });
 
-// Tambahkan rute untuk manajemen operasional
+
 Route::get('/admin/operasional/datatable', [ManajemenOperasionalController::class, 'datatable'])->name('manajemen_operasional.datatable');
 Route::get('/admin/operasional', [ManajemenOperasionalController::class, 'index'])->name('manajemen_operasional.index');
 Route::post('/admin/operasional/store', [ManajemenOperasionalController::class, 'store'])->name('manajemen_operasional.store');
 Route::get('/admin/operasional/edit/{id}', [ManajemenOperasionalController::class, 'edit'])->name('manajemen_operasional.edit');
 Route::put('/admin/operasional/update/{id}', [ManajemenOperasionalController::class, 'update'])->name('manajemen_operasional.update');
 Route::delete('/admin/operasional/delete/{id}', [ManajemenOperasionalController::class, 'destroy'])->name('manajemen_operasional.delete');
+Route::get('manajemen_operasional/total_saldo', [ManajemenOperasionalController::class, 'totalSaldo'])->name('manajemen_operasional.total_saldo');
 
 
 

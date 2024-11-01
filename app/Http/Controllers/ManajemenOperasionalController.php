@@ -10,7 +10,9 @@ class ManajemenOperasionalController extends Controller
 {
     public function index()
     {
-        return view('admin.manajemenoperasional');
+        $totalSaldo = Operasional::sum('jumlah'); // Menghitung total dari kolom jumlah
+
+        return view('admin.manajemenoperasional', compact('totalSaldo')); // Kirim total saldo ke view
     }
 
     public function datatable()
@@ -38,6 +40,10 @@ class ManajemenOperasionalController extends Controller
             'jumlah' => 'required|numeric',
         ]);
 
+        // Menghapus desimal jika nilai adalah bilangan bulat sebelum disimpan
+        $jumlah = $request->input('jumlah');
+        $request->merge(['jumlah' => fmod($jumlah, 1) == 0 ? intval($jumlah) : $jumlah]);
+
         Operasional::create($request->all());
 
         return response()->json(['success' => 'Data berhasil disimpan.']);
@@ -57,6 +63,10 @@ class ManajemenOperasionalController extends Controller
             'kategori' => 'required|string',
             'jumlah' => 'required|numeric',
         ]);
+
+        // Menghapus desimal jika nilai adalah bilangan bulat sebelum diperbarui
+        $jumlah = $request->input('jumlah');
+        $request->merge(['jumlah' => fmod($jumlah, 1) == 0 ? intval($jumlah) : $jumlah]);
 
         $operasional = Operasional::findOrFail($id);
         $operasional->update($request->all());
