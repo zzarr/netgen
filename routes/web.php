@@ -93,8 +93,9 @@ Route::get('/admin/hubhtb', [ManajemenHubHtbController::class, 'index'])->name('
 Route::get('/admin/addhubhtb', [ManajemenHubHtbController::class, 'create'])->name('add_hubhtb');
 Route::post('/admin/hubhtb', [ManajemenHubHtbController::class, 'store'])->name('manajemen_hubhtb.store');
 Route::get('/admin/hubhtb/{id}', [ManajemenHubHtbController::class, 'show'])->name('manajemen_hubhtb.show');
-Route::put('/admin/hubhtb/{id}', [ManajemenHubHtbController::class, 'update'])->name('manajemen_hubhtb.update');
+Route::put('/admin/hubhtb/update/{id}', [ManajemenHubHtbController::class, 'update'])->name('manajemen_hubhtb.update');
 Route::delete('/admin/hubhtb/{id}', [ManajemenHubHtbController::class, 'destroy'])->name('manajemen_hubhtb.destroy');
+Route::get('/admin/hubhtb/edit/{id}', [ManajemenHubHtbController::class, 'edit'])->name('manajemen_hubhtb.edit');
 
 
 //MasL

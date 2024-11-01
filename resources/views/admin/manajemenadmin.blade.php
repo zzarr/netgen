@@ -73,7 +73,7 @@
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
-            
+
         </div>
     </div>
 </div>
@@ -89,39 +89,6 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    {{-- <form id="editForm">
-                        <input type="hidden" id="adminId" name="id">
-                        <div class="modal-body">
-                            <!-- Form Edit untuk Admin -->
-                            <div class="form-group">
-                                <label for="nama">Nama Admin</label>
-                                <input type="text" class="form-control" id="editNama" name="nama" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="no_hp">No. HP</label>
-                                <input type="text" class="form-control" id="editNo_hp" name="no_hp" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="editEmail" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="pass">Password</label>
-                                <div class="input-group">
-                                    <input type="password" class="form-control" id="editPass" name="pass" required>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" onclick="togglePassword()">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                        </div>
-                    </form> --}}
                     <form id="editForm">
                         <input type="hidden" id="adminId" name="id">
                         <div class="modal-body">
@@ -173,7 +140,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                     
+
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -183,11 +150,11 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
-            
+
 
         @if (session('success'))
             <div class="alert alert-arrow-left alert-icon-left alert-light-primary mb-4" role="alert">
@@ -219,11 +186,11 @@
                             <th>Nama Admin</th>
                             <th>No.HP</th>
                             <th>Email</th>
-                           
+
                         </tr>
                     </thead>
                     <tbody>
-                 
+
                         <!-- Data akan dimasukkan melalui Yajra DataTables -->
                     </tbody>
                     <tfoot>
@@ -279,7 +246,7 @@
             $('#editNo_hp').val(data.no_hp);
             $('#editEmail').val(data.email);
             $('#editPass').val(data.password);
-            
+
 
 
             $('#editModal').modal('show');
@@ -323,7 +290,7 @@
     });
 });
 
-   
+
 </script>
 
 <script>
@@ -337,7 +304,7 @@
         },
         "stripeClasses": [],
         "lengthMenu": [7, 10, 20, 50],
-        "pageLength": 7 
+        "pageLength": 7
     });
 </script>
 
@@ -345,7 +312,7 @@
     function togglePassword() {
         var passInput = document.getElementById("pass");
         var icon = document.getElementById("toggle-eye");
-        
+
         if (passInput.type === "password") {
             passInput.type = "text";
             icon.classList.remove("fa-eye");
@@ -400,7 +367,7 @@
 
 
 
-<script>         
+<script>
     $(document).ready(function() {
         // Setup token CSRF untuk request Ajax
         $.ajaxSetup({
@@ -413,16 +380,16 @@
         let table = $("#datatable").DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('admin.data') }}", 
+            ajax: "{{ route('admin.data') }}",
             columnDefs: [
                 {
-                    targets: 0, 
+                    targets: 0,
                     render: function(data, type, full, meta) {
-                        return meta.row + 1; 
+                        return meta.row + 1;
                     },
                 },
                 {
-                    targets: 1, 
+                    targets: 1,
                     render: function(data, type, full, meta) {
                         let btn = `
                         <div class="btn-list">
@@ -446,22 +413,22 @@
                     },
                 },
 
-                
+
             ],
             columns: [
-                { data: 'id' }, 
+                { data: 'id' },
                 { data: 'id' }, // Kolom aksi
                 { data: 'nama' },
-                { data: 'no_hp' }, 
+                { data: 'no_hp' },
                 { data: 'email' },
             ],
             language: {
-                searchPlaceholder: 'Cari...', 
-                sSearch: '', 
+                searchPlaceholder: 'Cari...',
+                sSearch: '',
             }
         });
 
-      
+
         // Event listener untuk tombol delete
         $(document).on('click', '.btn-delete', function() {
         let dataId = $(this).data('id');
@@ -473,14 +440,14 @@
             'Tidak',
             function() {
                 $.ajax({
-                    url: '/admin/delete/' + dataId, 
+                    url: '/admin/delete/' + dataId,
                     type: 'DELETE',
                     data: {
-                        _token: '{{ csrf_token() }}' 
+                        _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
                         Notiflix.Notify.success('Data berhasil dihapus');
-                        table.ajax.reload(); 
+                        table.ajax.reload();
                     },
                     error: function(xhr) {
                         Notiflix.Notify.failure('Terjadi kesalahan');
@@ -493,7 +460,7 @@
         );
     });
 
- 
+
     });
 </script>
 @endpush
