@@ -72,32 +72,32 @@
 
 <!-- Modal Edit Data -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Data Manajemen Hub Htb</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="editForm">
-                    @csrf
-                    <input type="hidden" id="hubhtbId" name="id">
-                    <div class="form-group">
-                        <label for="edit_nama_alat">Nama Alat</label>
-                        <input type="text" class="form-control" id="edit_nama_alat" name="edit_nama_alat" required>
-                        <input type="text" class="form-control" id="editNama" name="nama" required>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Edit Data Admin</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <label for="edit_alamat">Alamat</label>
-                        <input  type="text" class="form-control" id="edit_alamat" name="edit_alamat" required>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                    </div>
-                </form>
+                    <form id="editForm">
+                        <input type="hidden" id="hubhtbId" name="id">
+                        <div class="modal-body">
+                            <!-- Form Edit untuk Admin -->
+                            <div class="form-group">
+                                <label for="nama_alat">Nama Alat</label>
+                                <input type="text" class="form-control" id="edit_nama_alat" name="edit_nama_alat" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="alamat">Alamat</label>
+                                <input type="text" class="form-control" id="edit_alamat" name="edit_alamat" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        </div>
+                    </form>
             </div>
         </div>
     </div>
@@ -365,17 +365,17 @@
     });
 });
 
-    //Edit data
-    $(document).on('click', '.btn-edit', function() {
+     //Edit data
+     $(document).on('click', '.btn-edit', function() {
     var id = $(this).data('id');
 
     $.ajax({
-        url: '/admin/edit/' + id,
+        url: '/admin/hubhtb/edit/' + id,
         method: 'GET',
         success: function(data) {
             $('#hubhtbId').val(data.id);
             $('#edit_nama_alat').val(data.nama_alat);
-            $('#alamat').val(data.alamat);
+            $('#edit_alamat').val(data.alamat);
 
 
 
@@ -395,7 +395,7 @@
     var formData = $(this).serialize();
 
     $.ajax({
-        url: '/admin/hubhtb/' + id,
+        url: '/admin/hubhtb/update/' + id,
         method: 'PUT',
         data: formData,
         success: function(response) {
