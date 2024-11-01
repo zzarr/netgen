@@ -73,7 +73,7 @@
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
-            
+
         </div>
     </div>
 </div>
@@ -105,16 +105,9 @@
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control" id="editEmail" name="email" required>
                             </div>
+                            <!-- Tombol Ubah Password -->
                             <div class="form-group">
-                                <label for="pass">Password</label>
-                                <div class="input-group">
-                                    <input type="password" class="form-control" id="editPass" name="pass" required>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" onclick="togglePassword()">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                        </span>
-                                    </div>
-                                </div>
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#passwordModal">Ubah Password</button>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -122,11 +115,46 @@
                             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                         </div>
                     </form>
-                    
+                        <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <form id="passwordForm">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="passwordModalLabel">Ubah Password</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="newPass">Password Baru</label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="newPass" name="new_pass" required>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text" onclick="toggleNewPassword()">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
+                                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                            <circle cx="12" cy="12" r="3"></circle>
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn btn-primary">Simpan Password</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
-            
+
 
         @if (session('success'))
             <div class="alert alert-arrow-left alert-icon-left alert-light-primary mb-4" role="alert">
@@ -158,11 +186,11 @@
                             <th>Nama Admin</th>
                             <th>No.HP</th>
                             <th>Email</th>
-                           
+
                         </tr>
                     </thead>
                     <tbody>
-                 
+
                         <!-- Data akan dimasukkan melalui Yajra DataTables -->
                     </tbody>
                     <tfoot>
@@ -218,7 +246,7 @@
             $('#editNo_hp').val(data.no_hp);
             $('#editEmail').val(data.email);
             $('#editPass').val(data.password);
-            
+
 
 
             $('#editModal').modal('show');
@@ -262,7 +290,7 @@
     });
 });
 
-   
+
 </script>
 
 <script>
@@ -276,7 +304,7 @@
         },
         "stripeClasses": [],
         "lengthMenu": [7, 10, 20, 50],
-        "pageLength": 7 
+        "pageLength": 7
     });
 </script>
 
@@ -284,7 +312,7 @@
     function togglePassword() {
         var passInput = document.getElementById("pass");
         var icon = document.getElementById("toggle-eye");
-        
+
         if (passInput.type === "password") {
             passInput.type = "text";
             icon.classList.remove("fa-eye");
@@ -297,7 +325,49 @@
     }
 </script>
 
-<script>         
+<script>
+    function toggleNewPassword() {
+        const newPassField = document.getElementById("newPass");
+        newPassField.type = newPassField.type === "password" ? "text" : "password";
+    }
+
+    // Fungsi untuk update password saja
+    function updatePassword(id, newPassword) {
+        $.ajax({
+            url: '/admin/update-password/' + id, // Pastikan endpoint ini sesuai dengan rute untuk mengupdate password saja
+            method: 'PUT',
+            data: { pass: newPassword },
+            success: function(response) {
+                console.log('Password berhasil diubah:', response); // Debugging log
+                $('#passwordModal').modal('hide'); // Menutup modal
+                Notiflix.Notify.success('Password berhasil diubah!'); // Notifikasi berhasil
+            },
+            error: function(xhr) {
+                console.log('Error:', xhr); // Debugging log
+                if (xhr.status === 422) { // Validasi gagal
+                    var errors = xhr.responseJSON.errors;
+                    if (errors.pass) {
+                        Notiflix.Notify.failure('Password harus memiliki minimal 8 karakter.');
+                    }
+                } else {
+                    Notiflix.Notify.failure('Terjadi kesalahan saat mengubah password.');
+                }
+            }
+        });
+    }
+
+    // Event listener untuk submit form password
+    document.getElementById("passwordForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Mencegah reload halaman
+        const id = document.getElementById("adminId").value; // Pastikan id sudah diset
+        const newPassword = document.getElementById("newPass").value;
+        updatePassword(id, newPassword);
+    });
+</script>
+
+
+
+<script>
     $(document).ready(function() {
         // Setup token CSRF untuk request Ajax
         $.ajaxSetup({
@@ -310,16 +380,16 @@
         let table = $("#datatable").DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('admin.data') }}", 
+            ajax: "{{ route('admin.data') }}",
             columnDefs: [
                 {
-                    targets: 0, 
+                    targets: 0,
                     render: function(data, type, full, meta) {
-                        return meta.row + 1; 
+                        return meta.row + 1;
                     },
                 },
                 {
-                    targets: 1, 
+                    targets: 1,
                     render: function(data, type, full, meta) {
                         let btn = `
                         <div class="btn-list">
@@ -343,22 +413,22 @@
                     },
                 },
 
-                
+
             ],
             columns: [
-                { data: 'id' }, 
+                { data: 'id' },
                 { data: 'id' }, // Kolom aksi
                 { data: 'nama' },
-                { data: 'no_hp' }, 
+                { data: 'no_hp' },
                 { data: 'email' },
             ],
             language: {
-                searchPlaceholder: 'Cari...', 
-                sSearch: '', 
+                searchPlaceholder: 'Cari...',
+                sSearch: '',
             }
         });
 
-      
+
         // Event listener untuk tombol delete
         $(document).on('click', '.btn-delete', function() {
         let dataId = $(this).data('id');
@@ -370,14 +440,14 @@
             'Tidak',
             function() {
                 $.ajax({
-                    url: '/admin/delete/' + dataId, 
+                    url: '/admin/delete/' + dataId,
                     type: 'DELETE',
                     data: {
-                        _token: '{{ csrf_token() }}' 
+                        _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
                         Notiflix.Notify.success('Data berhasil dihapus');
-                        table.ajax.reload(); 
+                        table.ajax.reload();
                     },
                     error: function(xhr) {
                         Notiflix.Notify.failure('Terjadi kesalahan');
@@ -390,7 +460,7 @@
         );
     });
 
- 
+
     });
 </script>
 @endpush

@@ -20,7 +20,7 @@
     <link href="{{ asset('demo1/assets/css/loader.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('demo1/assets/css/components/custom-modal.css') }}" rel="stylesheet" type="text/css" />
 
-    
+
     <!-- <link href="{{ asset('demo1/assets/css/elements/alert.css') }}" rel="stylesheet" type="text/css" /> -->
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class ManajemenAdminController extends Controller
 {
@@ -54,13 +55,29 @@ public function edit($id)
     return response()->json($admin);
 }
 
+public function updatePassword(Request $request, $id)
+    {
+        // Validasi password baru
+        $request->validate([
+            'pass' => 'required|string|min:8', // Password minimal 6 karakter
+        ]);
+
+
+        // Temukan user admin berdasarkan ID dan update password
+        $admin = User::find($id);
+        if ($admin) {
+            $admin->password = Hash::make($request->pass); // Hash password baru sebelum menyimpan
+            $admin->save();
+        }
+    }
+
 public function update(Request $request, $id)
 {
     $validatedData = $request->validate([
         'nama' => 'required|string|max:255',
         'no_hp' => 'required|string|max:15',
-        'email' => 'required|string|email|max:255|unique:users',
-        'pass' => 'required|string|min:8',
+        'email' => 'required|string|email|max:255',
+        'pass' => 'string|min:8',
     ]);
 
     $admin = User::find($id);

@@ -54,10 +54,23 @@
     </div>
     <!-- Modal add -->
     @include('admin.pelanggan.modal-add')
-
     <!-- end modal -->
+
+    <!-- Modal Edit -->
+    @include('admin.pelanggan.modal-edit')
+    <!-- end modal -->
+
+
     <!-- Modal tagihan -->
     @include('admin.pelanggan.modal-tagihan')
+    <!-- end modal -->
+
+    <!-- Modal bayar -->
+    @include('admin.pelanggan.bayar')
+    <!-- end modal -->
+
+    <!-- Modal detail -->
+    @include('admin.pelanggan.detail-pelanggan')
     <!-- end modal -->
 @endsection
 
@@ -82,7 +95,7 @@
 @push('js')
     <script src="{{ asset('demo1/plugins/table/datatable/datatables.js') }}"></script>
     <script>
-        $('#pelanggan-table').DataTable({
+        var table = $('#pelanggan-table').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ route('pelanggan.data') }}", // URL untuk mengambil data pelanggan
@@ -111,8 +124,6 @@
                     searchable: false
                 }
 
-
-
             ],
 
             "oLanguage": {
@@ -130,6 +141,36 @@
             "pageLength": 5
         });
 
+        $('#createForm').on('submit', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: "{{ route('pelanggan.store') }}", // Ganti dengan route yang sesuai
+                method: 'POST',
+                data: $(this).serialize(), // Mengirim data dari form
+                success: function(response) {
+                    $('#exampleModal').modal('hide');
+                    $('#createForm')[0].reset();
+                    table.ajax.reload();
+                    Notiflix.Notify.success('Data berhasil ditambahkan!');
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        var errors = xhr.responseJSON.errors;
+                        if (errors.password) {
+                            Notiflix.Notify.failure('Password harus memiliki minimal 8 karakter.');
+                        }
+
+                    } else {
+                        Notiflix.Notify.failure('Terjadi kesalahan saat menambah data.');
+                    }
+                }
+            });
+        });
+
+
+
+
         $(document).on('click', '.tagihan', function() {
             var pelangganId = $(this).data('id'); // Ambil ID pelanggan dari atribut data-id
 
@@ -138,6 +179,7 @@
                 url: '/pelanggan/tagihan/' + pelangganId, // Sesuaikan URL dengan rute Anda
                 method: 'GET',
                 success: function(response) {
+                    console.log(response);
                     // Bersihkan modal sebelum memuat data baru
                     $('#tagihanModalBody').empty();
 
@@ -149,12 +191,14 @@
                         table += '<tr><td>' + tagihan.bulan + '</td>';
 
                         if (tagihan.nominal !== null) {
+                            // Tampilkan nominal jika sudah ada pembayaran
                             table += '<td>' + tagihan.nominal + '</td>';
                         } else {
+                            // Tampilkan tombol Bayar jika belum ada pembayaran
                             table +=
-                                '<td><button class="btn btn-sm btn-primary bayar" data-bulan="' +
+                                '<td><button type="button" class="btn btn-sm btn-primary bayar" data-bulan="' +
                                 tagihan.bulan + '" data-id="' + pelangganId +
-                                '">Bayar</button></td>';
+                                '" data-dismiss="modal" data-toggle="modal" data-target="#bayarModal">Bayar</button></td>';
                         }
 
                         table += '</tr>';
@@ -170,6 +214,198 @@
                 },
                 error: function(xhr) {
                     alert('Terjadi kesalahan dalam memuat data tagihan.');
+                }
+            });
+        });
+
+
+        // Tangkap event klik pada tombol Bayar
+        $(document).on('click', '.bayar', function() {
+            var bulan = $(this).data('bulan'); // Ambil data bulan dari tombol yang diklik
+            var pelangganId = $(this).data('id'); // Ambil ID pelanggan
+
+            // Isi input hidden untuk bulan dan ID pelanggan di modal bayar
+            $('#bayarModal input[name="bulan"]').val(bulan);
+            $('#bayarModal input[name="pelanggan_id"]').val(pelangganId);
+            // Update judul modal dengan nama bulan
+            $('#bayarModal .modal-title').text('Bayar Tagihan ' + bulan);
+
+            // Buka modal bayar
+            $('#bayarModal').modal('show');
+        });
+
+
+        $('#formBayar').on('submit', function(e) {
+            e.preventDefault(); // Mencegah reload halaman
+
+            // Ambil data dari form
+            var formData = $(this).serialize();
+
+            // Kirim data melalui AJAX
+            $.ajax({
+                type: 'POST',
+                url: '/pelanggan/bayar', // Pastikan URL endpoint di server sudah benar
+                data: formData,
+                success: function(response) {
+                    // Notifikasi sukses menggunakan Notiflix
+                    Notiflix.Notify.success("Pembayaran berhasil!");
+                    $('#bayarModal').modal('hide'); // Tutup modal setelah submit
+                    $('#formBayar')[0].reset(); // Reset form setelah submit
+
+                    // Tambahkan kode untuk reload tabel atau update data jika perlu
+                    // Contoh: table.ajax.reload(); jika menggunakan DataTables
+                },
+                error: function(xhr, status, error) {
+                    // Notifikasi error menggunakan Notiflix
+                    Notiflix.Notify.failure("Terjadi kesalahan saat melakukan pembayaran");
+                    console.error(xhr.responseText); // Debugging error
+                }
+            });
+        });
+
+
+
+
+        $(document).on('click', '.edit', function() {
+            var pelangganId = $(this).data('id');
+            $.ajax({
+                url: '/pelanggan/edit/' + pelangganId,
+                method: 'GET',
+                success: function(response) {
+                    // Isi value pada input field form edit dengan data yang diterima
+                    $('#editModal input[name="nama"]').val(response.nama_pelanggan);
+                    $('#editModal input[name="no_hp"]').val(response.no_hp);
+                    $('#editModal input[name="alamat"]').val(response.alamat);
+                    $('#editModal input[name="paket"]').val(response.paket);
+                    $('#editModal input[name="id"]').val(response.id);
+
+                    // Tampilkan modal edit
+                    $('#editModal').modal('show');
+                },
+                error: function(xhr) {
+                    alert('Terjadi kesalahan saat mengambil data pelanggan.');
+                }
+            });
+        });
+
+        $('#editForm').on('submit', function(e) {
+            e.preventDefault();
+
+            var id = $('#id_pelanggan').val(); // Pastikan input ini memiliki ID yang benar
+
+            $.ajax({
+                url: "{{ route('pelanggan.update', ':id') }}".replace(':id',
+                    id), // Gunakan replace untuk mengisi :id dengan nilai variabel
+                method: 'POST', // Metode tetap POST karena ada _method PUT
+                data: $(this).serialize() + '&_method=PUT', // Menggunakan _method=PUT
+                success: function(response) {
+                    $('#editModal').modal('hide');
+                    $('#editForm')[0].reset();
+                    table.ajax.reload();
+                    Notiflix.Notify.success('Data berhasil diperbarui!');
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText); // Logging detail error untuk debugging
+                    if (xhr.status === 422) {
+                        var errors = xhr.responseJSON.errors;
+                        if (errors.password) {
+                            Notiflix.Notify.failure('Password harus memiliki minimal 8 karakter.');
+                        }
+                    } else {
+                        Notiflix.Notify.failure('Terjadi kesalahan saat memperbarui data.');
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '.delete', function() {
+            var id = $(this).data('id'); // Dapatkan id pelanggan dari button delete
+
+            Notiflix.Confirm.show(
+                'Konfirmasi Hapus',
+                'Apakah Anda yakin ingin menghapus data ini?',
+                'Ya, Hapus',
+                'Batal',
+                function() { // Jika pengguna mengonfirmasi penghapusan
+                    $.ajax({
+                        url: "{{ route('pelanggan.destroy', ':id') }}".replace(':id', id),
+                        type: 'DELETE',
+                        data: {
+                            _token: '{{ csrf_token() }}' // Mengirimkan CSRF token
+                        },
+                        success: function(response) {
+                            Notiflix.Notify.success(response.success || 'Data berhasil dihapus');
+                            table.ajax.reload(); // Reload DataTable setelah hapus data
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                            Notiflix.Notify.failure(xhr.responseJSON.error ||
+                                'Gagal menghapus data');
+                        }
+                    });
+                },
+                function() { // Fungsi ini untuk aksi batal
+                    Notiflix.Notify.info('Penghapusan dibatalkan');
+                }
+            );
+        });
+
+        $(document).on('click', '.show-detail', function() {
+            var pelangganId = $(this).data('id');
+
+            $.ajax({
+                url: '/pelanggan/' + pelangganId + '/detail',
+                method: 'GET',
+                success: function(response) {
+                    console.log(response);
+
+                    // Isi detail pelanggan di modal
+                    $('#pelangganNama').text(response.pelanggan.nama_pelanggan);
+                    $('#pelangganPaket').text(response.pelanggan.paket);
+                    $('#pelangganAlamat').text(response.pelanggan.alamat);
+                    $('#pelangganNoHp').text(response.pelanggan.no_hp);
+
+                    var tagihanHtml = '';
+                    response.pelanggan.laporan_tagihan.forEach(function(tagihan) {
+                        var pembayaranDetails = '';
+                        if (tagihan.pembayaran.length > 0) {
+                            tagihan.pembayaran.forEach(function(pembayaran) {
+                                // Ambil nama petugas dari objek utama "response.pembayaran"
+                                var petugasNama = response.pembayaran.find(p => p.id ===
+                                    pembayaran.id).petugas.nama || '-';
+                                pembayaranDetails += `
+                <tr>
+                    <td>${tagihan.bulan}</td>
+                    <td>${pembayaran.created_at}</td>
+                    <td>Rp.${pembayaran.jumlah_pembayaran}</td>
+                    <td>Rp.${tagihan.kurang}</td>
+                    <td>${petugasNama}</td>
+                    <td><button class="btn btn-primary">Edit</button></td>
+                </tr>
+            `;
+                            });
+                        } else {
+                            pembayaranDetails += `
+            <tr>
+                <td>${tagihan.bulan}</td>
+                <td>${tagihan.created_at}</td>
+                <td>-</td>
+                <td>Rp.${tagihan.kurang}</td>
+                <td>-</td>
+                <td><button class="btn btn-primary">Edit</button></td>
+            </tr>
+        `;
+                        }
+                        tagihanHtml += pembayaranDetails;
+                    });
+                    $('#tagihanTableBody').html(tagihanHtml);
+
+
+                    // Tampilkan modal
+                    $('#detailPelangganModal').modal('show');
+                },
+                error: function() {
+                    alert('Gagal mengambil detail pelanggan');
                 }
             });
         });
