@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -24,8 +25,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            // Mengarahkan sesuai peran pengguna
-            $user = $request->user(); // Mengambil user yang sedang login
+            $user = $request->user();
 
             if ($user->hasRole('admin')) {
                 return redirect()->intended('admin/dashboard');

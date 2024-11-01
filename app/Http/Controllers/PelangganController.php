@@ -23,7 +23,7 @@ class PelangganController extends Controller
             $data = Pelanggan::all(); // Mendapatkan semua data pelanggan
             return DataTables::of($data)
             ->addColumn('action', function($row){
-                $btn = '<button class="btn btn-outline-info show rounded-circle mx-1" data-id="'.$row->id.'" data-target="#detailPelangganModal" data-toggle="modal">
+                $btn = '<button class="btn btn-outline-info show-detail rounded-circle mx-1" data-id="'.$row->id.'" data-target="#detailPelangganModal" data-toggle="modal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1" height="1" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
                         <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zm-8 4a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
                         <path d="M8 5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
@@ -130,18 +130,25 @@ class PelangganController extends Controller
 
     public function showDetail($id)
     {
-        // Find the customer with the specified ID, along with related billing reports and payments
+        // Cari pelanggan berdasarkan ID dan sertakan relasi 'laporanTagihan' dan 'pembayaran' jika ada
         $pelanggan = Pelanggan::with('laporanTagihan.pembayaran')->find($id);
     
-        // Check if the customer exists
+        // Jika pelanggan tidak ditemukan, kembalikan respons dengan status 404
         if (!$pelanggan) {
             return response()->json(['message' => 'Data not found'], 404);
         }
     
-        // Load the laporanTagihan with user relationship for the found pelanggan
-        $pembayaran = Pembayaran::with('petugas')->where('id_tagihan', $pelanggan->laporanTagihan->pluck('id'))->get();
+        // Inisialisasi data pembayaran
+        $pembayaran = [];
     
-        // Prepare the response data
+        // Jika pelanggan memiliki laporan tagihan, ambil data pembayaran terkait
+        if ($pelanggan->laporanTagihan->isNotEmpty()) {
+            $pembayaran = Pembayaran::with('petugas')
+                ->whereIn('id_tagihan', $pelanggan->laporanTagihan->pluck('id'))
+                ->get();
+        }
+    
+        // Siapkan respons dengan kondisi data yang ada
         $response = [
             'pelanggan' => $pelanggan,
             'pembayaran' => $pembayaran,

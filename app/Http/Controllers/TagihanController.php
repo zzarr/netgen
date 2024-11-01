@@ -67,7 +67,7 @@ class TagihanController extends Controller
         'bulan' => 'required',
         'pelanggan_id' => 'required|exists:pelanggan,id',
         'nominal' => 'required|numeric|min:0.01',
-        'kurang' => 'required|numeric|min:0' // Validasi nilai kurang
+        'kurang' => 'required|numeric' // Validasi nilai kurang
     ]);
 
     DB::beginTransaction();
@@ -77,12 +77,16 @@ class TagihanController extends Controller
         $pelanggan = Pelanggan::findOrFail($request->pelanggan_id);
 
         // Buat entri baru di tabel laporan_tagihan dengan nilai kurang dari form
+        if ($request->kurang > 0) {
+            $is_lunas = false;
+        } else {
+            $is_lunas = true;}
         $laporanTagihan = LaporanTagihan::create([
             'id_pelanggan' => $request->pelanggan_id,
             'bulan' => $request->bulan,
             'paket' => $pelanggan->paket, // Menggunakan paket dari tabel pelanggan
             'kurang' =>  $request->kurang , // Atur sisa tagihan awal
-            'is_lunas' => ($request->kurang - $request->nominal) <= 0 // Tandai lunas jika sisa kurang 0
+            'is_lunas' => $is_lunas// Tandai lunas jika sisa kurang 0
         ]);
 
         // Tambahkan pembayaran di tabel pembayaran

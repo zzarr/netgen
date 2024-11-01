@@ -350,7 +350,7 @@
             );
         });
 
-        $(document).on('click', '.show', function() {
+        $(document).on('click', '.show-detail', function() {
             var pelangganId = $(this).data('id');
 
             $.ajax({
@@ -358,33 +358,50 @@
                 method: 'GET',
                 success: function(response) {
                     console.log(response);
-                    // Fill customer details in the modal
+
+                    // Isi detail pelanggan di modal
                     $('#pelangganNama').text(response.pelanggan.nama_pelanggan);
                     $('#pelangganPaket').text(response.pelanggan.paket);
                     $('#pelangganAlamat').text(response.pelanggan.alamat);
                     $('#pelangganNoHp').text(response.pelanggan.no_hp);
 
-                    // Populate billing details table without an index column
                     var tagihanHtml = '';
-                    response.laporan_tagihan.forEach(function(tagihan) {
-                        var pembayaranUser = tagihan.pembayaran.length > 0 ? tagihan.pembayaran[
-                            0].petugas.nama : '-';
-                        var jumlahPembayaran = tagihan.pembayaran.length > 0 ? 'Rp.' + tagihan
-                            .pembayaran[0].jumlah_pembayaran : '-';
-                        tagihanHtml += `
-                    <tr>
-                        <td>${tagihan.bulan}</td>
-                        <td>${tagihan.created_at}</td>
-                        <td>${jumlahPembayaran}</td>
-                        <td>Rp.${tagihan.kurang}</td>
-                        <td>${pembayaranUser}</td>
-                        <td><button class="btn btn-primary">Edit</button></td>
-                    </tr>
-                `;
+                    response.pelanggan.laporan_tagihan.forEach(function(tagihan) {
+                        var pembayaranDetails = '';
+                        if (tagihan.pembayaran.length > 0) {
+                            tagihan.pembayaran.forEach(function(pembayaran) {
+                                // Ambil nama petugas dari objek utama "response.pembayaran"
+                                var petugasNama = response.pembayaran.find(p => p.id ===
+                                    pembayaran.id).petugas.nama || '-';
+                                pembayaranDetails += `
+                <tr>
+                    <td>${tagihan.bulan}</td>
+                    <td>${pembayaran.created_at}</td>
+                    <td>Rp.${pembayaran.jumlah_pembayaran}</td>
+                    <td>Rp.${tagihan.kurang}</td>
+                    <td>${petugasNama}</td>
+                    <td><button class="btn btn-primary">Edit</button></td>
+                </tr>
+            `;
+                            });
+                        } else {
+                            pembayaranDetails += `
+            <tr>
+                <td>${tagihan.bulan}</td>
+                <td>${tagihan.created_at}</td>
+                <td>-</td>
+                <td>Rp.${tagihan.kurang}</td>
+                <td>-</td>
+                <td><button class="btn btn-primary">Edit</button></td>
+            </tr>
+        `;
+                        }
+                        tagihanHtml += pembayaranDetails;
                     });
                     $('#tagihanTableBody').html(tagihanHtml);
 
-                    // Show modal
+
+                    // Tampilkan modal
                     $('#detailPelangganModal').modal('show');
                 },
                 error: function() {
