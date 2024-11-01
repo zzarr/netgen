@@ -10,6 +10,7 @@ use App\Http\Controllers\ManajemenTeknisiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ManajemenHubHtbController;
 use App\Http\Controllers\ManajemenOperasionalController;
+use App\Http\Controllers\DetailTagihanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,6 +89,11 @@ Route::middleware(['auth', 'role:teknisi'])->group(function () {
  
  Route::get('/pelanggan/tagihan/{id}', [TagihanController::class, 'getTagihan'])->name('pelanggan.tagihan');
  Route::post('/pelanggan/bayar', [TagihanController::class, 'bayar'])->name('bayar');
+
+ Route::get('/pelanggan/tagihan/data', [DetailTagihanController::class, 'getLaporanTagihanData'])->name('tagihan.data');
+ Route::get('/pelanggan/laporan-tagihan', [DetailTagihanController::class, 'index'])->name('tagihan');
+
+
 
 //MASL
 
