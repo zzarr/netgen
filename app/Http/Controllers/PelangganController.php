@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pelanggan;
 use DataTables;
+use App\Models\Pembayaran;
 use Illuminate\Support\Facades\Log;
 
 
@@ -126,6 +127,29 @@ class PelangganController extends Controller
             return response()->json(['error' => 'Gagal menghapus data'], 500);
         }
     }
+
+    public function showDetail($id)
+    {
+        // Find the customer with the specified ID, along with related billing reports and payments
+        $pelanggan = Pelanggan::with('laporanTagihan.pembayaran')->find($id);
+    
+        // Check if the customer exists
+        if (!$pelanggan) {
+            return response()->json(['message' => 'Data not found'], 404);
+        }
+    
+        // Load the laporanTagihan with user relationship for the found pelanggan
+        $pembayaran = Pembayaran::with('petugas')->where('id_tagihan', $pelanggan->laporanTagihan->pluck('id'))->get();
+    
+        // Prepare the response data
+        $response = [
+            'pelanggan' => $pelanggan,
+            'pembayaran' => $pembayaran,
+        ];
+    
+        return response()->json($response);
+    }
+    
     
     
     

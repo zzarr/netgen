@@ -61,7 +61,7 @@ public function updatePassword(Request $request, $id)
         $request->validate([
             'pass' => 'required|string|min:8', // Password minimal 6 karakter
         ]);
-        
+
 
         // Temukan user admin berdasarkan ID dan update password
         $admin = User::find($id);
