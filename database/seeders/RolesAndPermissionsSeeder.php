@@ -10,17 +10,21 @@ class RolesAndPermissionsSeeder extends Seeder
 {
     public function run()
     {
-        // Buat peran
+        // Buat Role
         $adminRole = Role::create(['name' => 'admin']);
         $teknisiRole = Role::create(['name' => 'teknisi']);
 
-        // Buat izin (optional)
+        // Buat Permission
         $viewDashboard = Permission::create(['name' => 'view dashboard']);
+        $manageAntena = Permission::create(['name' => 'manage antena']);
+        $manageHubHTB = Permission::create(['name' => 'manage hub htb']);
+        $managePelanggan = Permission::create(['name' => 'manage pelanggan']);
+        $viewLaporanTagihan = Permission::create(['name' => 'view laporan tagihan']);
         $manageUsers = Permission::create(['name' => 'manage users']);
+        // Berikan Permission ke Role
+        $adminRole->givePermissionTo([$viewDashboard, $manageUsers, $manageAntena, $manageHubHTB, $managePelanggan, $viewLaporanTagihan]);
+        $teknisiRole->givePermissionTo([$viewDashboard, $managePelanggan, $viewLaporanTagihan]);
 
-        // Berikan izin ke peran
-        $adminRole->givePermissionTo($viewDashboard);
-        $adminRole->givePermissionTo($manageUsers);
 
         $teknisiRole->givePermissionTo($viewDashboard);
     }
