@@ -10,6 +10,7 @@ use App\Http\Controllers\ManajemenTeknisiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ManajemenHubHtbController;
 use App\Http\Controllers\ManajemenOperasionalController;
+use App\Http\Controllers\DetailTagihanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,7 +68,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
 
     // Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/admin/antena', [AntenaController::class, 'index'])->name('antena_admin');
+    
 });
 
 // Route::middleware(['auth', 'verified', 'role:teknisi'])->group(function () {
@@ -89,6 +90,11 @@ Route::get('/pelanggan/{id}/detail', [PelangganController::class, 'showDetail'])
 
 Route::get('/pelanggan/tagihan/{id}', [TagihanController::class, 'getTagihan'])->name('pelanggan.tagihan');
 Route::post('/pelanggan/bayar', [TagihanController::class, 'bayar'])->name('bayar');
+
+ 
+Route::get('/pelanggan/laporan-tagihan', [TagihanController::class, 'index'])->name('tagihan.aja');
+Route::get('/pelanggan/laporan-tagihan/data', [TagihanController::class,'datatable'])->name('pelanggan.tagihan.data');
+
 
 //MASL
 
