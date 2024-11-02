@@ -1,5 +1,4 @@
 @extends('admin.layouts.app')
-
 @section('content')
     <div class="page-header">
         <div class="page-title">
@@ -23,27 +22,26 @@
             <div class="widget-content widget-content-area br-6">
 
 
-
                 <!-- Tabel Data Pelanggan -->
                 <div class="table-responsive mb-4 mt-4">
                     <table id="tagihan-table" class="table table-hover" style="width:100%">
                         <thead>
                             <tr>
-                                <th>tanggal</th>
+                                <th>Tanggal</th>
                                 <th>Nama Pelanggan</th>
                                 <th>Bulan</th>
                                 <th>Paket</th>
-                                <th>Nominal</th>
+                                <th>Jumlah Pembayaran</th>
                                 <th>Kurang</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>tanggal</th>
+                                <th>Tanggal</th>
                                 <th>Nama Pelanggan</th>
                                 <th>Bulan</th>
                                 <th>Paket</th>
-                                <th>Nominal</th>
+                                <th>Jumlah Pembayaran</th>
                                 <th>Kurang</th>
                             </tr>
                         </tfoot>
@@ -53,10 +51,7 @@
         </div>
     </div>
 @endsection
-
 @push('css')
-    <link rel="stylesheet" href="{{ asset('demo1/plugins/table/datatable/datatables.css') }}">
-    <link rel="stylesheet" href="{{ asset('demo1/plugins/table/datatable/dt-global_style.css') }}">
     <style>
         .paginate-button {
             cursor: pointer;
@@ -73,51 +68,58 @@
 @endpush
 
 @push('js')
-    <script src="{{ asset('demo1/plugins/table/datatable/datatables.js') }}"></script>
     <script>
         $(document).ready(function() {
-            var table = $('#tagihan-table').DataTable({
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            let table = $('#tagihan-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('tagihan.data') }}", // URL untuk mengambil data laporan tagihan
+                ajax: {
+                    url: "{{ route('pelanggan.tagihan.data') }}", // URL endpoint untuk mengambil data
+
+                },
                 columns: [{
-                        data: 'tanggal',
-                        name: 'tanggal'
+                        data: 'created_at',
+                        render: function(data, type, row) {
+                            // Mengonversi format tanggal jika diperlukan
+                            return new Date(data).toLocaleDateString();
+                        },
+                        title: 'Tanggal'
                     },
                     {
-                        data: 'nama_pelanggan',
-                        name: 'nama_pelanggan'
+                        data: 'laporantagihan.pelanggan.nama_pelanggan',
+                        title: 'Nama Pelanggan'
                     },
                     {
-                        data: 'bulan',
-                        name: 'bulan'
+                        data: 'laporantagihan.bulan',
+                        title: 'Bulan'
                     },
                     {
-                        data: 'paket',
-                        name: 'paket'
+                        data: 'laporantagihan.paket',
+                        title: 'Paket'
                     },
                     {
                         data: 'jumlah_pembayaran',
-                        name: 'jumlah_pembayaran'
+                        title: 'Jumlah Pembayaran'
                     },
                     {
-                        data: 'kurang',
-                        name: 'kurang'
-                    },
+                        data: 'laporantagihan.kurang',
+                        title: 'Kurang'
+                    }
                 ],
-                "oLanguage": {
-                    "oPaginate": {
-                        "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" ...></svg>',
-                        "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" ...></svg>'
-                    },
-                    "sInfo": "Showing page _PAGE_ of _PAGES_",
-                    "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
-                    "sSearchPlaceholder": "Search...",
-                    "sLengthMenu": "Results :  _MENU_",
-                },
-                "stripeClasses": [],
-                "lengthMenu": [5, 10, 20, 50],
-                "pageLength": 5
+                language: {
+                    searchPlaceholder: 'Cari...',
+                    sSearch: '',
+                    oPaginate: {
+                        sPrevious: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
+                        sNext: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
+                    }
+                }
             });
         });
     </script>

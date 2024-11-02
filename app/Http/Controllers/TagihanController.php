@@ -8,11 +8,26 @@ use App\Models\Pembayaran;
 use App\Models\Pelanggan;
 use Illuminate\Support\Facades\DB;
 use DataTables;
-use Illuminate\Support\Facades\Log;
+
 
 class TagihanController extends Controller
 {
+    public function index(){
+        return view('admin.tagihan.tagihan-detail');
+    }
+
+    public function datatable(Request $request){
+        {
+            if ($request->ajax()) {
+                $data =Pembayaran::with('laporantagihan.pelanggan')
+                    
+                    ->get();
     
+                return DataTables::of($data)
+                    ->make(true);
+            }
+        }
+    }
     
     public function getTagihan($id)
     {
@@ -51,7 +66,8 @@ class TagihanController extends Controller
                 // Jika tidak ada tagihan, tambahkan tombol bayar
                 $result[] = [
                     'bulan' => $month,
-                    'nominal' => null
+                    'nominal' => null,
+                    
                 ];
             }
         }

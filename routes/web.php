@@ -67,7 +67,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middle
 
    
     // Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/admin/antena', [AntenaController::class, 'index'])->name('antena_admin');
+    
 });
 
 Route::middleware(['auth', 'role:teknisi'])->group(function () {
@@ -90,9 +90,9 @@ Route::middleware(['auth', 'role:teknisi'])->group(function () {
  Route::get('/pelanggan/tagihan/{id}', [TagihanController::class, 'getTagihan'])->name('pelanggan.tagihan');
  Route::post('/pelanggan/bayar', [TagihanController::class, 'bayar'])->name('bayar');
 
- Route::get('/pelanggan/tagihan/data', [DetailTagihanController::class, 'getLaporanTagihanData'])->name('tagihan.data');
- Route::get('/pelanggan/laporan-tagihan', [DetailTagihanController::class, 'index'])->name('tagihan');
-
+ 
+Route::get('/pelanggan/laporan-tagihan', [TagihanController::class, 'index'])->name('tagihan.aja');
+Route::get('/pelanggan/laporan-tagihan/data', [TagihanController::class,'datatable'])->name('pelanggan.tagihan.data');
 
 
 //MASL
