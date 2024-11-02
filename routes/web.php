@@ -59,35 +59,36 @@ Route::delete('/admin/antena/delete/{id}', [AntenaController::class, 'destroy'])
 
 Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-    Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-   
+
     // Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/admin/antena', [AntenaController::class, 'index'])->name('antena_admin');
 });
 
-Route::middleware(['auth', 'role:teknisi'])->group(function () {
-    Route::get('/teknisi-dashboard', function () {
-        return view('teknisi.dashboard');
-    });
-});
+// Route::middleware(['auth', 'verified', 'role:teknisi'])->group(function () {
+//     Route::get('/teknisi-dashboard', function () {
+//         return ('<p>selamat datang teknisi</p>');
+//     });
+// });
 
- //
+//
 
- Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('pelanggan');
- Route::post('/admin/pelanggan/store', [PelangganController::class, 'store'])->name('pelanggan.store');
- Route::get('/pelanggan/data', [PelangganController::class, 'getPelangganData'])->name('pelanggan.data');
- Route::get('/pelanggan/edit/{id}', [PelangganController::class, 'edit'])->name('pelanggan.edit');
- Route::put('/pelanggan/update/{id}', [PelangganController::class, 'update'])->name('pelanggan.update');
- Route::delete('/pelanggan/delete/{id}', [PelangganController::class, 'destroy'])->name('pelanggan.destroy');
- Route::get('/pelanggan/{id}/detail', [PelangganController::class, 'showDetail']);
- 
- 
- Route::get('/pelanggan/tagihan/{id}', [TagihanController::class, 'getTagihan'])->name('pelanggan.tagihan');
- Route::post('/pelanggan/bayar', [TagihanController::class, 'bayar'])->name('bayar');
+Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('pelanggan');
+Route::post('/admin/pelanggan/store', [PelangganController::class, 'store'])->name('pelanggan.store');
+Route::get('/pelanggan/data', [PelangganController::class, 'getPelangganData'])->name('pelanggan.data');
+Route::get('/pelanggan/edit/{id}', [PelangganController::class, 'edit'])->name('pelanggan.edit');
+Route::put('/pelanggan/update/{id}', [PelangganController::class, 'update'])->name('pelanggan.update');
+Route::delete('/pelanggan/delete/{id}', [PelangganController::class, 'destroy'])->name('pelanggan.destroy');
+Route::get('/pelanggan/{id}/detail', [PelangganController::class, 'showDetail']);
+
+
+Route::get('/pelanggan/tagihan/{id}', [TagihanController::class, 'getTagihan'])->name('pelanggan.tagihan');
+Route::post('/pelanggan/bayar', [TagihanController::class, 'bayar'])->name('bayar');
 
 //MASL
 

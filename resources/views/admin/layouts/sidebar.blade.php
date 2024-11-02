@@ -6,19 +6,19 @@
 
         <ul class="navbar-nav theme-brand flex-row  text-center">
             <li class="nav-item theme-logo">
-                <a href="index.html">
-                    <img src="assets/img/90x90.jpg" class="navbar-logo" alt="logo">
+                <a href="javascript:void(0);">
+                    <img src="../demo1/assets/img/90x90.jpg" class="navbar-logo" alt="logo">
                 </a>
             </li>
             <li class="nav-item theme-text">
-                <a href="index.html" class="nav-link"> CORK </a>
+                <a href="javascript:void(0);" class="nav-link"> Netgen </a>
             </li>
         </ul>
 
         <ul class="list-unstyled menu-categories" id="accordionExample">
 
             <li class="menu">
-                <a href="{{ route('dashboard') }}" aria-expanded="false" class="dropdown-toggle">
+                <a href="{{ route('dashboard') }}" aria-expanded="true" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
