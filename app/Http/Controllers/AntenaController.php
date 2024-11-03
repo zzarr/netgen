@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Antena;
+use App\Models\LaporanTagihan;
 use Yajra\DataTables\Facades\DataTables;
 
 class AntenaController extends Controller
