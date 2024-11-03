@@ -24,7 +24,7 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         if ($e instanceof UnauthorizedException) {
-            return response()->view('errors.index', ['exception' => 'You do not have permission to access this page.'], 403);
+            return response()->view('errors.index', ['exception' => 'You do not have permission to access this page.', 'code' => 403], 403);
         }
 
         return parent::render($request, $e);

@@ -29,7 +29,8 @@ Route::get('/', function () {
 
 Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
-
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth', 'verified');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth', 'verified');
 // Route::get('/admin/dashboard', function () {
 //     return view('admin.dashboard');
 // });
@@ -65,8 +66,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::put('/admin/antena/update/{id}', [AntenaController::class, 'update']);
     Route::delete('/admin/antena/delete/{id}', [AntenaController::class, 'destroy'])->name('admin.antena.delete');
 
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
 
     Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('pelanggan');
     Route::post('/admin/pelanggan/store', [PelangganController::class, 'store'])->name('pelanggan.store');
@@ -119,5 +119,5 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
 // ------------ Teknisi ---------------
 Route::middleware(['auth', 'verified', 'role:teknisi'])->group(function () {
-    Route::get('/teknisi/dashboard', [DashboardController::class, 'index'])->name('teknisi-dashboard');
+    Route::get('/teknisi/dashboard', [DashboardController::class, 'teknisiDashboard'])->name('teknisi.dashboard');
 });
