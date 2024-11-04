@@ -23,4 +23,9 @@ class DashboardController extends Controller
             'totalBalance' => $totalBalance,
         ]);
     }
+
+    public function teknisiDashboard()
+    {
+        return view('teknisi.dashboard');
+    }
 }

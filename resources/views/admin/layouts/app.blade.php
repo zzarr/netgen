@@ -19,7 +19,8 @@
     <link href="{{ asset('demo1/assets/css/structure.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('demo1/assets/css/loader.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('demo1/assets/css/components/custom-modal.css') }}" rel="stylesheet" type="text/css" />
-
+    <link href="{{ asset('demo1/plugins/apex/apexcharts.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('demo1/assets/css/dashboard/dash_1.css')}}" rel="stylesheet" type="text/css" />
 
     <!-- <link href="{{ asset('demo1/assets/css/elements/alert.css') }}" rel="stylesheet" type="text/css" /> -->
 
@@ -103,6 +104,8 @@
     <script src="https://cdn.jsdelivr.net/npm/notiflix/dist/notiflix-3.2.6.min.js"></script>
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
+    <script src="{{ asset('demo1/plugins/apex/apexcharts.min.js')}}"></script>
+    <script src="{{ asset('demo1/assets/js/dashboard/dash_1.js')}}"></script>
     @stack('script')
 
 </body>
