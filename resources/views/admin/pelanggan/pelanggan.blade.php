@@ -34,6 +34,7 @@
                                 <th>Action</th>
                                 <th>Nama Pelanggan</th>
                                 <th>Alamat</th>
+                                <th>No telfon</th>
                                 <th>Paket</th>
                                 <th>Tagihan</th>
                             </tr>
@@ -43,6 +44,7 @@
                                 <th>Action</th>
                                 <th>Nama Pelanggan</th>
                                 <th>Alamat</th>
+                                <th>No telfon</th>
                                 <th>Paket</th>
                                 <th>Tagihan</th>
                             </tr>
@@ -94,6 +96,9 @@
 
 @push('js')
     <script src="{{ asset('demo1/plugins/table/datatable/datatables.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+
     <script>
         var table = $('#pelanggan-table').DataTable({
             processing: true,
@@ -112,6 +117,10 @@
                 {
                     data: 'alamat',
                     name: 'alamat'
+                },
+                {
+                    data: 'no_hp',
+                    name: 'no_hp'
                 },
                 {
                     data: 'paket',
@@ -373,10 +382,13 @@
                                 // Ambil nama petugas dari objek utama "response.pembayaran"
                                 var petugasNama = response.pembayaran.find(p => p.id ===
                                     pembayaran.id).petugas.nama || '-';
+                                // Format tanggal created_at untuk hanya menampilkan YYYY-MM-DD
+                                var tanggalFormatted = pembayaran.created_at.split('T')[
+                                    0];
                                 pembayaranDetails += `
                 <tr>
                     <td>${tagihan.bulan}</td>
-                    <td>${pembayaran.created_at}</td>
+                    <td>${tanggalFormatted}</td>
                     <td>Rp.${pembayaran.jumlah_pembayaran}</td>
                     <td>Rp.${tagihan.kurang}</td>
                     <td>${petugasNama}</td>
@@ -409,5 +421,56 @@
                 }
             });
         });
+
+        function printPDF() {
+            const {
+                jsPDF
+            } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Ambil data pelanggan dari modal
+            const pelangganNama = document.getElementById('pelangganNama').innerText;
+            const pelangganPaket = document.getElementById('pelangganPaket').innerText;
+            const pelangganAlamat = document.getElementById('pelangganAlamat').innerText;
+            const pelangganNoHp = document.getElementById('pelangganNoHp').innerText;
+
+            // Tambahkan judul dan detail pelanggan ke PDF
+            doc.text("Detail Pelanggan", 14, 10);
+            doc.text(`Nama: ${pelangganNama}`, 14, 20);
+            doc.text(`Paket: ${pelangganPaket}`, 14, 30);
+            doc.text(`Alamat: ${pelangganAlamat}`, 14, 40);
+            doc.text(`Nomor HP: ${pelangganNoHp}`, 14, 50);
+
+            // Ambil data dari tabel tagihan, tanpa kolom Action
+            const data = [];
+            $('#tagihanTableBody tr').each(function() {
+                const row = [];
+                $(this).find('td').each(function(index) {
+                    if (index < 5) { // Hanya ambil kolom 0-4
+                        row.push($(this).text());
+                    }
+                });
+                data.push(row);
+            });
+
+            // Set kolom untuk tabel PDF, tanpa Action
+            const columns = [
+                "Bulan",
+                "Tgl Pembayaran",
+                "Jumlah (Rp)",
+                "Kurang",
+                "User"
+            ];
+
+            // Tambahkan tabel menggunakan jsPDF AutoTable
+            doc.autoTable({
+                head: [columns],
+                body: data,
+                startY: 60,
+            });
+
+            // Unduh PDF
+            doc.save(`detail_pelanggan_${pelangganNama}.pdf`);
+        }
     </script>
 @endpush

@@ -16,12 +16,28 @@
             </ol>
         </nav>
     </div>
+    <div class="row layout-top-spacing">
+        <div class="col-xl-12 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+            <div class="widget-content widget-content-area br-6" style="cursor: pointer;">
+
+
+                <div class="row">
+                    <div class="col-6"><button class="btn btn-outline-danger" onclick="generatePDF()">Cetak PDF</button>
+
+                    </div>
+                    <div class="col-6 text-end ">
+                        <P class="acc-amount">Total :Rp.{{ $total }}</P>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
 
     <div class="row" id="cancel-row">
         <div class="col-12 layout-spacing">
             <div class="widget-content widget-content-area br-6">
-
-
                 <!-- Tabel Data Pelanggan -->
                 <div class="table-responsive mb-4 mt-4">
                     <table id="tagihan-table" class="table table-hover" style="width:100%">
@@ -68,6 +84,9 @@
 @endpush
 
 @push('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+
     <script>
         $(document).ready(function() {
             $.ajaxSetup({
@@ -121,6 +140,49 @@
                     }
                 }
             });
+
+
         });
+
+        function generatePDF() {
+            // Import jsPDF
+            const {
+                jsPDF
+            } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Tambahkan judul dokumen
+            doc.text("Laporan Tagihan", 14, 10);
+
+            // Ambil data dari DataTable
+            const data = [];
+            $('#tagihan-table tbody tr').each(function() {
+                const row = [];
+                $(this).find('td').each(function() {
+                    row.push($(this).text());
+                });
+                data.push(row);
+            });
+
+            // Set kolom untuk AutoTable
+            const columns = [
+                "Tanggal",
+                "Nama Pelanggan",
+                "Bulan",
+                "Paket",
+                "Jumlah Pembayaran",
+                "Kurang"
+            ];
+
+            // Buat tabel menggunakan jsPDF AutoTable
+            doc.autoTable({
+                head: [columns],
+                body: data,
+                startY: 20,
+            });
+
+            // Unduh PDF
+            doc.save("laporan_tagihan.pdf");
+        }
     </script>
 @endpush

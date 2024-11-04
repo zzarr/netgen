@@ -33,7 +33,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="printPDF()">Cetak PDF</button>
+                <button type="button" class="btn btn-outline-danger" onclick="printPDF()">Cetak PDF</button>
             </div>
         </div>
     </div>
