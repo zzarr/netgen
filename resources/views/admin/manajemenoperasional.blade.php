@@ -21,96 +21,62 @@
 
     <div class="col-lg-12 col-md-12 mt-3 layout-spacing">
         <div class="d-flex justify-content-start mb-3">
-            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
                     <line x1="12" y1="5" x2="12" y2="19"></line>
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
                 Tambah Data
             </a>
-
-            <!-- Modal Tambah Data -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Tambah Data Operasional</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="createForm">
-                                @csrf
-                                <div class="form-group mb-4">
-                                    <label for="tanggal">Tanggal</label>
-                                    <input type="date" class="form-control" id="tanggal" name="tanggal" required>
-                                </div>
-
-                                <div class="form-group mb-4">
-                                    <label for="keterangan">Keterangan</label>
-                                    <textarea class="form-control" id="keterangan" name="keterangan" placeholder="Masukkan Keterangan" required></textarea>
-                                </div>
-
-                                <div class="form-group mb-4">
-                                    <label for="kategori">Kategori</label>
-                                    <input type="text" class="form-control" id="kategori" name="kategori" placeholder="Masukkan Kategori" required>
-                                </div>
-
-                                <div class="form-group mb-4">
-                                    <label for="jumlah">Jumlah</label>
-                                    <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan Jumlah" required>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary">Simpan</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
-        <!-- Modal Edit Data -->
-        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <!-- Modal Tambah Data -->
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editModalLabel">Edit Data Operasional</h5>
+                        <h5 class="modal-title" id="addModalLabel">Tambah Data Operasional</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="editForm">
+                        <form id="createForm">
                             @csrf
-                            <input type="hidden" id="operasionalId" name="id">
-                            <div class="form-group">
-                                <label for="editTanggal">Tanggal</label>
-                                <input type="date" class="form-control" id="editTanggal" name="tanggal" required>
+                            <div class="form-group mb-4">
+                                <label for="tanggal">Tanggal</label>
+                                <input type="date" class="form-control" id="tanggal" name="tanggal" required>
                             </div>
-                            <div class="form-group">
-                                <label for="editKeterangan">Keterangan</label>
-                                <textarea class="form-control" id="editKeterangan" name="keterangan" required></textarea>
+
+                            <div class="form-group mb-4">
+                                <label for="keterangan">Keterangan</label>
+                                <textarea class="form-control" id="keterangan" name="keterangan" placeholder="Masukkan Keterangan" required></textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="editKategori">Kategori</label>
-                                <input type="text" class="form-control" id="editKategori" name="kategori" required>
+
+                            <div class="form-group mb-4">
+                                <label for="kategori">Kategori</label>
+                                <input type="text" class="form-control" id="kategori" name="kategori" placeholder="Masukkan Kategori" required>
                             </div>
-                            <div class="form-group">
-                                <label for="editJumlah">Jumlah</label>
-                                <input type="number" class="form-control" id="editJumlah" name="jumlah" required>
+
+                            <div class="form-group mb-4">
+                                <label for="jumlah">Jumlah</label>
+                                <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan Jumlah" required>
                             </div>
+
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="col-lg-12 col-md-12 mt-3 layout-spacing">
+            <div class="total-saldo">
+                <h4>Total Saldo: Rp {{ number_format($totalSaldo, 2, ',', '.') }}</h4>
+            </div>
 
         <!-- Tabel Data -->
         <div class="row" id="cancel-row">
@@ -134,15 +100,62 @@
                 </div>
             </div>
         </div>
-
     </div>
 
+    <!-- Modal Edit Data -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Data Operasional</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" id="edit_id" name="id">
+                        <div class="form-group mb-4">
+                            <label for="edit_tanggal">Tanggal</label>
+                            <input type="date" class="form-control" id="edit_tanggal" name="tanggal" required>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label for="edit_keterangan">Keterangan</label>
+                            <textarea class="form-control" id="edit_keterangan" name="keterangan" placeholder="Masukkan Keterangan" required></textarea>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label for="edit_kategori">Kategori</label>
+                            <input type="text" class="form-control" id="edit_kategori" name="kategori" placeholder="Masukkan Kategori" required>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label for="edit_jumlah">Jumlah</label>
+                            <input type="number" class="form-control" id="edit_jumlah" name="jumlah" placeholder="Masukkan Jumlah" required>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('script')
+<!-- Sertakan CSRF Token di Meta Tag -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <script>
     $(document).ready(function() {
-        $('#datatable').DataTable({
+        // Inisialisasi DataTable
+        const table = $('#datatable').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
@@ -150,18 +163,38 @@
                 type: 'GET'
             },
             columns: [
-                { data: 'id', name: 'id' },
                 {
                     data: null,
-                    render: function(data, type, row) {
-                        return `
-                            <button class="btn btn-warning edit-button" data-id="${row.id}">Edit</button>
-                            <button class="btn btn-danger delete-button" data-id="${row.id}">Hapus</button>
-                        `;
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1; // Menghitung nomor urut
                     },
                     orderable: false,
                     searchable: false
                 },
+                {
+    data: null,
+    render: function(data, type, row) {
+        return `
+            <button class="btn btn-warning edit-button" data-id="${row.id}">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+    </svg>
+</button>
+<button class="btn btn-danger delete-button" data-id="${row.id}">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">
+        <polyline points="3 6 5 6 21 6"></polyline>
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        <line x1="10" y1="11" x2="10" y2="17"></line>
+        <line x1="14" y1="11" x2="14" y2="17"></line>
+    </svg>
+</button>
+        `;
+    },
+    orderable: false,
+    searchable: false
+},
+
                 { data: 'tanggal', name: 'tanggal' },
                 { data: 'keterangan', name: 'keterangan' },
                 { data: 'kategori', name: 'kategori' },
@@ -175,49 +208,40 @@
             ]
         });
 
-        // Tambah Data
-        $('#createForm').on('submit', function(e) {
-            e.preventDefault();
+        // Edit Data
+        $(document).on('click', '.edit-button', function() {
+            const id = $(this).data('id');
             $.ajax({
-                type: 'POST',
-                url: "{{ route('manajemen_operasional.store') }}",
-                data: $(this).serialize(),
+                type: 'GET',
+                url: `/admin/operasional/edit/${id}`, // Use the edit route to get data
                 success: function(response) {
-                    $('#exampleModal').modal('hide');
-                    $('#datatable').DataTable().ajax.reload();
+                    $('#edit_id').val(response.id);
+                    $('#edit_tanggal').val(response.tanggal);
+                    $('#edit_keterangan').val(response.keterangan);
+                    $('#edit_kategori').val(response.kategori);
+                    $('#edit_jumlah').val(response.jumlah);
+                    $('#editModal').modal('show');
                 },
                 error: function(xhr) {
-                    console.log(xhr.responseText);
+                    alert('Data tidak ditemukan');
                 }
             });
         });
 
-        // Edit Data
-        $(document).on('click', '.edit-button', function() {
-            const id = $(this).data('id');
-            $.get(`/admin/operasional/edit/${id}`, function(data) {
-                $('#operasionalId').val(data.id);
-                $('#editTanggal').val(data.tanggal);
-                $('#editKeterangan').val(data.keterangan);
-                $('#editKategori').val(data.kategori);
-                $('#editJumlah').val(data.jumlah);
-                $('#editModal').modal('show');
-            });
-        });
-
-        $('#editForm').on('submit', function(e) {
+        $('#editForm').submit(function(e) {
             e.preventDefault();
-            const id = $('#operasionalId').val();
+            const id = $('#edit_id').val();
             $.ajax({
                 type: 'PUT',
-                url: `/admin/operasional/update/${id}`,
+                url: `/admin/operasional/update/${id}`, // Update the URL to use the update route
                 data: $(this).serialize(),
                 success: function(response) {
                     $('#editModal').modal('hide');
-                    $('#datatable').DataTable().ajax.reload();
+                    table.ajax.reload(); // Reload DataTable
+                    alert(response.success); // Notify success
                 },
                 error: function(xhr) {
-                    console.log(xhr.responseText);
+                    alert('Terjadi kesalahan saat memperbarui data.');
                 }
             });
         });
@@ -228,9 +252,13 @@
             if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
                 $.ajax({
                     type: 'DELETE',
-                    url: `/admin/operasional/destroy/${id}`,
+                    url: `/admin/operasional/delete/${id}`,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     success: function(response) {
                         $('#datatable').DataTable().ajax.reload();
+                        alert(response.success);
                     },
                     error: function(xhr) {
                         console.log(xhr.responseText);
@@ -238,7 +266,20 @@
                 });
             }
         });
+
+        // Tambah Data
+        $('#createForm').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('manajemen_operasional.store') }}", // Ganti dengan URL untuk menambah data
+                data: $(this).serialize(),
+                success: function(response) {
+                    $('#addModal').modal('hide');
+                    table.ajax.reload();
+                }
+            });
+        });
     });
 </script>
-
 @endpush

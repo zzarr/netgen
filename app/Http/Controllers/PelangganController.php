@@ -7,6 +7,7 @@ use App\Models\Pelanggan;
 use DataTables;
 use App\Models\Pembayaran;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 
 class PelangganController extends Controller
@@ -156,6 +157,23 @@ class PelangganController extends Controller
     
         return response()->json($response);
     }
+
+    public function importJson(Request $request)
+        {
+            $data = $request->input('data');
+
+            foreach ($data as $item) {
+                Pelanggan::create([
+                    'nama_pelanggan' => $item['nama_pelanggan'],
+                    'paket'          => $item['paket'],
+                    'alamat'         => $item['alamat'],
+                    'no_hp'          => $item['no_hp'],
+                    'id_petugas'     => Auth::id(),
+                ]);
+            }
+
+            return response()->json(['message' => 'Data berhasil diimport!'], 200);
+        }
     
     
     
