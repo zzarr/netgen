@@ -6,38 +6,19 @@
 
         <ul class="navbar-nav theme-brand flex-row  text-center">
             <li class="nav-item theme-logo">
-                <a href="javascript:void(0);">
-                    <img src="../demo1/assets/img/90x90.jpg" class="navbar-logo" alt="logo">
+                <a href="index.html">
+                    <img src="assets/img/90x90.jpg" class="navbar-logo" alt="logo">
                 </a>
             </li>
             <li class="nav-item theme-text">
-                <a href="javascript:void(0);" class="nav-link"> Netgen </a>
+                <a href="index.html" class="nav-link"> CORK </a>
             </li>
         </ul>
 
         <ul class="list-unstyled menu-categories" id="accordionExample">
-        @role('teknisi')
 
             <li class="menu">
-                <a href="{{ route('teknisi.dashboard') }}" aria-expanded="true" class="dropdown-toggle">
-                    <div class="">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="feather feather-rss">
-                            <path d="M4 11a9 9 0 0 1 9 9"></path>
-                            <path d="M4 4a16 16 0 0 1 16 16"></path>
-                            <circle cx="5" cy="19" r="1"></circle>
-                        </svg>
-                        <span> Dashboard</span>
-                    </div>
-                </a>
-            </li>
-            @endrole
-
-            @role('admin')
-
-            <li class="menu">
-                <a href="{{ route('dashboard') }}" aria-expanded="true" class="dropdown-toggle">
+                <a href="{{ route('dashboard') }}" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -49,6 +30,7 @@
                     </div>
                 </a>
             </li>
+
 
             <li class="menu">
                 <a href="{{ route('antena_admin') }}" aria-expanded="false" class="dropdown-toggle">
@@ -93,24 +75,6 @@
                     </div>
                 </a>
             </li>
-            <li class="menu">
-                <a href="{{ route('tagihan.aja') }}" aria-expanded="false" class="dropdown-toggle">
-                    <div class="">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="feather feather-file-text">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14 2 14 8 20 8"></polyline>
-                            <line x1="16" y1="13" x2="8" y2="13"></line>
-                            <line x1="16" y1="17" x2="8" y2="17"></line>
-                            <polyline points="10 9 9 9 8 9"></polyline>
-                        </svg>
-                        <span> Laporan Tagihan </span>
-                    </div>
-                </a>
-            </li>
-
-
 
             <li class="menu">
                 <a href="{{ route('manajemen_operasional.index') }}" aria-expanded="false" class="dropdown-toggle">
@@ -158,5 +122,5 @@
             </li>
         </ul>
     </nav>
-    @endrole
+
 </div>
