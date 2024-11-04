@@ -90,11 +90,11 @@
                         <!-- Form Edit untuk Admin -->
                         <div class="form-group">
                             <label for="nama_alat">Nama Alat</label>
-                            <input type="text" class="form-control" id="edit_nama_alat" name="edit_nama_alat" required>
+                            <input type="text" class="form-control" id="edit_nama_alat" name="nama_alat" required>
                         </div>
                         <div class="form-group">
                             <label for="alamat">Alamat</label>
-                            <input type="text" class="form-control" id="edit_alamat" name="edit_alamat" required>
+                            <input type="text" class="form-control" id="edit_alamat" name="alamat" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -139,96 +139,6 @@
 @endsection
 
 @push('script')
-{{-- <script>
-    $(document).ready(function() {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        let table = $("#datatable").DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('hubhtb.data') }}",
-columnDefs: [
-{ targets: 0, render: function(data, type, full, meta) { return meta.row + 1; } },
-{
-targets: 1,
-render: function(data, type, full, meta) {
-return `
-<div class="btn-list">
-    <button class="btn btn-info btn-edit mr-1 rounded-circle" data-id="${data}">Edit</button>
-    <button class="btn btn-danger btn-delete rounded-circle" data-id="${data}">Delete</button>
-</div>`;
-},
-},
-],
-columns: [
-{ data: 'id' },
-{ data: 'id' },
-{ data: 'nama_alat' },
-{ data: 'alamat' },
-],
-language: { searchPlaceholder: 'Cari...', sSearch: '' }
-});
-
-// Tambah/Edit Data
-$('#formHubHtb').on('submit', function(e) {
-e.preventDefault();
-let id = $('#dataId').val();
-let url = id ? {{ url('/admin/hubhtb') }}/${id} : "{{ route('manajemen_hubhtb.store') }}";
-let method = id ? 'PUT' : 'POST';
-
-$.ajax({
-url: url,
-type: method,
-data: $('#formHubHtb').serialize(),
-success: function(response) {
-$('#modalForm').modal('hide');
-table.ajax.reload();
-alert(id ? 'Data berhasil diperbarui' : 'Data berhasil ditambahkan');
-}
-});
-});
-
-// Show Modal for Adding Data
-$('#btnTambah').on('click', function() {
-$('#dataId').val('');
-$('#nama_alat').val('');
-$('#alamat').val('');
-$('#modalFormLabel').text('Tambah Data');
-$('#modalForm').modal('show');
-});
-
-// Edit Button Click
-$(document).on('click', '.btn-edit', function() {
-let id = $(this).data('id');
-$.get({{ url('/admin/hubhtb') }}/${id}/edit, function(data) {
-$('#dataId').val(data.id);
-$('#nama_alat').val(data.nama_alat);
-$('#alamat').val(data.alamat);
-$('#modalFormLabel').text('Edit Data');
-$('#modalForm').modal('show');
-});
-});
-
-// Delete Button Click
-$(document).on('click', '.btn-delete', function() {
-let id = $(this).data('id');
-if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-$.ajax({
-url: {{ url('/admin/hubhtb') }}/${id},
-type: 'DELETE',
-success: function(response) {
-table.ajax.reload();
-alert('Data berhasil dihapus');
-}
-});
-}
-});
-});
-</script> --}}
 <script>
     $(document).ready(function() {
         // Setup token CSRF untuk request Ajax
@@ -422,8 +332,11 @@ alert('Data berhasil dihapus');
             error: function(xhr) {
                 if (xhr.status === 422) {
                     var errors = xhr.responseJSON.errors;
-                    if (errors.password) {
-                        Notiflix.Notify.failure('Password harus memiliki minimal 6 karakter.');
+                    if (errors.alamat) {
+                        Notiflix.Notify.failure('Terjadi kesalahan saat menambah data alamat.');
+                    }
+                    if (errors.nama_alat) {
+                        Notiflix.Notify.failure('Terjadi kesalahan saat menambah data nama_alat.');
                     }
 
                 } else {

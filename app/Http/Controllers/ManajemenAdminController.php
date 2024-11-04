@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use PhpParser\Node\Expr\Assign;
 
 class ManajemenAdminController extends Controller
 {
@@ -18,44 +20,43 @@ class ManajemenAdminController extends Controller
     }
 
     public function store(Request $request)
-{
-    // Validasi input
-    $request->validate([
-        'nama' => 'required|string|max:255',
-        'no_hp' => 'required|string|max:15',
-        'email' => 'required|string|email|max:255|unique:users',
-        'pass' => 'required|string|min:8',
-    ]);
-
-    // Simpan data sebagai admin
-    User::create([
-        'nama' => $request->nama,
-        'no_hp' => $request->no_hp,
-        'email' => $request->email,
-        'password' => bcrypt($request->pass),
-        'role' => 'admin',  // Set role sebagai admin
-    ]);
-
-    return redirect()->back()->with('success', 'Admin berhasil disimpan');
-}
-
-
-
-public function datatable(Request $request){
     {
-        $data = User::query()->where('role', 'admin');
+        // Validasi input
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'no_hp' => 'required|string|max:15',
+            'email' => 'required|string|email|max:255|unique:users',
+            'pass' => 'required|string|min:8',
+        ]);
+
+        // Simpan data sebagai admin
+        $user = User::create([
+            'nama' => $request->nama,
+            'no_hp' => $request->no_hp,
+            'email' => $request->email,
+            'password' => bcrypt($request->pass),
+        ]);
+        $user->assignRole('admin');
+
+        return redirect()->back()->with('success', 'Admin berhasil disimpan');
+    }
+
+
+
+    public function datatable(Request $request)
+    {
+        $data = User::role('admin');
         return DataTables::of($data)->make(true);
     }
-}
 
-public function edit($id)
-{
-    $admin = User::find($id);
+    public function edit($id)
+    {
+        $admin = User::find($id);
 
-    return response()->json($admin);
-}
+        return response()->json($admin);
+    }
 
-public function updatePassword(Request $request, $id)
+    public function updatePassword(Request $request, $id)
     {
         // Validasi password baru
         $request->validate([
@@ -71,26 +72,25 @@ public function updatePassword(Request $request, $id)
         }
     }
 
-public function update(Request $request, $id)
-{
-    $validatedData = $request->validate([
-        'nama' => 'required|string|max:255',
-        'no_hp' => 'required|string|max:15',
-        'email' => 'required|string|email|max:255',
-        'pass' => 'string|min:8',
-    ]);
+    public function update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'nama' => 'required|string|max:255',
+            'no_hp' => 'required|string|max:15',
+            'email' => 'required|string|email|max:255',
+            'pass' => 'string|min:8',
+        ]);
 
-    $admin = User::find($id);
-    $admin->update($validatedData);
+        $admin = User::find($id);
+        $admin->update($validatedData);
 
-    return response()->json(['success' => 'Data berhasil diupdate']);
-}
+        return response()->json(['success' => 'Data berhasil diupdate']);
+    }
 
-public function destroy(string $id)
-{
-    $admin = User::find($id);
-    $admin->delete();
-    return response()->json(['success','Data admin berhasil dihapus!']);
-}
-
+    public function destroy(string $id)
+    {
+        $admin = User::find($id);
+        $admin->delete();
+        return response()->json(['success', 'Data admin berhasil dihapus!']);
+    }
 }
