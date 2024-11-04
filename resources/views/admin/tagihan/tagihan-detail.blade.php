@@ -1,4 +1,6 @@
 @extends('admin.layouts.app')
+@section('title', 'Laporan Tagihan')
+
 @section('content')
     <div class="page-header">
         <div class="page-title">

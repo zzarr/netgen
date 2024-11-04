@@ -1,69 +1,121 @@
-<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>Login Page</title>
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico"/>
-    <!-- BEGIN GLOBAL MANDATORY STYLES -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-    <link href="demo1/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="demo1/assets/css/plugins.css" rel="stylesheet" type="text/css" />
-    <link href="demo1/assets/css/authentication/form-2.css" rel="stylesheet" type="text/css" />
-    
-    <!-- END GLOBAL MANDATORY STYLES -->
-    <link rel="stylesheet" type="text/css" href="demo1/assets/css/forms/theme-checkbox-radio.css">
-    <link rel="stylesheet" type="text/css" href="demo1/assets/css/forms/switches.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
+  <title>Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap" rel="stylesheet">
+  <link rel="stylesheet" href="demo2/assets/css/fontawesome.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link rel="stylesheet" href="demo2/assets/css/flag-icons.css" />
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="demo2/assets/css/core-dark.css" class="template-customizer-core-css" />
+  <link rel="stylesheet" href="demo2/assets/css/theme-default-dark.css" class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="demo2/assets/css/demo.css" />
+  <!-- Vendors CSS -->
+  <link rel="stylesheet" href="demo2/assets/css/node-waves.css" />
 
+  <link rel="stylesheet" href="demo2/assets/css/perfect-scrollbar.css" />
+  <link rel="stylesheet" href="demo2/assets/css/typehead.css" />
+  <!-- Vendor -->
+  <link rel="stylesheet" href="demo2/assets/css/form-validation.css" />
+  <link rel="stylesheet" href="demo2/assets/css/page-auth.css">
+  <script src="demo2/assets/js/helpers.js"></script>
+  <script src="demo2/assets/js/template-customizer.js"></script>
+  <script src="demo2/assets/js/config.js"></script>
 
-</head>
-<body class="form">
-    
-    <div class="form-container outer">
-            <div class="form-form">
-                <div class="form-form-wrap">
-                    <div class="form-container">
-                        <div class="form-content">
-                            <h1 class="">Login</h1>
-                            <p class="">Masuk ke akun anda untuk melanjutkan.</p>
-                            
-                            <form class="text-left">
-                                <div class="form">
-                                    <div id="username-field" class="field-wrapper input">
-                                        <label for="username">USERNAME</label>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                                        <input id="username" name="username" type="text" class="form-control" placeholder="Username">
-                                    </div>
+  <div class="container-xxl">
+    <div class="authentication-wrapper authentication-basic container-p-y">
+      <div class="authentication-inner py-6">
+        <div class="card">
+          <div class="card-body">
 
-                                    <div id="password-field" class="field-wrapper input mb-2">
-                                        <div class="d-flex justify-content-between">
-                                            <label for="password">PASSWORD</label>
-                                        </div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                        <input id="password" name="password" type="password" class="form-control" placeholder="Password">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="toggle-password" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                    </div>
-                                    <div class="d-sm-flex justify-content-between mt-4">
-                                        <div class="field-wrapper">
-                                            <button type="submit" class="btn btn-primary" value="">Log In</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>                    
-                    </div>
+            <div class="app-brand justify-content-center mb-6">
+              <a href="index.html" class="app-brand-link">
+                <span class="app-brand-text demo text-heading fw-bold">Login</span>
+              </a>
+            </div>
+
+            <!-- /Logo -->
+            <h4 class="mb-1">Selamat Datang! 👋</h4>
+            <p class="mb-6">Masuk ke akun anda untuk melanjutkan.</p>
+
+            <form id="formAuthentication" class="mb-4" class="mb-4" action="{{ route('login') }}" method="POST">
+              @csrf
+              <div class="mb-6">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control" id="email" name="email" placeholder="Masukkan email" autofocus required>
+              </div>
+              <div class="mb-6 form-password-toggle">
+                <label class="form-label" for="password">Password</label>
+                <div class="input-group input-group-merge">
+                  <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                  <span class="input-group-text cursor-pointer" id="toggle-password"><i class="ti ti-eye-off"></i></span>
                 </div>
+              </div>
+              @if ($errors->any())
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  @foreach ($errors->all() as $error)
+                      <p class="mb-0"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16"> <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/> <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+                                      </svg>  {{ $error }}</p>
+                  @endforeach
+              </div>
+          @endif
+              <div class="my-8">
+                <div class="mb-6">
+                  <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
+                </div>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+  </div>
 
-    <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
-    <script src="demo1/assets/js/libs/jquery-3.1.1.min.js"></script>
-    <script src="demo1/bootstrap/js/popper.min.js"></script>
-    <script src="demo1/bootstrap/js/bootstrap.min.js"></script>
-    <!-- END GLOBAL MANDATORY SCRIPTS -->
-    <script src="demo1/assets/js/authentication/form-2.js"></script>
 
-</body>
+  <script src="demo2/assets/js/jquery.js"></script>
+  <script src="demo2/assets/js/popper.js"></script>
+  <script src="demo2/assets/js/bootstrap.js"></script>
+  <script src="demo2/assets/js/node-waves.js"></script>
+  <script src="demo2/assets/js/perfect-scrollbar.js"></script>
+  <script src="demo2/assets/js/hammer.js"></script>
+  <script src="demo2/assets/js/typeahead.js"></script>
+  <script src="demo2/assets/js/menu.js"></script>
+  <script src="demo2/assets/js/popular.js"></script>
+  <script src="demo2/assets/js/bootstrap5.js"></script>
+  <script src="demo2/assets/js/auto-focus.js"></script>
+  <script src="demo2/assets/js/i18n.js"></script>
+
+  <!-- Main JS -->
+  <script src="demo2/assets/js/main.js"></script>
+
+
+  <!-- Page JS -->
+  <script src="demo2/assets/js/pages-auth.js"></script>
+  <script src="demo2/assets/js/gtm.js"></script>
+
+  <!-- toogle password -->
+  <script>
+    document.getElementById("toggle-password").addEventListener("click", function() {
+      const passwordField = document.getElementById("password");
+      const icon = this.querySelector("i");
+
+      // Toggle the type attribute
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+        icon.classList.remove("ti-eye-off");
+        icon.classList.add("ti-eye");
+      } else {
+        passwordField.type = "password";
+        icon.classList.remove("ti-eye");
+        icon.classList.add("ti-eye-off");
+      }
+    });
+  </script>
+  </body>
+
 </html>

@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title', 'Antena')
 @section('content')
 <div class="page-header">
     <div class="page-title">
