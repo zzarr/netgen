@@ -69,6 +69,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
 
     Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('pelanggan');
+    Route::post('/admin/pelanggan/import', [PelangganController::class, 'importJson'])->name('import');
     Route::post('/admin/pelanggan/store', [PelangganController::class, 'store'])->name('pelanggan.store');
     Route::get('/pelanggan/data', [PelangganController::class, 'getPelangganData'])->name('pelanggan.data');
     Route::get('/pelanggan/edit/{id}', [PelangganController::class, 'edit'])->name('pelanggan.edit');

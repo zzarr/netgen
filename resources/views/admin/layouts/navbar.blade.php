@@ -18,10 +18,15 @@
                 <div class="dropdown-menu position-absolute e-animated e-fadeInUp" aria-labelledby="userProfileDropdown">
                     <div class="user-profile-section">
                         <div class="media mx-auto">
-                            <img src="../demo1/assets/img/90x90.jpg" class="img-fluid mr-2" alt="avatar">
                             <div class="media-body">
-                                <h5>User</h5>
-                                <p>Role</p>
+                                @auth
+                                <h5>{{ Auth::user()->nama ?? 'Tidak Dikenali' }}</h5>
+                                <p>{{ Auth::user()->getRoleNames()->first() }}</p>
+                            @else
+                                <h5>Guest</h5>
+                                <p>Role not available</p>
+                            @endauth
+                            
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-
+@section('title', 'Manajemen Pelanggan')
 @section('content')
     <div class="page-header">
         <div class="page-title">
@@ -25,6 +25,14 @@
                     Tambah Pelanggan
                 </button>
 
+                <button type="button" class="btn btn-outline-success mb-2 mr-2" data-toggle="modal"
+                    data-target="#importModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
+                        <path
+                            d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5zM3 12v-2h2v2zm0 1h2v2H4a1 1 0 0 1-1-1zm3 2v-2h3v2zm4 0v-2h3v1a1 1 0 0 1-1 1zm3-3h-3v-2h3zm-7 0v-2h3v2z" />
+                    </svg>
+                </button>
 
                 <!-- Tabel Data Pelanggan -->
                 <div class="table-responsive mb-4 mt-4">
@@ -34,6 +42,7 @@
                                 <th>Action</th>
                                 <th>Nama Pelanggan</th>
                                 <th>Alamat</th>
+                                <th>No telfon</th>
                                 <th>Paket</th>
                                 <th>Tagihan</th>
                             </tr>
@@ -43,6 +52,7 @@
                                 <th>Action</th>
                                 <th>Nama Pelanggan</th>
                                 <th>Alamat</th>
+                                <th>No telfon</th>
                                 <th>Paket</th>
                                 <th>Tagihan</th>
                             </tr>
@@ -72,9 +82,13 @@
     <!-- Modal detail -->
     @include('admin.pelanggan.detail-pelanggan')
     <!-- end modal -->
+
+    @include('admin.pelanggan.import-excel')
 @endsection
 
 @push('css')
+    <link href="{{ asset('demo1/assets/css/scrollspyNav.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('demo1/plugins/file-upload/file-upload-with-preview.min.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ asset('demo1/plugins/table/datatable/datatables.css') }}">
     <link rel="stylesheet" href="{{ asset('demo1/plugins/table/datatable/dt-global_style.css') }}">
     <style>
@@ -93,7 +107,20 @@
 @endpush
 
 @push('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+
+    <script src="{{ asset('demo1/assets/js/scrollspyNav.js') }}"></script>
+    <script src="{{ asset('demo1/plugins/file-upload/file-upload-with-preview.min.js') }}"></script>
     <script src="{{ asset('demo1/plugins/table/datatable/datatables.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        //First upload
+        var firstUpload = new FileUploadWithPreview('myFirstImage')
+        //Second upload
+    </script>
     <script>
         var table = $('#pelanggan-table').DataTable({
             processing: true,
@@ -112,6 +139,10 @@
                 {
                     data: 'alamat',
                     name: 'alamat'
+                },
+                {
+                    data: 'no_hp',
+                    name: 'no_hp'
                 },
                 {
                     data: 'paket',
@@ -346,6 +377,13 @@
                 },
                 function() { // Fungsi ini untuk aksi batal
                     Notiflix.Notify.info('Penghapusan dibatalkan');
+                }, {
+                    titleColor: '#ffffff',
+                    backgroundColor: '#333333',
+                    messageColor: '#ffffff',
+                    okButtonBackground: '#ff4d4f', // Custom color for the 'Yes, Hapus' button
+                    cancelButtonBackground: '#444444', // Custom color for the 'Tidak' button
+                    theme: 'dark' // Set theme to dark
                 }
             );
         });
@@ -373,10 +411,13 @@
                                 // Ambil nama petugas dari objek utama "response.pembayaran"
                                 var petugasNama = response.pembayaran.find(p => p.id ===
                                     pembayaran.id).petugas.nama || '-';
+                                // Format tanggal created_at untuk hanya menampilkan YYYY-MM-DD
+                                var tanggalFormatted = pembayaran.created_at.split('T')[
+                                    0];
                                 pembayaranDetails += `
                 <tr>
                     <td>${tagihan.bulan}</td>
-                    <td>${pembayaran.created_at}</td>
+                    <td>${tanggalFormatted}</td>
                     <td>Rp.${pembayaran.jumlah_pembayaran}</td>
                     <td>Rp.${tagihan.kurang}</td>
                     <td>${petugasNama}</td>
@@ -409,5 +450,115 @@
                 }
             });
         });
+
+        function printPDF() {
+            const {
+                jsPDF
+            } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Ambil data pelanggan dari modal
+            const pelangganNama = document.getElementById('pelangganNama').innerText;
+            const pelangganPaket = document.getElementById('pelangganPaket').innerText;
+            const pelangganAlamat = document.getElementById('pelangganAlamat').innerText;
+            const pelangganNoHp = document.getElementById('pelangganNoHp').innerText;
+
+            // Tambahkan judul dan detail pelanggan ke PDF
+            doc.text("Detail Pelanggan", 14, 10);
+            doc.text(`Nama: ${pelangganNama}`, 14, 20);
+            doc.text(`Paket: ${pelangganPaket}`, 14, 30);
+            doc.text(`Alamat: ${pelangganAlamat}`, 14, 40);
+            doc.text(`Nomor HP: ${pelangganNoHp}`, 14, 50);
+
+            // Ambil data dari tabel tagihan, tanpa kolom Action
+            const data = [];
+            $('#tagihanTableBody tr').each(function() {
+                const row = [];
+                $(this).find('td').each(function(index) {
+                    if (index < 5) { // Hanya ambil kolom 0-4
+                        row.push($(this).text());
+                    }
+                });
+                data.push(row);
+            });
+
+            // Set kolom untuk tabel PDF, tanpa Action
+            const columns = [
+                "Bulan",
+                "Tgl Pembayaran",
+                "Jumlah (Rp)",
+                "Kurang",
+                "User"
+            ];
+
+            // Tambahkan tabel menggunakan jsPDF AutoTable
+            doc.autoTable({
+                head: [columns],
+                body: data,
+                startY: 60,
+            });
+
+            // Unduh PDF
+            doc.save(`detail_pelanggan_${pelangganNama}.pdf`);
+        }
+
+        function processExcel() {
+            const fileInput = document.getElementById('excelFileInput');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert("Please upload a file first.");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const data = new Uint8Array(event.target.result);
+                const workbook = XLSX.read(data, {
+                    type: 'array'
+                });
+
+                // Mengambil data dari sheet pertama
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+
+                // Konversi sheet ke JSON
+                const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+                // Kirim JSON ke backend
+                sendToBackend(jsonData);
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function sendToBackend(data) {
+            const csrfToken = document.querySelector('#importForm input[name="_token"]').value;
+
+            axios.post('/admin/pelanggan/import', {
+                    data: data
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                })
+                .then(response => {
+                    Notiflix.Notify.success(response.success || 'Data berhasil ditambah');
+                    table.ajax.reload();
+                })
+                .catch(error => {
+                    if (error.response) {
+                        // Server memberikan respons dengan status diluar 2xx
+                        console.error("Error Response Data:", error.response.data);
+                        console.error("Error Status:", error.response.status);
+                    } else if (error.request) {
+                        // Permintaan dibuat tetapi tidak ada respons
+                        console.error("No Response:", error.request);
+                    } else {
+                        // Error lainnya
+                        console.error("Error:", error.message);
+                    }
+                });
+        }
     </script>
 @endpush

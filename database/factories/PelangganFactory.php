@@ -13,7 +13,7 @@ class PelangganFactory extends Factory
     {
         return [
             'nama_pelanggan' => $this->faker->name(),
-            'id_petugas'     => 1,  // Semua 'id_petugas' diisi dengan 1
+            'id_petugas'     => 2,  // Semua 'id_petugas' diisi dengan 1
             'paket'          => $this->faker->randomElement(['Paket A', 'Paket B', 'Paket C']),
             'alamat'         => $this->faker->address(),
             'no_hp'          => $this->faker->phoneNumber(),

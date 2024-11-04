@@ -13,7 +13,8 @@ use DataTables;
 class TagihanController extends Controller
 {
     public function index(){
-        return view('admin.tagihan.tagihan-detail');
+        $total = Pembayaran::sum('jumlah_pembayaran');
+        return view('admin.tagihan.tagihan-detail', compact('total'));
     }
 
     public function datatable(Request $request){
