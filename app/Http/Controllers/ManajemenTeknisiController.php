@@ -65,7 +65,7 @@ class ManajemenTeknisiController extends Controller
             'nama' => 'required|string|max:255',
             'no_hp' => 'required|string|max:15',
             'email' => 'required|string|email|max:255|unique:users',
-            'pass' => 'required|string|min:8',
+            'pass' => 'string|min:8',
         ]);
 
         $admin = User::find($id);
@@ -80,37 +80,7 @@ class ManajemenTeknisiController extends Controller
         $antena->delete();
         return response()->json(['success', 'Data antena berhasil dihapus!']);
     }
-}
-<<<<<<< HEAD
 
-public function edit($id)
-{
-    $teknisi = User::find($id);
-
-    return response()->json($teknisi);
-}
-
-public function update(Request $request, $id)
-{
-    $validatedData = $request->validate([
-        'nama' => 'required|string|max:255',
-        'no_hp' => 'required|string|max:15',
-        'email' => 'required|string|email|max:255|unique:users',
-        'pass' => 'required|string|min:8',
-    ]);
-
-    $teknisi = User::find($id);
-    $teknisi->update($validatedData);
-
-    return response()->json(['success' => 'Data berhasil diupdate']);
-}
-
-public function destroy(string $id)
-{
-    $teknisi = User::find($id);
-    $teknisi->delete();
-    return response()->json(['success','Data teknisi berhasil dihapus!']);
-}
 
 public function updatePassword(Request $request, $id)
     {
@@ -129,5 +99,3 @@ public function updatePassword(Request $request, $id)
     }
 
 }
-=======
->>>>>>> e5767b337013423a41dc4018b300ebf69d4d377e
