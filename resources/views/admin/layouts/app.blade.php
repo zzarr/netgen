@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>Blank Page | CORK - Multipurpose Bootstrap Dashboard Template </title>
+    <title>Blank Page </title>
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
@@ -19,7 +19,8 @@
     <link href="{{ asset('demo1/assets/css/structure.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('demo1/assets/css/loader.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('demo1/assets/css/components/custom-modal.css') }}" rel="stylesheet" type="text/css" />
-
+    <link href="{{ asset('demo1/plugins/apex/apexcharts.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('demo1/assets/css/dashboard/dash_1.css')}}" rel="stylesheet" type="text/css" />
 
     <!-- <link href="{{ asset('demo1/assets/css/elements/alert.css') }}" rel="stylesheet" type="text/css" /> -->
 
@@ -51,7 +52,7 @@
     <!--  END NAVBAR  -->
 
     <!--  BEGIN MAIN CONTAINER  -->
-    <div class="main-container sidebar-closed" id="container">
+    <div class="main-container sidebar-closed sbar-open" id="container">
 
         <div class="overlay"></div>
         <div class="cs-overlay"></div>
@@ -103,6 +104,8 @@
     <script src="https://cdn.jsdelivr.net/npm/notiflix/dist/notiflix-3.2.6.min.js"></script>
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
+    <script src="{{ asset('demo1/plugins/apex/apexcharts.min.js')}}"></script>
+    <script src="{{ asset('demo1/assets/js/dashboard/dash_1.js')}}"></script>
     @stack('script')
 
 </body>

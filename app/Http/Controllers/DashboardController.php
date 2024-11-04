@@ -10,4 +10,9 @@ class DashboardController extends Controller
     {
         return view('admin.dashboard'); // Memperbaiki 'retun' menjadi 'return'
     }
+
+    public function teknisiDashboard()
+    {
+        return view('teknisi.dashboard');
+    }
 }

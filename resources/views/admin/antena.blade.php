@@ -355,6 +355,13 @@
                     },
                     function() {
                         Notiflix.Notify.info('Aksi dibatalkan');
+                    }, {
+                        titleColor: '#ffffff',
+                        backgroundColor: '#333333',
+                        messageColor: '#ffffff',
+                        okButtonBackground: '#ff4d4f', // Kustom warna untuk tombol 'Yes, Hapus'
+                        cancelButtonBackground: '#444444', // Kustom warna untuk tombol 'Tidak'
+                        theme: 'dark' // Atur tema menjadi dark
                     }
                 );
             });
