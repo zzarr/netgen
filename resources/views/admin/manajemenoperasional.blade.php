@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-
+@section('title', 'Manajemen Operasional')
 @section('content')
     <div class="page-header">
         <div class="page-title">

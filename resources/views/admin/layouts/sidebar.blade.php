@@ -19,7 +19,7 @@
         @role('teknisi')
 
             <li class="menu">
-                <a href="{{ route('teknisi.dashboard') }}" aria-expanded="true" class="dropdown-toggle">
+                <a href="{{ route('teknisi.dashboard') }}" aria-expanded="{{ Request::routeIs('teknisi.dashboard') ? 'true' : 'false' }}" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -37,7 +37,7 @@
             @role('admin')
 
             <li class="menu">
-                <a href="{{ route('dashboard') }}" aria-expanded="true" class="dropdown-toggle">
+                <a href="{{ route('dashboard') }}" aria-expanded="{{ Request::routeIs('dashboard') ? 'true' : 'false' }}" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -52,7 +52,7 @@
             </li>
 
             <li class="menu">
-                <a href="{{ route('antena_admin') }}" aria-expanded="false" class="dropdown-toggle">
+                <a href="{{ route('antena_admin') }}" aria-expanded="{{ Request::routeIs('antena_admin') ? 'true' : 'false' }}" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -67,7 +67,7 @@
             </li>
 
             <li class="menu">
-                <a href="{{ route('manajemen_hubhtb') }}" aria-expanded="false" class="dropdown-toggle">
+                <a href="{{ route('manajemen_hubhtb') }}" aria-expanded="{{ Request::routeIs('manajemen_hubhtb') ? 'true' : 'false' }}" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -80,7 +80,7 @@
                 </a>
             </li>
             <li class="menu">
-                <a href="{{ route('pelanggan') }}" aria-expanded="false" class="dropdown-toggle">
+                <a href="{{ route('pelanggan') }}" aria-expanded="{{ Request::routeIs('pelanggan') ? 'true' : 'false' }}" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -95,7 +95,7 @@
                 </a>
             </li>
             <li class="menu">
-                <a href="{{ route('tagihan.aja') }}" aria-expanded="false" class="dropdown-toggle">
+                <a href="{{ route('tagihan.aja') }}" aria-expanded="{{ Request::routeIs('tagihan.aja') ? 'true' : 'false' }}" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -114,7 +114,7 @@
 
 
             <li class="menu">
-                <a href="#submenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                <a href="#submenu" data-toggle="collapse" aria-expanded="{{ Request::routeIs('manajemen_admin', 'manajemen_teknisi') ? 'true' : 'false' }}" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
