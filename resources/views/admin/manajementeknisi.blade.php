@@ -124,22 +124,9 @@
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control" id="editEmail" name="email" required>
                             </div>
-                            <div class="form-group">
-                                <label for="pass">Password</label>
-                                <div class="input-group">
-                                    <input type="password" class="form-control" id="editPass" name="pass" required>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" onclick="togglePassword()">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-eye">
-                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                <circle cx="12" cy="12" r="3"></circle>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                </div>
+                              <!-- Tombol Ubah Password -->
+                              <div class="form-group">
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#passwordModal">Ubah Password</button>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -147,6 +134,41 @@
                             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                         </div>
                     </form>
+                    <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <form id="passwordForm">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="passwordModalLabel">Ubah Password</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="newPass">Password Baru</label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="newPass" name="new_pass" required>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text" onclick="toggleNewPassword()">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
+                                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                            <circle cx="12" cy="12" r="3"></circle>
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn btn-primary">Simpan Password</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -318,6 +340,46 @@
                 }
             }
         </script>
+
+<script>
+    function toggleNewPassword() {
+        const newPassField = document.getElementById("newPass");
+        newPassField.type = newPassField.type === "password" ? "text" : "password";
+    }
+
+    // Fungsi untuk update password saja
+    function updatePassword(id, newPassword) {
+        $.ajax({
+            url: '/teknisi/update-password/' + id, // Pastikan endpoint ini sesuai dengan rute untuk mengupdate password saja
+            method: 'PUT',
+            data: { pass: newPassword },
+            success: function(response) {
+                console.log('Password berhasil diubah:', response); // Debugging log
+                $('#passwordModal').modal('hide'); // Menutup modal
+                Notiflix.Notify.success('Password berhasil diubah!'); // Notifikasi berhasil
+            },
+            error: function(xhr) {
+                console.log('Error:', xhr); // Debugging log
+                if (xhr.status === 422) { // Validasi gagal
+                    var errors = xhr.responseJSON.errors;
+                    if (errors.pass) {
+                        Notiflix.Notify.failure('Password harus memiliki minimal 8 karakter.');
+                    }
+                } else {
+                    Notiflix.Notify.failure('Terjadi kesalahan saat mengubah password.');
+                }
+            }
+        });
+    }
+
+    // Event listener untuk submit form password
+    document.getElementById("passwordForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Mencegah reload halaman
+        const id = document.getElementById("adminId").value; // Pastikan id sudah diset
+        const newPassword = document.getElementById("newPass").value;
+        updatePassword(id, newPassword);
+    });
+</script>
 
         <script>
             $(document).ready(function() {

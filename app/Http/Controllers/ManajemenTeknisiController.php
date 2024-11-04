@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+
 
 class ManajemenTeknisiController extends Controller
 {
@@ -50,9 +52,9 @@ public function datatable(Request $request){
 
 public function edit($id)
 {
-    $admin = User::find($id);
+    $teknisi = User::find($id);
 
-    return response()->json($admin);
+    return response()->json($teknisi);
 }
 
 public function update(Request $request, $id)
@@ -64,17 +66,33 @@ public function update(Request $request, $id)
         'pass' => 'required|string|min:8',
     ]);
 
-    $admin = User::find($id);
-    $admin->update($validatedData);
+    $teknisi = User::find($id);
+    $teknisi->update($validatedData);
 
     return response()->json(['success' => 'Data berhasil diupdate']);
 }
 
 public function destroy(string $id)
 {
-    $antena = User::find($id);
-    $antena->delete();
-    return response()->json(['success','Data antena berhasil dihapus!']);
+    $teknisi = User::find($id);
+    $teknisi->delete();
+    return response()->json(['success','Data teknisi berhasil dihapus!']);
 }
+
+public function updatePassword(Request $request, $id)
+    {
+        // Validasi password baru
+        $request->validate([
+            'pass' => 'required|string|min:8', // Password minimal 6 karakter
+        ]);
+
+
+        // Temukan user admin berdasarkan ID dan update password
+        $teknisi = User::find($id);
+        if ($teknisi) {
+            $teknisi->password = Hash::make($request->pass); // Hash password baru sebelum menyimpan
+            $teknisi->save();
+        }
+    }
 
 }

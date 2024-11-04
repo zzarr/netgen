@@ -99,18 +99,20 @@ Route::get('/admin/hubhtb/edit/{id}', [ManajemenHubHtbController::class, 'edit']
 
 
 //MasL
-Route::get('/teknisi/datatables', [ManajemenTeknisiController::class, 'datatable'])->name('teknisi.data');
 Route::get('/admin/datatables', [ManajemenAdminController::class, 'datatable'])->name('admin.data');
 Route::get('/admin/manajemenadmin', [ManajemenAdminController::class, 'index'])->name('manajemen_admin');
-Route::get('/admin/manajementeknisi', [ManajemenTeknisiController::class, 'index'])->name('manajemen_teknisi');
-Route::get('/admin/addteknisi', [ManajemenTeknisiController::class, 'create'])->name('add_teknisi');
 Route::get('/admin/addadmin', [ManajemenAdminController::class, 'create'])->name('add_admin');
 Route::post('/admin/store', [ManajemenAdminController::class, 'store'])->name('admin.store');
-Route::post('/teknisi/store', [ManajemenTeknisiController::class, 'store'])->name('teknisi.store');
-Route::delete('/admin/delete/{id}', [ManajemenAdminController::class, 'destroy'])->name('admin.delete');
-Route::delete('/teknisi/delete/{id}', [ManajemenTeknisiController::class, 'destroy'])->name('teknisi.delete');
 Route::get('/admin/edit/{id}', [ManajemenAdminController::class, 'edit']);
 Route::put('/admin/update/{id}', [ManajemenAdminController::class, 'update']);
-Route::get('/teknisi/edit/{id}', [ManajemenAdminController::class, 'edit']);
-Route::put('/teknisi/update/{id}', [ManajemenAdminController::class, 'update']);
+Route::delete('/admin/delete/{id}', [ManajemenAdminController::class, 'destroy'])->name('admin.delete');
 Route::put('/admin/update-password/{id}', [ManajemenAdminController::class, 'updatePassword']);
+
+Route::post('/teknisi/store', [ManajemenTeknisiController::class, 'store'])->name('teknisi.store');
+Route::delete('/teknisi/delete/{id}', [ManajemenTeknisiController::class, 'destroy'])->name('teknisi.delete');
+Route::get('/teknisi/datatables', [ManajemenTeknisiController::class, 'datatable'])->name('teknisi.data');
+Route::get('/teknisi/edit/{id}', [ManajemenTeknisiController::class, 'edit']);
+Route::put('/teknisi/update/{id}', [ManajemenTeknisiController::class, 'update']);
+Route::put('/teknisi/update-password/{id}', [ManajemenTeknisiController::class, 'updatePassword']);
+Route::get('/admin/manajementeknisi', [ManajemenTeknisiController::class, 'index'])->name('manajemen_teknisi');
+Route::get('/admin/addteknisi', [ManajemenTeknisiController::class, 'create'])->name('add_teknisi');
