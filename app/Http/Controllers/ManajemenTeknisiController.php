@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Spatie\Permission\Models\Role;
+
 
 class ManajemenTeknisiController extends Controller
 {
@@ -63,7 +65,7 @@ class ManajemenTeknisiController extends Controller
             'nama' => 'required|string|max:255',
             'no_hp' => 'required|string|max:15',
             'email' => 'required|string|email|max:255|unique:users',
-            'pass' => 'required|string|min:8',
+            'pass' => 'string|min:8',
         ]);
 
         $admin = User::find($id);
@@ -78,4 +80,22 @@ class ManajemenTeknisiController extends Controller
         $antena->delete();
         return response()->json(['success', 'Data antena berhasil dihapus!']);
     }
+
+
+public function updatePassword(Request $request, $id)
+    {
+        // Validasi password baru
+        $request->validate([
+            'pass' => 'required|string|min:8', // Password minimal 6 karakter
+        ]);
+
+
+        // Temukan user admin berdasarkan ID dan update password
+        $teknisi = User::find($id);
+        if ($teknisi) {
+            $teknisi->password = Hash::make($request->pass); // Hash password baru sebelum menyimpan
+            $teknisi->save();
+        }
+    }
+
 }

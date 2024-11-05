@@ -21,16 +21,22 @@
         <div class="">
             <h1 class="error-number">{{ $code }}</h1>
             <p class="mini-text">Ooops!</p>
-            <p class="error-text mb-4 mt-1">{{ $exception }}</p>
-            @if (Auth::check())
-                @php
-                    $role = Auth::user()->role; // Assuming role is a field in your users table
-                    $redirectUrl = $role == 'admin' ? route('admin.dashboard') : route('teknisi.dashboard');
-                @endphp
-                <a href="{{ $redirectUrl }}" class="btn btn-primary mt-5">Go Back</a>
-            @else
-                <a href="{{ url()->previous() }}" class="btn btn-primary mt-5">Go Back</a>
-            @endif
+            <p class="error-text mb-4 mt-1">{{$exception}}</p>
+            @if(Auth::check())
+            @php
+                $role = Auth::user()->role;
+                if ($role == 'admin') {
+                    $redirectUrl = route('admin.dashboard');
+                } elseif ($role == 'teknisi') {
+                    $redirectUrl = route('teknisi.dashboard');
+                } else {
+                    $redirectUrl = url()->previous();
+                }
+            @endphp
+            <a href="{{ $redirectUrl }}" class="btn btn-primary mt-5">Go Back</a>
+        @else
+            <a href="{{ url()->previous() }}" class="btn btn-primary mt-5">Go Back</a>
+        @endif
         </div>
     </div>
     <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
