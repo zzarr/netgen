@@ -21,7 +21,7 @@ class PelangganController extends Controller
     public function getPelangganData(Request $request)
     {
         if ($request->ajax()) {
-            $data = Pelanggan::all(); // Mendapatkan semua data pelanggan
+            $data = Pelanggan::orderBy('created_at', 'desc')->get(); // Mendapatkan semua data pelanggan
             return DataTables::of($data)
             ->addColumn('action', function($row){
                 $btn = '<button class="btn btn-outline-info show-detail rounded-circle mx-1" data-id="'.$row->id.'" data-target="#detailPelangganModal" data-toggle="modal">
@@ -159,21 +159,34 @@ class PelangganController extends Controller
     }
 
     public function importJson(Request $request)
-        {
-            $data = $request->input('data');
+    {
+        $data = $request->input('data');
 
-            foreach ($data as $item) {
-                Pelanggan::create([
-                    'nama_pelanggan' => $item['nama_pelanggan'],
-                    'paket'          => $item['paket'],
-                    'alamat'         => $item['alamat'],
-                    'no_hp'          => $item['no_hp'],
-                    'id_petugas'     => Auth::id(),
-                ]);
+        foreach ($data as $item) {
+            // Cek apakah nama pelanggan sudah ada di database
+            $existingPelanggan = Pelanggan::where('nama_pelanggan', $item['nama_pelanggan'])->first();
+
+            if ($existingPelanggan) {
+                // Jika nama pelanggan sudah ada, kirim response error
+                return response()->json([
+                    'message' => 'Data pelanggan sudah ada',
+                    'nama_pelanggan' => $item['nama_pelanggan']
+                ], 409); // HTTP status code 409 for conflict
             }
 
-            return response()->json(['message' => 'Data berhasil diimport!'], 200);
+            // Jika nama pelanggan belum ada, buat data baru
+            Pelanggan::create([
+                'nama_pelanggan' => $item['nama_pelanggan'],
+                'paket'          => $item['paket'],
+                'alamat'         => $item['alamat'],
+                'no_hp'          => $item['no_hp'],
+                'id_petugas'     => Auth::id(),
+            ]);
         }
+
+        return response()->json(['message' => 'Data berhasil diimport!'], 200);
+    }
+
     
     
     

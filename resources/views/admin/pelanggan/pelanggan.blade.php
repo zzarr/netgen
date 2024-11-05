@@ -543,7 +543,7 @@
                     }
                 })
                 .then(response => {
-                    Notiflix.Notify.success(response.success || 'Data berhasil ditambah');
+                    Notiflix.Notify.success(response.data.message || 'Data berhasil ditambah');
                     table.ajax.reload();
                 })
                 .catch(error => {
@@ -551,12 +551,21 @@
                         // Server memberikan respons dengan status diluar 2xx
                         console.error("Error Response Data:", error.response.data);
                         console.error("Error Status:", error.response.status);
+
+                        // Menampilkan pesan error jika status 409 (nama pelanggan sudah ada)
+                        if (error.response.status === 409) {
+                            Notiflix.Notify.failure('Data pelanggan sudah ada :' + error.response.data.nama_pelanggan);
+                        } else {
+                            Notiflix.Notify.failure('Terjadi kesalahan dalam mengimpor data');
+                        }
                     } else if (error.request) {
                         // Permintaan dibuat tetapi tidak ada respons
                         console.error("No Response:", error.request);
+                        Notiflix.Notify.failure('Server tidak merespons');
                     } else {
                         // Error lainnya
                         console.error("Error:", error.message);
+                        Notiflix.Notify.failure('Terjadi kesalahan dalam mengimpor data');
                     }
                 });
         }
