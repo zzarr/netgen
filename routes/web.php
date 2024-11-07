@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AntenaController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\TeknisiPelangganController;
 use App\Http\Controllers\TagihanController;
 use App\Http\Controllers\ManajemenAdminController;
 use App\Http\Controllers\ManajemenTeknisiController;
@@ -164,4 +165,9 @@ Route::get('/admin/addteknisi', [ManajemenTeknisiController::class, 'create'])->
 // ------------ Teknisi ---------------
 Route::middleware(['auth', 'verified', 'role:teknisi'])->group(function () {
     Route::get('/teknisi/dashboard', [DashboardController::class, 'teknisiDashboard'])->name('teknisi.dashboard');
+
+
+    Route::get('/teknisi/pelanggan', [TeknisiPelangganController::class, 'index'])->name('teknisi.pelanggan');
+    Route::get('/teknisi/pelanggan/data', [TeknisiPelangganController::class, 'getPelangganData'])->name('teknisi.pelanggan.data');
+
 });

@@ -101,12 +101,11 @@
     <!-- end modal -->
 
     <!-- Modal detail -->
-    @include('admin.pelanggan.detail-pelanggan')
+    @include('teknisi.pelanggan.detail-pelanggan')
     <!-- end modal -->
 
     @include('admin.pelanggan.import-excel')
 @endsection
-
 @push('css')
     <link href="{{ asset('demo1/assets/css/scrollspyNav.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('demo1/plugins/file-upload/file-upload-with-preview.min.css') }}" rel="stylesheet" type="text/css">
@@ -127,7 +126,6 @@
     <link href="{{ asset('demo1/assets/css/components/custom-modal.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{{ asset('demo1/plugins/select2/select2.min.css') }}">
 @endpush
-
 @push('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 
@@ -146,6 +144,7 @@
         var firstUpload = new FileUploadWithPreview('myFirstImage')
         //Second upload
     </script>
+
     <script>
         var table = $('#pelanggan-table').DataTable({
             processing: true,
@@ -459,7 +458,7 @@
                     <td>Rp.${pembayaran.jumlah_pembayaran}</td>
                     <td>Rp.${tagihan.kurang}</td>
                     <td>${petugasNama}</td>
-                    <td><button class="btn btn-primary">Edit</button></td>
+                   
                 </tr>
             `;
                             });
@@ -471,7 +470,7 @@
                 <td>-</td>
                 <td>Rp.${tagihan.kurang}</td>
                 <td>-</td>
-                <td><button class="btn btn-primary">Edit</button></td>
+               
             </tr>
         `;
                         }
