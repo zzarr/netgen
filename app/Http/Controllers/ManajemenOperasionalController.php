@@ -5,9 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Operasional;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use PDF;
 
 class ManajemenOperasionalController extends Controller
 {
+    public function exportPDF()
+    {
+        $dataOperasional = Operasional::all();
+        $pdf = PDF::loadView('admin.manajemen_operasional_pdf', compact('dataOperasional'));
+        return $pdf->download('data_operasional.pdf');
+    }
     public function index()
     {
         $totalSaldo = Operasional::sum('jumlah'); // Menghitung total dari kolom jumlah

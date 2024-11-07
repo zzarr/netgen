@@ -55,6 +55,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/admin/operasional/edit/{id}', [ManajemenOperasionalController::class, 'edit'])->name('manajemen_operasional.edit');
     Route::put('/admin/operasional/update/{id}', [ManajemenOperasionalController::class, 'update'])->name('manajemen_operasional.update');
     Route::delete('/admin/operasional/delete/{id}', [ManajemenOperasionalController::class, 'destroy'])->name('manajemen_operasional.delete');
+    Route::get('/admin/operasional/export-pdf', [ManajemenOperasionalController::class, 'exportPDF'])->name('manajemen_operasional.export_pdf');
 
 
 

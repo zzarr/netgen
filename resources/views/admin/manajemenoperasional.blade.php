@@ -29,6 +29,7 @@
                 Tambah Data
             </a>
         </div>
+        <a href="{{ route('manajemen_operasional.export_pdf') }}" class="btn btn-danger">Export PDF</a>
 
         <!-- Modal Tambah Data -->
         <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
@@ -78,6 +79,7 @@
                 <h4>Total Saldo: Rp {{ number_format($totalSaldo, 2, ',', '.') }}</h4>
             </div>
 
+            
         <!-- Tabel Data -->
         <div class="row" id="cancel-row">
             <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
