@@ -17,12 +17,13 @@
                 <table class="table mt-4">
                     <thead>
                         <tr>
+
                             <th>Bulan</th>
                             <th>Tgl Pembayaran</th>
                             <th>Jumlah (Rp)</th>
                             <th>Kurang</th>
                             <th>User</th>
-                            <th>Action</th>
+
                         </tr>
                     </thead>
                     <tbody id="tagihanTableBody">
@@ -32,7 +33,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="printPDF()">Cetak PDF</button>
+                <button type="button" class="btn btn-outline-danger" onclick="printPDF()">Cetak PDF</button>
             </div>
         </div>
     </div>

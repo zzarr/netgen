@@ -7,20 +7,38 @@ use App\Models\Pelanggan;
 use DataTables;
 use App\Models\Pembayaran;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 
 class PelangganController extends Controller
 {
     public function index(){
-        
-        return view('admin.pelanggan.pelanggan');
+        if (Auth::user()->hasRole('admin')) {
+            $alamat = Pelanggan::select('alamat')->distinct()->get();
+        }
+        else {
+            $alamat = Pelanggan::select('alamat')->where('id_petugas', Auth::user()->id)->distinct()->get();
+        }
+       
+        return view('admin.pelanggan.pelanggan', compact('alamat'));
     }
 
     // Fungsi untuk menyediakan data pelanggan via AJAX
     public function getPelangganData(Request $request)
     {
         if ($request->ajax()) {
-            $data = Pelanggan::all(); // Mendapatkan semua data pelanggan
+            if (Auth::user()->hasRole('admin')) {
+                $query = Pelanggan::orderBy('created_at', 'desc');
+            }
+            else{
+                $query = Pelanggan::where('id_petugas', Auth::user()->id)->orderBy('created_at', 'desc');
+            } // Mendapatkan semua query pelanggan
+
+            if($request->filled('alamat')){
+                $query->where('alamat', $request->alamat);
+            }
+            $data = $query->get();
+            
             return DataTables::of($data)
             ->addColumn('action', function($row){
                 $btn = '<button class="btn btn-outline-info show-detail rounded-circle mx-1" data-id="'.$row->id.'" data-target="#detailPelangganModal" data-toggle="modal">
@@ -156,6 +174,36 @@ class PelangganController extends Controller
     
         return response()->json($response);
     }
+
+    public function importJson(Request $request)
+    {
+        $data = $request->input('data');
+
+        foreach ($data as $item) {
+            // Cek apakah nama pelanggan sudah ada di database
+            $existingPelanggan = Pelanggan::where('nama_pelanggan', $item['nama_pelanggan'])->first();
+
+            if ($existingPelanggan) {
+                // Jika nama pelanggan sudah ada, kirim response error
+                return response()->json([
+                    'message' => 'Data pelanggan sudah ada',
+                    'nama_pelanggan' => $item['nama_pelanggan']
+                ], 409); // HTTP status code 409 for conflict
+            }
+
+            // Jika nama pelanggan belum ada, buat data baru
+            Pelanggan::create([
+                'nama_pelanggan' => $item['nama_pelanggan'],
+                'paket'          => $item['paket'],
+                'alamat'         => $item['alamat'],
+                'no_hp'          => $item['no_hp'],
+                'id_petugas'     => Auth::id(),
+            ]);
+        }
+
+        return response()->json(['message' => 'Data berhasil diimport!'], 200);
+    }
+
     
     
     

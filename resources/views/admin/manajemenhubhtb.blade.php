@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title', 'Manajemen Hub Htb')
 @section('content')
 
 <div class="page-header">

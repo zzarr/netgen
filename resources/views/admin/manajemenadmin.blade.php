@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title', 'Manajemen Admin')
 @section('content')
                 <div class="page-header">
                     <div class="page-title">
@@ -273,7 +274,7 @@
 
             $('#datatable').DataTable().ajax.reload();
 
-            Notiflix.Notify.success('Data berhasil ditambahkan!');
+            Notiflix.Notify.success('Data berhasil di rubah!');
 
         },
         error: function(xhr) {
@@ -364,6 +365,9 @@
         updatePassword(id, newPassword);
     });
 </script>
+
+
+
 
 
 
