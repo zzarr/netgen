@@ -27,7 +27,7 @@
             <div class="widget-content">
                 <div class="w-content">
                     <div class="w-info">
-                        <h6 class="value">900rb</h6>
+                        <h6 class="value">Rp. {{number_format($jumlahSaldo, 0, ',', '.')}}</h6>
                         <p class="">Jumlah saldo</p>
                     </div>
                     <div class="">
@@ -45,7 +45,7 @@
             <div class="widget-content">
                 <div class="w-content">
                     <div class="w-info">
-                        <h6 class="value">10</h6>
+                        <h6 class="value">{{$totalTagihan}}</h6>
                         <p class="">Total Tagihan</p>
                     </div>
                     <div class="">
