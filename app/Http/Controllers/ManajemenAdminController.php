@@ -91,6 +91,6 @@ class ManajemenAdminController extends Controller
     {
         $admin = User::find($id);
         $admin->delete();
-        return response()->json(['success', 'Data admin berhasil dihapus!']);
+        return response()->json(['success', 'Data berhasil dihapus!']);
     }
 }

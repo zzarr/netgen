@@ -274,7 +274,7 @@
 
             $('#datatable').DataTable().ajax.reload();
 
-            Notiflix.Notify.success('Data berhasil ditambahkan!');
+            Notiflix.Notify.success('Data berhasil di rubah!');
 
         },
         error: function(xhr) {
@@ -365,6 +365,9 @@
         updatePassword(id, newPassword);
     });
 </script>
+
+
+
 
 
 

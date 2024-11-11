@@ -64,7 +64,7 @@ class ManajemenTeknisiController extends Controller
         $validatedData = $request->validate([
             'nama' => 'required|string|max:255',
             'no_hp' => 'required|string|max:15',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255',
             'pass' => 'string|min:8',
         ]);
 
@@ -78,7 +78,7 @@ class ManajemenTeknisiController extends Controller
     {
         $antena = User::find($id);
         $antena->delete();
-        return response()->json(['success', 'Data antena berhasil dihapus!']);
+        return response()->json(['success', 'Data berhasil dihapus!']);
     }
 
 

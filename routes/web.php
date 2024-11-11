@@ -143,7 +143,6 @@ Route::get('/admin/edit/{id}', [ManajemenAdminController::class, 'edit']);
 Route::put('/admin/update/{id}', [ManajemenAdminController::class, 'update']);
 Route::delete('/admin/delete/{id}', [ManajemenAdminController::class, 'destroy'])->name('admin.delete');
 Route::put('/admin/update-password/{id}', [ManajemenAdminController::class, 'updatePassword']);
-
 Route::post('/teknisi/store', [ManajemenTeknisiController::class, 'store'])->name('teknisi.store');
 Route::delete('/teknisi/delete/{id}', [ManajemenTeknisiController::class, 'destroy'])->name('teknisi.delete');
 Route::get('/teknisi/datatables', [ManajemenTeknisiController::class, 'datatable'])->name('teknisi.data');

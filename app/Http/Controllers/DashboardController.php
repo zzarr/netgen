@@ -9,6 +9,9 @@ use App\Models\Antena;
 use App\Models\HubHtb;
 use App\Models\Pelanggan;
 
+use Illuminate\Support\Facades\Auth;
+
+
 class DashboardController extends Controller
 {
     public function index()
@@ -39,13 +42,13 @@ class DashboardController extends Controller
 
         // Kembalikan tampilan dashboard dengan data yang diperlukan
         return view('admin.dashboard', compact(
-            'totalBalance', 
-            'totalBills', 
-            'operationalAmount', 
-            'totalPaymentAmount', 
-            'antenaCount', 
-            'hubHtbCount', 
-            'pelanggan', 
+            'totalBalance',
+            'totalBills',
+            'operationalAmount',
+            'totalPaymentAmount',
+            'antenaCount',
+            'hubHtbCount',
+            'pelanggan',
             'tagihan'
         ));
     }
@@ -58,6 +61,13 @@ class DashboardController extends Controller
 
     public function teknisiDashboard()
     {
-        return view('teknisi.dashboard'); // Pastikan Anda memiliki tampilan untuk dashboard teknisi
+        $idPetugas = Auth::id();
+
+        // Hitung total saldo dari tabel pembayaran berdasarkan id_petugas
+        $jumlahSaldo = Pembayaran::where('id_petugas', $idPetugas)->sum('jumlah_pembayaran');
+
+        $totalTagihan = Pembayaran::where('id_petugas', $idPetugas)->count();
+
+        return view('teknisi.dashboard', compact('jumlahSaldo', 'totalTagihan'));
     }
 }
