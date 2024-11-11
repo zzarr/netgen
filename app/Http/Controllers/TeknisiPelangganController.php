@@ -19,7 +19,7 @@ class TeknisiPelangganController extends Controller
     public function getPelangganData(Request $request)
     {
         if ($request->ajax()) {
-            $query = Pelanggan::where('id_petugas', Auth::id())->orderBy('created_at', 'desc'); // Mendapatkan semua query pelanggan
+            $query = Pelanggan::orderBy('created_at', 'desc'); // Mendapatkan semua query pelanggan
             if($request->filled('alamat')){
                 $query->where('alamat', $request->alamat);
             }
