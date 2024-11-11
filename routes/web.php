@@ -12,6 +12,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ManajemenHubHtbController;
 use App\Http\Controllers\ManajemenOperasionalController;
 use App\Http\Controllers\DetailTagihanController;
+use App\Http\Controllers\TeknisiTagihanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,12 +76,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/pelanggan/data', [PelangganController::class, 'getPelangganData'])->name('pelanggan.data');
     Route::get('/pelanggan/edit/{id}', [PelangganController::class, 'edit'])->name('pelanggan.edit');
     Route::put('/pelanggan/update/{id}', [PelangganController::class, 'update'])->name('pelanggan.update');
-    Route::delete('/pelanggan/delete/{id}', [PelangganController::class, 'destroy'])->name('pelanggan.destroy');
-    Route::get('/pelanggan/{id}/detail', [PelangganController::class, 'showDetail']);
-
-
-    Route::get('/pelanggan/tagihan/{id}', [TagihanController::class, 'getTagihan'])->name('pelanggan.tagihan');
-    Route::post('/pelanggan/bayar', [TagihanController::class, 'bayar'])->name('bayar');
+    
+   
 
 
     Route::get('/pelanggan/laporan-tagihan', [TagihanController::class, 'index'])->name('tagihan.aja');
@@ -119,6 +116,13 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::put('/admin/update-password/{id}', [ManajemenAdminController::class, 'updatePassword']);
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/pelanggan/{id}/detail', [PelangganController::class, 'showDetail']);
+    Route::get('/pelanggan/tagihan/{id}', [TagihanController::class, 'getTagihan'])->name('pelanggan.tagihan');
+    Route::post('/pelanggan/bayar', [TagihanController::class, 'bayar'])->name('bayar');
+    Route::delete('/pelanggan/delete/{id}', [PelangganController::class, 'destroy'])->name('pelanggan.destroy');
+});
+
 
 //MASL
 
@@ -155,8 +159,11 @@ Route::get('/admin/addteknisi', [ManajemenTeknisiController::class, 'create'])->
 Route::middleware(['auth', 'verified', 'role:teknisi'])->group(function () {
     Route::get('/teknisi/dashboard', [DashboardController::class, 'teknisiDashboard'])->name('teknisi.dashboard');
 
-
     Route::get('/teknisi/pelanggan', [TeknisiPelangganController::class, 'index'])->name('teknisi.pelanggan');
     Route::get('/teknisi/pelanggan/data', [TeknisiPelangganController::class, 'getPelangganData'])->name('teknisi.pelanggan.data');
+
+    Route::get('/teknisi/tagihan', [TeknisiTagihanController::class, 'index'])->name('teknisi.tagihan');
+    Route::get('/teknisi/tagihan/data', [TeknisiTagihanController::class, 'datatable'])->name('teknisi.tagihan.data');
+
 
 });
