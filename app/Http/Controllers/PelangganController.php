@@ -13,12 +13,9 @@ use Illuminate\Support\Facades\Auth;
 class PelangganController extends Controller
 {
     public function index(){
-        if (Auth::user()->hasRole('admin')) {
+        
             $alamat = Pelanggan::select('alamat')->distinct()->get();
-        }
-        else {
-            $alamat = Pelanggan::select('alamat')->where('id_petugas', Auth::user()->id)->distinct()->get();
-        }
+            @dd(auth()->user()->getRoleNames());
        
         return view('admin.pelanggan.pelanggan', compact('alamat'));
     }
@@ -27,12 +24,9 @@ class PelangganController extends Controller
     public function getPelangganData(Request $request)
     {
         if ($request->ajax()) {
-            if (Auth::user()->hasRole('admin')) {
+           
                 $query = Pelanggan::orderBy('created_at', 'desc');
-            }
-            else{
-                $query = Pelanggan::where('id_petugas', Auth::user()->id)->orderBy('created_at', 'desc');
-            } // Mendapatkan semua query pelanggan
+            
 
             if($request->filled('alamat')){
                 $query->where('alamat', $request->alamat);

@@ -119,17 +119,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::put('/admin/update-password/{id}', [ManajemenAdminController::class, 'updatePassword']);
 });
 
-Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('pelanggan');
-Route::post('/admin/pelanggan/store', [PelangganController::class, 'store'])->name('pelanggan.store');
-Route::get('/pelanggan/data', [PelangganController::class, 'getPelangganData'])->name('pelanggan.data');
-Route::get('/pelanggan/edit/{id}', [PelangganController::class, 'edit'])->name('pelanggan.edit');
-Route::put('/pelanggan/update/{id}', [PelangganController::class, 'update'])->name('pelanggan.update');
-Route::delete('/pelanggan/delete/{id}', [PelangganController::class, 'destroy'])->name('pelanggan.destroy');
-Route::get('/pelanggan/{id}/detail', [PelangganController::class, 'showDetail']);
 
-
-Route::get('/pelanggan/tagihan/{id}', [TagihanController::class, 'getTagihan'])->name('pelanggan.tagihan');
-Route::post('/pelanggan/bayar', [TagihanController::class, 'bayar'])->name('bayar');
 //MASL
 
 

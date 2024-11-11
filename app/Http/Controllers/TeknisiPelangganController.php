@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class TeknisiPelangganController extends Controller
 {
     public function index(){
-        $alamat = Pelanggan::where('id_petugas', Auth::id())->select('alamat')->distinct()->get();
+        $alamat = Pelanggan::select('alamat')->distinct()->get();
         return view('teknisi.pelanggan.pelanggan', compact('alamat'));
     }
 
