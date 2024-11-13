@@ -290,7 +290,7 @@
 
                         $('#datatable').DataTable().ajax.reload();
 
-                        Notiflix.Notify.success('Data berhasil ditambahkan!');
+                        Notiflix.Notify.success('Data berhasil di rubah!');
 
                     },
                     error: function(xhr) {
@@ -376,11 +376,17 @@
     // Event listener untuk submit form password
     document.getElementById("passwordForm").addEventListener("submit", function(event) {
         event.preventDefault(); // Mencegah reload halaman
-        const id = document.getElementById("adminId").value; // Pastikan id sudah diset
+        const id = document.getElementById("teknisiId").value; // Pastikan id sudah diset
         const newPassword = document.getElementById("newPass").value;
         updatePassword(id, newPassword);
     });
 </script>
+
+
+
+
+
+
 
         <script>
             $(document).ready(function() {

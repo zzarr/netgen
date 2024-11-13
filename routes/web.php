@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AntenaController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\TeknisiPelangganController;
 use App\Http\Controllers\TagihanController;
 use App\Http\Controllers\ManajemenAdminController;
 use App\Http\Controllers\ManajemenTeknisiController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ManajemenHubHtbController;
 use App\Http\Controllers\ManajemenOperasionalController;
 use App\Http\Controllers\DetailTagihanController;
+use App\Http\Controllers\TeknisiTagihanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,12 +77,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/pelanggan/data', [PelangganController::class, 'getPelangganData'])->name('pelanggan.data');
     Route::get('/pelanggan/edit/{id}', [PelangganController::class, 'edit'])->name('pelanggan.edit');
     Route::put('/pelanggan/update/{id}', [PelangganController::class, 'update'])->name('pelanggan.update');
-    Route::delete('/pelanggan/delete/{id}', [PelangganController::class, 'destroy'])->name('pelanggan.destroy');
-    Route::get('/pelanggan/{id}/detail', [PelangganController::class, 'showDetail']);
-
-
-    Route::get('/pelanggan/tagihan/{id}', [TagihanController::class, 'getTagihan'])->name('pelanggan.tagihan');
-    Route::post('/pelanggan/bayar', [TagihanController::class, 'bayar'])->name('bayar');
+    
+   
 
 
     Route::get('/pelanggan/laporan-tagihan', [TagihanController::class, 'index'])->name('tagihan.aja');
@@ -119,17 +117,14 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::put('/admin/update-password/{id}', [ManajemenAdminController::class, 'updatePassword']);
 });
 
-Route::get('/admin/pelanggan', [PelangganController::class, 'index'])->name('pelanggan');
-Route::post('/admin/pelanggan/store', [PelangganController::class, 'store'])->name('pelanggan.store');
-Route::get('/pelanggan/data', [PelangganController::class, 'getPelangganData'])->name('pelanggan.data');
-Route::get('/pelanggan/edit/{id}', [PelangganController::class, 'edit'])->name('pelanggan.edit');
-Route::put('/pelanggan/update/{id}', [PelangganController::class, 'update'])->name('pelanggan.update');
-Route::delete('/pelanggan/delete/{id}', [PelangganController::class, 'destroy'])->name('pelanggan.destroy');
-Route::get('/pelanggan/{id}/detail', [PelangganController::class, 'showDetail']);
+Route::middleware(['auth'])->group(function () {
+    Route::get('/pelanggan/{id}/detail', [PelangganController::class, 'showDetail']);
+    Route::get('/pelanggan/tagihan/{id}', [TagihanController::class, 'getTagihan'])->name('pelanggan.tagihan');
+    Route::post('/pelanggan/bayar', [TagihanController::class, 'bayar'])->name('bayar');
+    Route::delete('/pelanggan/delete/{id}', [PelangganController::class, 'destroy'])->name('pelanggan.destroy');
+});
 
 
-Route::get('/pelanggan/tagihan/{id}', [TagihanController::class, 'getTagihan'])->name('pelanggan.tagihan');
-Route::post('/pelanggan/bayar', [TagihanController::class, 'bayar'])->name('bayar');
 //MASL
 
 
@@ -153,7 +148,6 @@ Route::get('/admin/edit/{id}', [ManajemenAdminController::class, 'edit']);
 Route::put('/admin/update/{id}', [ManajemenAdminController::class, 'update']);
 Route::delete('/admin/delete/{id}', [ManajemenAdminController::class, 'destroy'])->name('admin.delete');
 Route::put('/admin/update-password/{id}', [ManajemenAdminController::class, 'updatePassword']);
-
 Route::post('/teknisi/store', [ManajemenTeknisiController::class, 'store'])->name('teknisi.store');
 Route::delete('/teknisi/delete/{id}', [ManajemenTeknisiController::class, 'destroy'])->name('teknisi.delete');
 Route::get('/teknisi/datatables', [ManajemenTeknisiController::class, 'datatable'])->name('teknisi.data');
@@ -165,4 +159,12 @@ Route::get('/admin/addteknisi', [ManajemenTeknisiController::class, 'create'])->
 // ------------ Teknisi ---------------
 Route::middleware(['auth', 'verified', 'role:teknisi'])->group(function () {
     Route::get('/teknisi/dashboard', [DashboardController::class, 'teknisiDashboard'])->name('teknisi.dashboard');
+
+    Route::get('/teknisi/pelanggan', [TeknisiPelangganController::class, 'index'])->name('teknisi.pelanggan');
+    Route::get('/teknisi/pelanggan/data', [TeknisiPelangganController::class, 'getPelangganData'])->name('teknisi.pelanggan.data');
+
+    Route::get('/teknisi/tagihan', [TeknisiTagihanController::class, 'index'])->name('teknisi.tagihan');
+    Route::get('/teknisi/tagihan/data', [TeknisiTagihanController::class, 'datatable'])->name('teknisi.tagihan.data');
+
+
 });

@@ -22,23 +22,6 @@
         <div class="col-12 layout-spacing">
             <div class="widget-content widget-content-area br-6">
                 <div class="row">
-                    @role('admin')
-                        <div class="col-6">
-                            <button type="button" class="btn btn-primary mb-2 mr-2" data-toggle="modal"
-                                data-target="#exampleModal">
-                                Tambah Pelanggan
-                            </button>
-
-                            <button type="button" class="btn btn-outline-success mb-2 mr-2" data-toggle="modal"
-                                data-target="#importModal">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
-                                    <path
-                                        d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5zM3 12v-2h2v2zm0 1h2v2H4a1 1 0 0 1-1-1zm3 2v-2h3v2zm4 0v-2h3v1a1 1 0 0 1-1 1zm3-3h-3v-2h3zm-7 0v-2h3v2z" />
-                                </svg>
-                            </button>
-                        </div>
-                    @endrole
 
                     <div class="col-6">
                         <div class="row mb-3">
@@ -57,7 +40,6 @@
                         </div>
                     </div>
                 </div>
-
 
                 <!-- Tabel Data Pelanggan -->
                 <div class="table-responsive mb-4 mt-4">
@@ -105,12 +87,11 @@
     <!-- end modal -->
 
     <!-- Modal detail -->
-    @include('admin.pelanggan.detail-pelanggan')
+    @include('teknisi.pelanggan.detail-pelanggan')
     <!-- end modal -->
 
     @include('admin.pelanggan.import-excel')
 @endsection
-
 @push('css')
     <link href="{{ asset('demo1/assets/css/scrollspyNav.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('demo1/plugins/file-upload/file-upload-with-preview.min.css') }}" rel="stylesheet" type="text/css">
@@ -131,7 +112,6 @@
     <link href="{{ asset('demo1/assets/css/components/custom-modal.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{{ asset('demo1/plugins/select2/select2.min.css') }}">
 @endpush
-
 @push('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 
@@ -150,12 +130,13 @@
         var firstUpload = new FileUploadWithPreview('myFirstImage')
         //Second upload
     </script>
+
     <script>
         var table = $('#pelanggan-table').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
-                url: "{{ route('pelanggan.data') }}",
+                url: "{{ route('teknisi.pelanggan.data') }}",
                 data: function(d) {
                     d.alamat = $('#filterAlamat').val(); // Mengirim filter alamat ke server
                 }
@@ -463,7 +444,7 @@
                     <td>Rp.${pembayaran.jumlah_pembayaran}</td>
                     <td>Rp.${tagihan.kurang}</td>
                     <td>${petugasNama}</td>
-                    <td><button class="btn btn-primary">Edit</button></td>
+                   
                 </tr>
             `;
                             });
@@ -475,7 +456,7 @@
                 <td>-</td>
                 <td>Rp.${tagihan.kurang}</td>
                 <td>-</td>
-                <td><button class="btn btn-primary">Edit</button></td>
+               
             </tr>
         `;
                         }
