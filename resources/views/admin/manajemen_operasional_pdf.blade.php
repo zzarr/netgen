@@ -3,12 +3,41 @@
 <head>
     <title>Data Operasional</title>
     <style>
-        /* Tambahkan CSS jika perlu untuk menata tampilan PDF */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+        }
+        .filter-info {
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <h1>Data Operasional</h1>
-    <table border="1" cellspacing="0" cellpadding="10">
+    
+    {{-- <div class="filter-info">
+        <p><strong>Filter:</strong></p>
+        @if($startDate && $endDate)
+            <p>Tanggal: {{ $startDate }} - {{ $endDate }}</p>
+        @else
+            <p>Tidak ada filter tanggal</p>
+        @endif
+    </div> --}}
+
+    <table>
         <thead>
             <tr>
                 <th>No</th>

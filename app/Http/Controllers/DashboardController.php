@@ -17,7 +17,8 @@ class DashboardController extends Controller
         $totalBalance = $this->calculateTotalBalance();
 
         // Hitung total tagihan yang belum dibayar
-        $totalBills = LaporanTagihan::sum('kurang');
+        $totalBills = LaporanTagihan::count();
+
 
         // Hitung jumlah operasional
         $operationalAmount = Operasional::sum('jumlah');

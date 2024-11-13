@@ -18,6 +18,7 @@
             </ol>
         </nav>
     </div>
+    
 
     <div class="col-lg-12 col-md-12 mt-3 layout-spacing">
         <div class="d-flex justify-content-start mb-3">
@@ -75,11 +76,17 @@
         </div>
 
         <div class="col-lg-12 col-md-12 mt-3 layout-spacing">
-            <div class="total-saldo">
+        <div class="total-saldo">
                 <h4>Total Saldo: Rp {{ number_format($totalSaldo, 2, ',', '.') }}</h4>
             </div>
 
-            
+        {{-- filter by tanggal far --}}
+        <div class="col-lg-12 col-md-12 mt-3 layout-spacing">
+            <div class="d-flex mb-3">
+                <input type="date" id="startDate" class="form-control mr-2" placeholder="Tanggal Mulai">
+                <input type="date" id="endDate" class="form-control mr-2" placeholder="Tanggal Selesai">
+                <button id="filterDateBtn" class="btn btn-primary">Filter</button>
+            </div>
         <!-- Tabel Data -->
         <div class="row" id="cancel-row">
             <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
@@ -156,13 +163,21 @@
 
 <script>
     $(document).ready(function() {
+        const today = new Date().toISOString().split('T')[0];
+        const defaultStartDate = '2024-11-01';
+        $('#startDate').val(defaultStartDate);  // atau bisa menggunakan tanggal awal yang lebih spesifik
+        $('#endDate').val(today);
         // Inisialisasi DataTable
         const table = $('#datatable').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
                 url: "{{ route('manajemen_operasional.datatable') }}",
-                type: 'GET'
+                type: 'GET',
+                data : function(d) {
+                    d.startDate = $('#startDate').val() || defaultStartDate;
+                    d.endDate = $('#endDate').val() || today;
+                }
             },
             columns: [
                 {
@@ -174,28 +189,29 @@
                     searchable: false
                 },
                 {
-    data: null,
-    render: function(data, type, row) {
-        return `
-            <button class="btn btn-warning edit-button" data-id="${row.id}">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings">
-        <circle cx="12" cy="12" r="3"></circle>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-    </svg>
-</button>
-<button class="btn btn-danger delete-button" data-id="${row.id}">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">
-        <polyline points="3 6 5 6 21 6"></polyline>
-        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-        <line x1="10" y1="11" x2="10" y2="17"></line>
-        <line x1="14" y1="11" x2="14" y2="17"></line>
-    </svg>
-</button>
-        `;
-    },
-    orderable: false,
-    searchable: false
-},
+                data: null,
+                render: function(data, type, row) {
+                    return `
+                    
+                        <button class="btn btn-warning edit-button" data-id="${row.id}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                    </button>
+                    <button class="btn btn-danger delete-button" data-id="${row.id}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                    </svg>
+                    </div>
+                    `;
+                },
+                orderable: false,
+                searchable: false
+            },
 
                 { data: 'tanggal', name: 'tanggal' },
                 { data: 'keterangan', name: 'keterangan' },
@@ -209,6 +225,9 @@
                 },
             ]
         });
+        $('#filterDateBtn').on('click', function() {
+        table.ajax.reload(); // Memuat ulang data berdasarkan filter
+    });
 
         // Edit Data
         $(document).on('click', '.edit-button', function() {
@@ -268,6 +287,7 @@
                 });
             }
         });
+        
 
         // Tambah Data
         $('#createForm').submit(function(e) {

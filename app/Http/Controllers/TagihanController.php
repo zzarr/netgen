@@ -8,26 +8,33 @@ use App\Models\Pembayaran;
 use App\Models\Pelanggan;
 use Illuminate\Support\Facades\DB;
 use DataTables;
+use Illuminate\Support\Facades\Auth;
 
 
 class TagihanController extends Controller
 {
     public function index(){
-        return view('admin.tagihan.tagihan-detail');
+        $total = Pembayaran::sum('jumlah_pembayaran');
+        return view('admin.tagihan.tagihan-detail', compact('total'));
     }
 
-    public function datatable(Request $request){
-        {
-            if ($request->ajax()) {
-                $data =Pembayaran::with('laporantagihan.pelanggan')
-                    
-                    ->get();
-    
-                return DataTables::of($data)
-                    ->make(true);
-            }
+    public function datatable(Request $request)
+{
+    if ($request->ajax()) {
+        $query = Pembayaran::with('laporantagihan.pelanggan');
+        
+        // Filter berdasarkan tanggal jika startDate dan endDate ada di request
+        if ($request->filled('startDate') && $request->filled('endDate')) {
+            $query->whereBetween('created_at', [$request->startDate, $request->endDate]);
         }
+
+        $data = $query->get();
+
+        return DataTables::of($data)
+            ->make(true);
     }
+}
+
     
     public function getTagihan($id)
     {
@@ -105,7 +112,7 @@ class TagihanController extends Controller
             Pembayaran::create([
                 'id_tagihan' => $laporanTagihan->id,
                 'jumlah_pembayaran' => $request->nominal,
-                'id_petugas' => 1 // ID petugas default (1)
+                'id_petugas' => Auth::id() 
             ]);
 
             DB::commit();

@@ -9,12 +9,32 @@ use PDF;
 
 class ManajemenOperasionalController extends Controller
 {
-    public function exportPDF()
-    {
-        $dataOperasional = Operasional::all();
-        $pdf = PDF::loadView('admin.manajemen_operasional_pdf', compact('dataOperasional'));
-        return $pdf->download('data_operasional.pdf');
+    public function exportPDF(Request $request)
+{
+    // Query dasar untuk data Operasional
+    $query = Operasional::query();
+
+    // Filter berdasarkan tanggal jika ada input dari request
+    $startDate = null;
+    $endDate = null;
+    
+    if ($request->has('startDate') && $request->has('endDate')) {
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+        $query->whereBetween('tanggal', [$startDate, $endDate]);
     }
+
+    // Ambil data yang sudah difilter
+    $dataOperasional = $query->get();
+
+    // Load tampilan PDF dengan data yang difilter dan variabel tanggal
+    $pdf = PDF::loadView('admin.manajemen_operasional_pdf', compact('dataOperasional', 'startDate', 'endDate'));
+
+    // Download file PDF
+    return $pdf->download('data_operasional.pdf');
+}
+
+
     public function index()
     {
         $totalSaldo = Operasional::sum('jumlah'); // Menghitung total dari kolom jumlah
@@ -22,10 +42,19 @@ class ManajemenOperasionalController extends Controller
         return view('admin.manajemenoperasional', compact('totalSaldo')); // Kirim total saldo ke view
     }
 
-    public function datatable()
+    public function datatable(Request $request)
     {
-        $operasional = Operasional::all();
-        return DataTables::of($operasional)
+        $query = Operasional::query();
+    
+        // Filter berdasarkan tanggal jika ada
+        if ($request->has('startDate') && $request->has('endDate')) {
+            $startDate = $request->input('startDate');
+            $endDate = $request->input('endDate');
+            $query->whereBetween('tanggal', [$startDate, $endDate]);
+        }
+    
+        return DataTables::of($query)
+            ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 return '<button class="btn btn-warning edit-button" data-id="' . $row->id . '">Edit</button>
                         <button class="btn btn-danger delete-button" data-id="' . $row->id . '">Hapus</button>';
@@ -35,8 +64,9 @@ class ManajemenOperasionalController extends Controller
                 return fmod($row->jumlah, 1) == 0 ? intval($row->jumlah) : number_format($row->jumlah, 2);
             })
             ->rawColumns(['action'])
-            ->make(true);
+            ->make(true); // Sudah mengembalikan response data
     }
+    
 
     public function store(Request $request)
     {
