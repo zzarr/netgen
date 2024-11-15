@@ -82,7 +82,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
     Route::get('/pelanggan/laporan-tagihan', [TagihanController::class, 'index'])->name('tagihan.aja');
     Route::get('/pelanggan/laporan-tagihan/data', [TagihanController::class, 'datatable'])->name('pelanggan.tagihan.data');
-
+   
+    Route::post('/pelanggan/tagihan/update', [TagihanController::class, 'updateBayar'])->name('update.bayar');
 
     //MASL
 
@@ -121,6 +122,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pelanggan/tagihan/{id}', [TagihanController::class, 'getTagihan'])->name('pelanggan.tagihan');
     Route::post('/pelanggan/bayar', [TagihanController::class, 'bayar'])->name('bayar');
     Route::delete('/pelanggan/delete/{id}', [PelangganController::class, 'destroy'])->name('pelanggan.destroy');
+    Route::get('/pelanggan/data/export', [PelangganController::class, 'getDataPelanggan'])->name('pelanggan.eksport');
 });
 
 

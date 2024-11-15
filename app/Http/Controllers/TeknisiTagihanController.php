@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 class TeknisiTagihanController extends Controller
 {
     public function index(){
-        $total = Pembayaran::sum('jumlah_pembayaran');
+        $total = Pembayaran::where('id_petugas', Auth::id())->sum('jumlah_pembayaran');
         return view('teknisi.tagihan.tagihan', compact('total'));
     }
 

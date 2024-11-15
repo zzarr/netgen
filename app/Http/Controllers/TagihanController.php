@@ -123,4 +123,62 @@ class TagihanController extends Controller
             return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
         }
     }
+
+    public function update($id){
+        $tagihan = LaporanTagihan::where('id', $id)->select('kurang')->first();
+        $kurang = (int) $tagihan->kurang;
+
+        return response()->json($tagihan);
+    }
+
+    public function updateBayar(Request $request)
+    {
+        $request->validate([
+            'nominal' => 'required|numeric|min:0.01',
+            'id_tagihan' => 'required',
+            'id_pembayaran' => 'required',
+        ]);
+    
+        // Retrieve 'kurang' value from the LaporanTagihan model
+        $kurang = LaporanTagihan::where('id', $request->id_tagihan)->select('kurang')->first();
+        $nominal_sebelum = Pembayaran::where('id', $request->id_pembayaran)->select('jumlah_pembayaran')->first();
+    
+        // Validate if the payment nominal is greater than the 'kurang' value
+        if ($request->nominal > $kurang->kurang) {
+            return response()->json(['message' => 'Nominal pembayaran tidak boleh lebih besar dari kurang.'], 422);
+        }
+    
+        DB::beginTransaction();
+    
+        try {
+            // Update Pembayaran record with the new payment nominal
+            Pembayaran::where('id', $request->id_pembayaran)->update([
+                'jumlah_pembayaran' => $request->nominal + $nominal_sebelum->jumlah_pembayaran,
+                'id_petugas' => Auth::id(),
+            ]);
+    
+            // Calculate the remaining balance after payment
+            $hasil = $kurang->kurang - $request->nominal;
+    
+            // Check if the payment settles the balance (hasil == 0)
+            if ($hasil == 0) {
+                LaporanTagihan::where('id', $request->id_tagihan)->update([
+                    'kurang' => $hasil,
+                    'is_lunas' => true,  // Mark as paid off
+                ]);
+            } else {
+                LaporanTagihan::where('id', $request->id_tagihan)->update([
+                    'kurang' => $hasil,
+                ]);
+            }
+    
+            DB::commit();
+            return response()->json(['message' => 'Pembayaran berhasil disimpan.'], 200);
+    
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        }
+    }
+    
 }

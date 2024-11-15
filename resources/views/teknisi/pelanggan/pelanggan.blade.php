@@ -320,96 +320,10 @@
 
 
 
-        $(document).on('click', '.edit', function() {
-            var pelangganId = $(this).data('id');
-            $.ajax({
-                url: '/pelanggan/edit/' + pelangganId,
-                method: 'GET',
-                success: function(response) {
-                    // Isi value pada input field form edit dengan data yang diterima
-                    $('#editModal input[name="nama"]').val(response.nama_pelanggan);
-                    $('#editModal input[name="no_hp"]').val(response.no_hp);
-                    $('#editModal input[name="alamat"]').val(response.alamat);
-                    $('#editModal input[name="paket"]').val(response.paket);
-                    $('#editModal input[name="id"]').val(response.id);
 
-                    // Tampilkan modal edit
-                    $('#editModal').modal('show');
-                },
-                error: function(xhr) {
-                    alert('Terjadi kesalahan saat mengambil data pelanggan.');
-                }
-            });
-        });
 
-        $('#editForm').on('submit', function(e) {
-            e.preventDefault();
 
-            var id = $('#id_pelanggan').val(); // Pastikan input ini memiliki ID yang benar
 
-            $.ajax({
-                url: "{{ route('pelanggan.update', ':id') }}".replace(':id',
-                    id), // Gunakan replace untuk mengisi :id dengan nilai variabel
-                method: 'POST', // Metode tetap POST karena ada _method PUT
-                data: $(this).serialize() + '&_method=PUT', // Menggunakan _method=PUT
-                success: function(response) {
-                    $('#editModal').modal('hide');
-                    $('#editForm')[0].reset();
-                    table.ajax.reload();
-                    Notiflix.Notify.success('Data berhasil diperbarui!');
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText); // Logging detail error untuk debugging
-                    if (xhr.status === 422) {
-                        var errors = xhr.responseJSON.errors;
-                        if (errors.password) {
-                            Notiflix.Notify.failure('Password harus memiliki minimal 8 karakter.');
-                        }
-                    } else {
-                        Notiflix.Notify.failure('Terjadi kesalahan saat memperbarui data.');
-                    }
-                }
-            });
-        });
-
-        $(document).on('click', '.delete', function() {
-            var id = $(this).data('id'); // Dapatkan id pelanggan dari button delete
-
-            Notiflix.Confirm.show(
-                'Konfirmasi Hapus',
-                'Apakah Anda yakin ingin menghapus data ini?',
-                'Ya, Hapus',
-                'Batal',
-                function() { // Jika pengguna mengonfirmasi penghapusan
-                    $.ajax({
-                        url: "{{ route('pelanggan.destroy', ':id') }}".replace(':id', id),
-                        type: 'DELETE',
-                        data: {
-                            _token: '{{ csrf_token() }}' // Mengirimkan CSRF token
-                        },
-                        success: function(response) {
-                            Notiflix.Notify.success(response.success || 'Data berhasil dihapus');
-                            table.ajax.reload(); // Reload DataTable setelah hapus data
-                        },
-                        error: function(xhr) {
-                            console.log(xhr.responseText);
-                            Notiflix.Notify.failure(xhr.responseJSON.error ||
-                                'Gagal menghapus data');
-                        }
-                    });
-                },
-                function() { // Fungsi ini untuk aksi batal
-                    Notiflix.Notify.info('Penghapusan dibatalkan');
-                }, {
-                    titleColor: '#ffffff',
-                    backgroundColor: '#333333',
-                    messageColor: '#ffffff',
-                    okButtonBackground: '#ff4d4f', // Custom color for the 'Yes, Hapus' button
-                    cancelButtonBackground: '#444444', // Custom color for the 'Tidak' button
-                    theme: 'dark' // Set theme to dark
-                }
-            );
-        });
 
         $(document).on('click', '.show-detail', function() {
             var pelangganId = $(this).data('id');
@@ -523,74 +437,6 @@
 
             // Unduh PDF
             doc.save(`detail_pelanggan_${pelangganNama}.pdf`);
-        }
-
-        function processExcel() {
-            const fileInput = document.getElementById('excelFileInput');
-            const file = fileInput.files[0];
-
-            if (!file) {
-                alert("Please upload a file first.");
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const data = new Uint8Array(event.target.result);
-                const workbook = XLSX.read(data, {
-                    type: 'array'
-                });
-
-                // Mengambil data dari sheet pertama
-                const firstSheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[firstSheetName];
-
-                // Konversi sheet ke JSON
-                const jsonData = XLSX.utils.sheet_to_json(worksheet);
-
-                // Kirim JSON ke backend
-                sendToBackend(jsonData);
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        function sendToBackend(data) {
-            const csrfToken = document.querySelector('#importForm input[name="_token"]').value;
-
-            axios.post('/admin/pelanggan/import', {
-                    data: data
-                }, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken
-                    }
-                })
-                .then(response => {
-                    Notiflix.Notify.success(response.data.message || 'Data berhasil ditambah');
-                    table.ajax.reload();
-                })
-                .catch(error => {
-                    if (error.response) {
-                        // Server memberikan respons dengan status diluar 2xx
-                        console.error("Error Response Data:", error.response.data);
-                        console.error("Error Status:", error.response.status);
-
-                        // Menampilkan pesan error jika status 409 (nama pelanggan sudah ada)
-                        if (error.response.status === 409) {
-                            Notiflix.Notify.failure('Data pelanggan sudah ada :' + error.response.data.nama_pelanggan);
-                        } else {
-                            Notiflix.Notify.failure('Terjadi kesalahan dalam mengimpor data');
-                        }
-                    } else if (error.request) {
-                        // Permintaan dibuat tetapi tidak ada respons
-                        console.error("No Response:", error.request);
-                        Notiflix.Notify.failure('Server tidak merespons');
-                    } else {
-                        // Error lainnya
-                        console.error("Error:", error.message);
-                        Notiflix.Notify.failure('Terjadi kesalahan dalam mengimpor data');
-                    }
-                });
         }
     </script>
 @endpush

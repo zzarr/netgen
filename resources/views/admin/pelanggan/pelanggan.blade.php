@@ -22,23 +22,30 @@
         <div class="col-12 layout-spacing">
             <div class="widget-content widget-content-area br-6">
                 <div class="row">
-                    @role('admin')
-                        <div class="col-6">
+                    <div class="col-6">
+                        @role('admin')
                             <button type="button" class="btn btn-primary mb-2 mr-2" data-toggle="modal"
                                 data-target="#exampleModal">
                                 Tambah Pelanggan
                             </button>
 
                             <button type="button" class="btn btn-outline-success mb-2 mr-2" data-toggle="modal"
-                                data-target="#importModal">
+                                data-target="#importModal"> Import
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
                                     <path
                                         d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5zM3 12v-2h2v2zm0 1h2v2H4a1 1 0 0 1-1-1zm3 2v-2h3v2zm4 0v-2h3v1a1 1 0 0 1-1 1zm3-3h-3v-2h3zm-7 0v-2h3v2z" />
                                 </svg>
                             </button>
-                        </div>
-                    @endrole
+                        @endrole
+                        <button type="button" class="btn btn-outline-success mb-2 mr-2" id="exportExcel"> Export
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
+                                <path
+                                    d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5zM3 12v-2h2v2zm0 1h2v2H4a1 1 0 0 1-1-1zm3 2v-2h3v2zm4 0v-2h3v1a1 1 0 0 1-1 1zm3-3h-3v-2h3zm-7 0v-2h3v2z" />
+                            </svg>
+                        </button>
+                    </div>
 
                     <div class="col-6">
                         <div class="row mb-3">
@@ -109,6 +116,8 @@
     <!-- end modal -->
 
     @include('admin.pelanggan.import-excel')
+
+    @include('admin.pelanggan.edit-bayar')
 @endsection
 
 @push('css')
@@ -134,6 +143,8 @@
 
 @push('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.1/exceljs.min.js"></script>
+
 
     <script src="{{ asset('demo1/assets/js/scrollspyNav.js') }}"></script>
     <script src="{{ asset('demo1/plugins/file-upload/file-upload-with-preview.min.js') }}"></script>
@@ -463,7 +474,7 @@
                     <td>Rp.${pembayaran.jumlah_pembayaran}</td>
                     <td>Rp.${tagihan.kurang}</td>
                     <td>${petugasNama}</td>
-                    <td><button class="btn btn-primary">Edit</button></td>
+                    <td><button class="btn update-bayar btn-primary" data-id="${pembayaran.id} " data-tagihan="${pembayaran.id_tagihan}">Edit</button></td>
                 </tr>
             `;
                             });
@@ -475,7 +486,7 @@
                 <td>-</td>
                 <td>Rp.${tagihan.kurang}</td>
                 <td>-</td>
-                <td><button class="btn btn-primary">Edit</button></td>
+                <td><button class="btn update-bayar btn-primary data-id="${pembayaran.id} " data-tagihan="${pembayaran.id_tagihan}" >Edit</button></td>
             </tr>
         `;
                         }
@@ -492,6 +503,59 @@
                 }
             });
         });
+
+        $(document).on('click', '.update-bayar', function() {
+            var pembayaranId = $(this).data('id');
+            var tagihanId = $(this).data('tagihan');
+
+
+            // Pastikan responsnya memiliki data `kurang`
+
+            $('#edit-bayarModal input[name="id_tagihan"]').val(tagihanId);
+            $('#edit-bayarModal input[name="id_pembayaran"]').val(pembayaranId);
+            // Tutup detailPelangganModal terlebih dahulu
+            $('#detailPelangganModal').modal('hide');
+
+
+
+            $('#edit-bayarModal').modal('show');
+
+
+        });
+
+        $('#formUpdateBayar').on('submit', function(e) {
+            e.preventDefault();
+            // Get the form data
+            var formData = $(this).serialize();
+
+            // Send the data using AJAX
+            $.ajax({
+                url: "{{ route('update.bayar') }}", // You can replace this with the specific URL for updating the payment
+                method: 'POST',
+                data: formData,
+                success: function(response) {
+                    // Handle the success case
+                    // Close the modal
+                    $('#edit-bayarModal').modal('hide');
+                    // Optionally, reload the table or update the UI with the new data
+                    alert('Pembayaran berhasil diperbarui!');
+                },
+                error: function(xhr) {
+                    // Handle error response (status 422 or other errors)
+                    if (xhr.status === 422) {
+                        // Extract and show validation error message (from 422)
+                        var errors = xhr.responseJSON.message;
+                        alert(errors); // Display error message
+                    } else {
+                        // Handle other errors (e.g., 500)
+                        alert('Terjadi kesalahan: ' + xhr.responseJSON.message);
+                    }
+                }
+            });
+        });
+
+
+
 
         function printPDF() {
             const {
@@ -596,7 +660,8 @@
 
                         // Menampilkan pesan error jika status 409 (nama pelanggan sudah ada)
                         if (error.response.status === 409) {
-                            Notiflix.Notify.failure('Data pelanggan sudah ada :' + error.response.data.nama_pelanggan);
+                            Notiflix.Notify.failure('Data pelanggan sudah ada :' + error.response.data
+                                .nama_pelanggan);
                         } else {
                             Notiflix.Notify.failure('Terjadi kesalahan dalam mengimpor data');
                         }
@@ -611,5 +676,61 @@
                     }
                 });
         }
+
+        document.getElementById('exportExcel').addEventListener('click', async function() {
+            const templateUrl = "{{ asset('asset/template.xlsx') }}"; // path ke template di public
+            const filterAlamat = $('#filterAlamat').val();
+
+            const response = await fetch(templateUrl);
+            const arrayBuffer = await response.arrayBuffer();
+            const workbook = new ExcelJS.Workbook();
+            await workbook.xlsx.load(arrayBuffer);
+            const worksheet = workbook.getWorksheet(1); // Asumsi data di worksheet pertama
+
+            // Siapkan URL untuk pengambilan data dengan parameter filterAlamat
+            const url = new URL("{{ route('pelanggan.eksport') }}", window.location.origin);
+            if (filterAlamat) {
+                url.searchParams.append('alamat',
+                    filterAlamat); // Tambahkan parameter alamat ke URL
+            }
+
+            // Ambil data dari server dengan filter alamat
+            const dataResponse = await fetch(url);
+            const data = await dataResponse.json();
+
+            // Isi data ke worksheet dimulai dari baris tertentu, misalnya baris 4
+            data.forEach((item, index) => {
+                let rowIndex = index + 3; // Sesuaikan baris data mulai dari baris 4
+                worksheet.getRow(rowIndex).values = [
+                    item.no,
+                    item.nama_pelanggan,
+                    item.alamat,
+                    item.paket,
+                    item.Januari.byr, item.Januari.krg,
+                    item.Februari.byr, item.Februari.krg,
+                    item.Maret.byr, item.Maret.krg,
+                    item.April.byr, item.April.krg,
+                    item.Mei.byr, item.Mei.krg,
+                    item.Juni.byr, item.Juni.krg,
+                    item.Juli.byr, item.Juli.krg,
+                    item.Agustus.byr, item.Agustus.krg,
+                    item.September.byr, item.September.krg,
+                    item.Oktober.byr, item.Oktober.krg,
+                    item.November.byr, item.November.krg,
+                    item.Desember.byr, item.Desember.krg
+                ];
+            });
+
+            // Ekspor file
+            workbook.xlsx.writeBuffer().then(buffer => {
+                const blob = new Blob([buffer], {
+                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'Data_Pelanggan.xlsx';
+                link.click();
+            });
+        });
     </script>
 @endpush

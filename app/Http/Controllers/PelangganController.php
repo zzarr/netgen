@@ -15,7 +15,7 @@ class PelangganController extends Controller
     public function index(){
         
             $alamat = Pelanggan::select('alamat')->distinct()->get();
-            @dd(auth()->user()->getRoleNames());
+           
        
         return view('admin.pelanggan.pelanggan', compact('alamat'));
     }
@@ -197,6 +197,54 @@ class PelangganController extends Controller
 
         return response()->json(['message' => 'Data berhasil diimport!'], 200);
     }
+
+    public function getDataPelanggan(Request $request)
+{
+    $alamatFilter = $request->input('alamat');
+
+    $pelangganQuery = Pelanggan::with(['laporanTagihan' => function($query) {
+        $query->with('pembayaran');
+    }]);
+
+    if ($alamatFilter) {
+        // Terapkan filter alamat jika ada
+        $pelangganQuery->where('alamat', $alamatFilter);
+    }
+
+    $pelanggan = $pelangganQuery->get();
+
+    $data = [];
+    foreach ($pelanggan as $pel) {
+        $row = [
+            'no' => $pel->id,
+            'nama_pelanggan' => $pel->nama_pelanggan,
+            'alamat' => $pel->alamat,
+            'paket' => $pel->paket,
+        ];
+
+        // Loop bulan Januari hingga Desember
+        foreach (['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'] as $bulan) {
+            $tagihan = $pel->laporanTagihan->firstWhere('bulan', $bulan);
+
+            if ($tagihan) {
+                $latestPembayaran = $tagihan->pembayaran->last();
+                $status = [
+                    'byr' => $latestPembayaran ? $latestPembayaran->jumlah_pembayaran : '',
+                    'krg' => $tagihan->kurang,
+                ];
+                $row[$bulan] = $status;
+            } else {
+                $row[$bulan] = ['byr' => '0', 'krg' => '0'];
+            }
+        }
+
+        $data[] = $row;
+    }
+
+    return response()->json($data);
+}
+
+
 
     
     
