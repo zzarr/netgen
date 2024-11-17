@@ -39,6 +39,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-outline-success mb-2 mr-2" id="exportExcel"> Export
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
+                                <path
+                                    d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5zM3 12v-2h2v2zm0 1h2v2H4a1 1 0 0 1-1-1zm3 2v-2h3v2zm4 0v-2h3v1a1 1 0 0 1-1 1zm3-3h-3v-2h3zm-7 0v-2h3v2z" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Tabel Data Pelanggan -->
@@ -114,6 +123,7 @@
 @endpush
 @push('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.1/exceljs.min.js"></script>
 
     <script src="{{ asset('demo1/assets/js/scrollspyNav.js') }}"></script>
     <script src="{{ asset('demo1/plugins/file-upload/file-upload-with-preview.min.js') }}"></script>
@@ -385,6 +395,62 @@
                 error: function() {
                     alert('Gagal mengambil detail pelanggan');
                 }
+            });
+        });
+
+        document.getElementById('exportExcel').addEventListener('click', async function() {
+            const templateUrl = "{{ asset('asset/template.xlsx') }}"; // path ke template di public
+            const filterAlamat = $('#filterAlamat').val();
+
+            const response = await fetch(templateUrl);
+            const arrayBuffer = await response.arrayBuffer();
+            const workbook = new ExcelJS.Workbook();
+            await workbook.xlsx.load(arrayBuffer);
+            const worksheet = workbook.getWorksheet(1); // Asumsi data di worksheet pertama
+
+            // Siapkan URL untuk pengambilan data dengan parameter filterAlamat
+            const url = new URL("{{ route('pelanggan.eksport') }}", window.location.origin);
+            if (filterAlamat) {
+                url.searchParams.append('alamat',
+                    filterAlamat); // Tambahkan parameter alamat ke URL
+            }
+
+            // Ambil data dari server dengan filter alamat
+            const dataResponse = await fetch(url);
+            const data = await dataResponse.json();
+
+            // Isi data ke worksheet dimulai dari baris tertentu, misalnya baris 4
+            data.forEach((item, index) => {
+                let rowIndex = index + 3; // Sesuaikan baris data mulai dari baris 4
+                worksheet.getRow(rowIndex).values = [
+                    index + 1,
+                    item.nama_pelanggan,
+                    item.alamat,
+                    item.paket,
+                    item.Januari.byr, item.Januari.krg,
+                    item.Februari.byr, item.Februari.krg,
+                    item.Maret.byr, item.Maret.krg,
+                    item.April.byr, item.April.krg,
+                    item.Mei.byr, item.Mei.krg,
+                    item.Juni.byr, item.Juni.krg,
+                    item.Juli.byr, item.Juli.krg,
+                    item.Agustus.byr, item.Agustus.krg,
+                    item.September.byr, item.September.krg,
+                    item.Oktober.byr, item.Oktober.krg,
+                    item.November.byr, item.November.krg,
+                    item.Desember.byr, item.Desember.krg
+                ];
+            });
+
+            // Ekspor file
+            workbook.xlsx.writeBuffer().then(buffer => {
+                const blob = new Blob([buffer], {
+                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'Data_Pelanggan.xlsx';
+                link.click();
             });
         });
 
