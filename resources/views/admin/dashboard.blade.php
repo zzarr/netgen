@@ -28,20 +28,22 @@
         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 layout-spacing">
             <div class="widget widget-card-four shadow-sm">
                 <a href="{{ route('pelanggan') }}">
-                <div class="widget-content d-flex justify-content-between align-items-center p-3">
-                    <div class="w-content">
-                        <h6 class="value text-primary">
-                            <i class="fas fa-file-invoice-dollar"></i> 
-                            Rp. {{ number_format($totalBills, 0, ',', '.') }}
-                        </h6>
-                        <p class="text-muted mb-0">Total Tagihan</p>
+                    <div class="widget-content d-flex justify-content-between align-items-center p-3">
+                        <div class="w-content">
+                            <h6 class="value text-primary">
+                                <i class="fas fa-file-invoice-dollar"></i> 
+                                {{ $totalBills }} <!-- Menampilkan jumlah tagihan -->
+                            </h6>
+                            <p class="text-muted mb-0">Total Tagihan</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-file-invoice-dollar fa-2x text-warning"></i>
+                        </div>
                     </div>
-                    <div class="icon">
-                        <i class="fas fa-file-invoice-dollar fa-2x text-warning"></i>
-                    </div>
-                </div>
+                </a>
             </div>
         </div>
+        
 
         <!-- Widget untuk Jumlah Operasional -->
         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 layout-spacing">
@@ -142,6 +144,7 @@
                     <th>Paket</th>
                     <th>Kurang</th>
                     <th>Status Lunas</th>
+                    <th>Tanggal</th> <!-- Kolom Tanggal Pembayaran -->
                 </tr>
             </thead>
             <tbody>
@@ -153,9 +156,11 @@
                     <td>{{ $item->paket }}</td>
                     <td>{{ number_format($item->kurang, 0, ',', '.') }}</td>
                     <td>{{ $item->is_lunas ? 'Lunas' : 'Belum Lunas' }}</td>
+                    <td>{{ $item->pembayaran->last()?->created_at?->format('d-m-Y') ?? 'Belum Ada Pembayaran' }}</td> <!-- Menampilkan tanggal pembayaran terakhir -->
                 </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+    
 @endsection

@@ -19,26 +19,33 @@ class DashboardController extends Controller
         // Hitung total saldo
         $totalBalance = $this->calculateTotalBalance();
 
-        // Hitung total tagihan
-        $totalBills = LaporanTagihan::sum('kurang'); // Total tagihan yang belum dibayar
+        // Hitung total tagihan yang belum dibayar
+        $totalBills = LaporanTagihan::count();
+
 
         // Hitung jumlah operasional
-        $operationalAmount = Operasional::sum('jumlah'); // Jumlah total operasional
+        $operationalAmount = Operasional::sum('jumlah');
 
-        // Hitung total pembayaran
-        $totalPaymentAmount = Pembayaran::sum('jumlah_pembayaran'); // Total pembayaran yang dilakukan
+        // Hitung total pembayaran yang dilakukan
+        $totalPaymentAmount = Pembayaran::sum('jumlah_pembayaran');
 
         // Hitung jumlah antena
-        $antenaCount = Antena::count(); // Jumlah total antena
+        $antenaCount = Antena::count();
 
         // Hitung jumlah Hub HTB
-        $hubHtbCount = HubHtb::count(); // Jumlah total Hub HTB
+        $hubHtbCount = HubHtb::count();
 
-        // Ambil data pelanggan
-        $pelanggan = Pelanggan::with('petugas')->get(); // Ambil semua data pelanggan beserta relasi petugas
+        // Ambil 10 data pelanggan terbaru
+        $pelanggan = Pelanggan::with('petugas')
+            ->orderBy('created_at', 'desc')
+            ->take(10)
+            ->get();
 
-        // Ambil data tagihan
-        $tagihan = LaporanTagihan::with('pelanggan')->get(); // Ambil semua data tagihan beserta relasi pelanggan
+        // Ambil 10 data tagihan terbaru
+        $tagihan = LaporanTagihan::with('pelanggan')
+            ->orderBy('created_at', 'desc')
+            ->take(10)
+            ->get();
 
         // Kembalikan tampilan dashboard dengan data yang diperlukan
         return view('admin.dashboard', compact(
@@ -56,7 +63,7 @@ class DashboardController extends Controller
     private function calculateTotalBalance()
     {
         // Hitung total saldo dari tabel pembayaran
-        return Pembayaran::sum('jumlah_pembayaran'); // Menghitung total jumlah pembayaran
+        return Pembayaran::sum('jumlah_pembayaran');
     }
 
     public function teknisiDashboard()

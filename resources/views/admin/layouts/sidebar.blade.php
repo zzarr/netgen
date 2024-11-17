@@ -6,12 +6,12 @@
 
         <ul class="navbar-nav theme-brand flex-row  text-center">
             <li class="nav-item theme-logo">
-                <a href="index.html">
-                    <img src="assets/img/90x90.jpg" class="navbar-logo" alt="logo">
+                <a href="javascript:void(0);">
+                    <img src="../demo1/assets/img/90x90.jpg" class="navbar-logo" alt="logo">
                 </a>
             </li>
             <li class="nav-item theme-text">
-                <a href="index.html" class="nav-link"> CORK </a>
+                <a href="javascript:void(0);" class="nav-link"> Netgen </a>
             </li>
         </ul>
 
@@ -136,6 +136,18 @@
                         </div>
                     </a>
                 </li>
+
+                <li class="menu">
+                    <a href="{{ route('manajemen_operasional.index') }}" aria-expanded="false" class="dropdown-toggle">
+                        <div class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                            </svg>                        
+                            <span> Manajemen Operasional </span>
+                        </div>
+                    </a>
+                </li>
+
 
                 <li class="menu">
                     <a href="{{ route('tagihan.aja') }}"
