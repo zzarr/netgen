@@ -11,8 +11,10 @@
                 <form id="importForm">
                     @csrf
                     <div class="custom-file-container" data-upload-id="myFirstImage">
-                        <label>Upload <a href="javascript:void(0)" class="custom-file-container__image-clear"
-                                title="Clear Image">x</a></label>
+
+                        <label for="template" class="btn btn-outline-info"><a
+                                href="{{ asset('template/template_import_pelanggan.xlsx') }}">Download
+                                Template</a></label>
                         <label class="custom-file-container__custom-file">
                             <input type="file" class="custom-file-container__custom-file__custom-file-input"
                                 id="excelFileInput" accept=".xlsx, .xls">
